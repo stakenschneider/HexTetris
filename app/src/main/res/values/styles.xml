@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        Customize your theme here.
+        <item name="colorPrimary">@color/darkGrey</item>
+        <item name="colorPrimaryDark">@color/darkGrey</item>
+        <item name="colorAccent">@color/darkRose</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--<style name="MashaTheme" parent="Theme.AppCompat.NoActionBar" >-->
+    <!--<item name="colorAccent">@color/accent_material_dark_1</item>-->
+    <!--</style>-->
+
+</resources>
