@@ -1,9 +1,7 @@
 package backport;
 
 import java.util.Arrays;
-/**
- * Created by Timur on 18.03.2016.
- */
+
 
 public final class Objects {
     private Objects() {

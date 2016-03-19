@@ -8,10 +8,7 @@ import api.CoordinateConverter;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-/**
- * This strategy is responsible for generating a {@link HexagonalGrid} which has a rectangular
- * shape.
- */
+
 public final class RectangularGridLayoutStrategy implements GridLayoutStrategy {
 
     @Override

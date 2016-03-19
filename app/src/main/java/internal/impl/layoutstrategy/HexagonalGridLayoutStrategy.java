@@ -7,7 +7,6 @@ import api.HexagonalGridBuilder;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
 import static java.lang.Math.max;

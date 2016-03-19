@@ -9,7 +9,6 @@ import java.util.Set;
 
 public interface GridLayoutStrategy {
 
-
     Set<AxialCoordinate> fetchGridCoordinates(HexagonalGridBuilder builder);
 
     default boolean checkParameters(final int gridHeight, final int gridWidth) {

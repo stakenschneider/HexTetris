@@ -9,7 +9,6 @@ import internal.impl.layoutstrategy.GridLayoutStrategy;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import api.exception.HexagonalGridCreationException;
 
 public final class HexagonalGridBuilder {
     private int gridWidth;
@@ -48,13 +47,7 @@ public final class HexagonalGridBuilder {
         return radius;
     }
 
-    /**
-     * Sets the radius of the {@link Hexagon}s contained in the resulting {@link HexagonalGrid}.
-     *
-     * @param radius in pixels
-     *
-     * @return this {@link HexagonalGridBuilder}
-     */
+
     public HexagonalGridBuilder setRadius(final double radius) {
         this.radius = radius;
         return this;
@@ -64,11 +57,7 @@ public final class HexagonalGridBuilder {
         return gridWidth;
     }
 
-    /**
-     * Mandatory parameter. Sets the number of {@link Hexagon}s in the horizontal direction.
-     *
-     * @return this {@link HexagonalGridBuilder}
-     */
+
     public HexagonalGridBuilder setGridWidth(final int gridWidth) {
         this.gridWidth = gridWidth;
         return this;
@@ -78,11 +67,7 @@ public final class HexagonalGridBuilder {
         return gridHeight;
     }
 
-    /**
-     * Mandatory parameter. Sets the number of {@link Hexagon}s in the vertical direction.
-     *
-     * @return this {@link HexagonalGridBuilder}
-     */
+
     public HexagonalGridBuilder setGridHeight(final int gridHeight) {
         this.gridHeight = gridHeight;
         return this;
@@ -92,12 +77,7 @@ public final class HexagonalGridBuilder {
         return orientation;
     }
 
-    /**
-     * Sets the {@link HexagonOrientation} used in the resulting {@link HexagonalGrid}.
-     * If it is not set HexagonOrientation.POINTY will be used.
-     *
-     * @return this {@link HexagonalGridBuilder}
-     */
+
     public HexagonalGridBuilder setOrientation(final HexagonOrientation orientation) {
         this.orientation = orientation;
         return this;
@@ -111,9 +91,7 @@ public final class HexagonalGridBuilder {
         return customStorage;
     }
 
-    /**
-     * Returns the GridData.
-     */
+
     public GridData getGridData() {
         if (orientation == null || gridLayout == null || radius == 0 || gridWidth == 0 || gridHeight == 0) {
             throw new IllegalStateException("Not all necessary fields are initialized!");
@@ -121,12 +99,6 @@ public final class HexagonalGridBuilder {
         return new GridData(orientation, gridLayout, radius, gridWidth, gridHeight);
     }
 
-    /**
-     * Sets the {@link HexagonalGridLayout} which will be used when creating the {@link HexagonalGrid}.
-     * If it is not set <pre>RECTANGULAR</pre> will be assumed.
-     *
-     * @return this {@link HexagonalGridBuilder}.
-     */
     public HexagonalGridBuilder setGridLayout(final HexagonalGridLayout gridLayout) {
         this.gridLayout = gridLayout;
         return this;

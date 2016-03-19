@@ -4,10 +4,7 @@ import java.io.Serializable;
 
 import static java.lang.Integer.parseInt;
 
-/**
- * Represents an axial coorinate pair.
- * See http://www.redblobgames.com/grids/hexagons/#coordinates to learn more.
- */
+
 public final class AxialCoordinate implements Serializable {
 
     private static final long serialVersionUID = -6656555565645274603L;
@@ -19,10 +16,6 @@ public final class AxialCoordinate implements Serializable {
         this.gridZ = gridZ;
     }
 
-    /**
-     * Tries to create an {@link AxialCoordinate} from a key which has the format:
-     * <code>%gridX%,%gridZ%</code>.
-     */
     public static AxialCoordinate fromKey(final String key) {
         AxialCoordinate result;
         try {
@@ -44,17 +37,10 @@ public final class AxialCoordinate implements Serializable {
         return gridZ;
     }
 
-    /**
-     * Creates an instance of {@link AxialCoordinate} from an x and a z coordinate.
-     */
     public static AxialCoordinate fromCoordinates(final int gridX, final int gridZ) {
         return new AxialCoordinate(gridX, gridZ);
     }
 
-    /**
-     * Creates a key which can be used in key-value storage objects based on this
-     * {@link AxialCoordinate}.
-     */
     public String toKey() {
         return gridX + "," + gridZ;
     }

@@ -9,10 +9,7 @@ import java.util.Set;
 
 import static api.AxialCoordinate.fromCoordinates;
 
-/**
- * This strategy is responsible for generating a {@link HexagonalGrid} which has a triangular
- * shape.
- */
+
 public final class TriangularGridLayoutStrategy implements GridLayoutStrategy {
 
     @Override

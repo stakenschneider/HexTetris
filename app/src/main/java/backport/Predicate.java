@@ -22,5 +22,4 @@ public interface Predicate<T> {
                 ? Objects::isNull
                 : object -> targetRef.equals(object);
     }
-
 }

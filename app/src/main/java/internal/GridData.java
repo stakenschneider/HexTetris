@@ -18,9 +18,7 @@ public final class GridData {
     private final int gridWidth;
     private final int gridHeight;
 
-    /**
-     * Creates a new GridData based on <code>orientation</code> and <code>radius</code>.
-     */
+
     public GridData(final HexagonOrientation orientation, final HexagonalGridLayout gridLayout,
                     final double radius, int gridWidth, int gridHeight) {
         this.orientation = orientation;

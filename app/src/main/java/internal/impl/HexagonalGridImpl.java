@@ -27,9 +27,7 @@ public final class HexagonalGridImpl implements HexagonalGrid {
     private final Map<AxialCoordinate, Object> hexagonStorage;
     private final Set<AxialCoordinate> coordinates;
 
-    /**
-     * Creates a new HexagonalGrid based on the provided HexagonalGridBuilder.
-     */
+
     public HexagonalGridImpl(final HexagonalGridBuilder builder) {
         this.gridData = builder.getGridData();
         this.hexagonStorage = builder.getCustomStorage();
