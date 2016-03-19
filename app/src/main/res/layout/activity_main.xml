@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/darkGrey"
+    android:background="@color/darkGreen"
     tools:context="com.example.masha.applicationname.MainActivity">
 
 
@@ -21,73 +21,84 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="                        HexTetris"
-            android:id="@+id/textView"
-            android:textColor="#ea487f"
-            android:textStyle="bold"
-            android:focusable="false"
-            android:enabled="false" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tutorial"
-            android:id="@+id/bttnTutorial" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Play"
-            android:id="@+id/bttnPlay"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:id="@+id/bttnSettings"
-            android:layout_gravity="center_horizontal" />
-
-        <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentEnd="false"
-            android:id="@+id/linearLayout2">
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/titleLbl"
+            android:id="@+id/textView"
+            android:textColor="@color/yell"
+            android:textStyle="bold"
+            android:focusable="false"
+            android:enabled="false"
+            android:layout_gravity="center_horizontal" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="117dp"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter"
-                android:id="@+id/bttnTwitter"
-                android:layout_below="@+id/bttnSettings"
-                android:layout_toStartOf="@+id/textView" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/twt"
+            android:id="@+id/bttnTutorial"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="117dp"
-                android:layout_height="wrap_content"
-                android:text="@string/google"
-                android:id="@+id/bttnGoogle"
-                android:layout_alignTop="@+id/bttnTwitter"
-                android:layout_centerHorizontal="true" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/play"
+            android:id="@+id/bttnPlay"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="118dp"
-                android:layout_height="wrap_content"
-                android:text="@string/facebook"
-                android:id="@+id/bttnFB"
-                android:layout_alignTop="@+id/bttnGoogle"
-                android:layout_toEndOf="@+id/textView"
-                android:enabled="true" />
-        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sett"
+            android:id="@+id/bttnSettings"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/twitter"
+            android:id="@+id/bttnTwitter"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/google"
+            android:id="@+id/bttnGoogle"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/facebook"
+            android:id="@+id/bttnFacebook"
+            android:enabled="true"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell" />
+
     </LinearLayout>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="exit"
+        android:id="@+id/bttnExit"
+        android:enabled="true"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/login_layout" />
 
 
 </RelativeLayout>

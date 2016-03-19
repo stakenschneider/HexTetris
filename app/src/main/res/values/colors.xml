@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="darkGrey">#6d7186</color>
-    <color name="lightGrey">#c8c9cc</color>
-    <color name="darkRose">#ea487f</color>
-
 
     <color name="darkGreen">#022525</color>
     <color name="lightGeen">#03554F</color>

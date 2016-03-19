@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle;
+    Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle,bttnExit;
     Intent intent;
     Toast toast;
 
@@ -31,7 +31,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         bttnSettings = (Button) findViewById(R.id.bttnSettings);
         bttnSettings.setOnClickListener(this);
 
-        bttnFB = (Button) findViewById(R.id.bttnFB);
+        bttnFB = (Button) findViewById(R.id.bttnFacebook);
         bttnFB.setOnClickListener(this);
 
         bttnGoogle = (Button) findViewById(R.id.bttnGoogle);
@@ -39,6 +39,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         bttnTwitter = (Button) findViewById(R.id.bttnTwitter);
         bttnTwitter.setOnClickListener(this);
+
+        bttnExit = (Button) findViewById(R.id.bttnExit);
+        bttnExit.setOnClickListener(this);
 
     }
 
@@ -64,22 +67,27 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 Log.d(TAG, "нажали settings");
                 break;
 
-            case R.id.bttnFB:
-                 toast = Toast.makeText(getApplicationContext(),
-                        "FaceBook", Toast.LENGTH_SHORT);
+            case R.id.bttnFacebook:
+                 toast = Toast.makeText(getApplicationContext(), "FaceBook", Toast.LENGTH_SHORT);
                 toast.show();
                 Log.d(TAG, "нажали imgFB");
                 break;
 
             case R.id.bttnGoogle:
                 toast = Toast.makeText(getApplicationContext(), "Google+", Toast.LENGTH_SHORT);
-                toast.show();                 Log.d(TAG, "нажали imgGplus");
+                toast.show();
+                Log.d(TAG, "нажали imgGplus");
                 break;
 
             case R.id.bttnTwitter:
-                toast = Toast.makeText(getApplicationContext(),
-                        "bttnTwitter", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Twitter", Toast.LENGTH_SHORT);
+                toast.show();
                 Log.d(TAG, "нажали imgTweet");
+                break;
+
+            case R.id.bttnExit:
+             //   onDestroy();
+                Log.d(TAG, "нажали Exit");
                 break;
 
         }
