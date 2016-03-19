@@ -13,62 +13,55 @@
 
 
     <LinearLayout
-        android:id="@+id/share_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:text="@string/hello"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#0080B4" />
-
-
-        <EditText
-            android:id="@+id/share_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="#cceaf3"
-            android:inputType="textMultiLine"
-            android:minLines="5"
-            android:padding="10dp" />
-
-        <Button
-            android:id="@+id/btn_share"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#0080B4"
-            android:text="@string/share_btn"
-            android:textColor="#fff" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/login_layout"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="                        HexTetris"
+            android:id="@+id/textView"
+            android:textColor="#ea487f"
+            android:textStyle="bold"
+            android:focusable="false"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tutorial"
+            android:id="@+id/bttnTutorial" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Play"
+            android:id="@+id/bttnPlay"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:id="@+id/bttnSettings"
+            android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentEnd="false"
-            android:id="@+id/linearLayout2"
-            android:layout_gravity="center_horizontal">
+            android:id="@+id/linearLayout2">
 
             <Button
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="117dp"
                 android:layout_height="wrap_content"
                 android:text="@string/twitter"
                 android:id="@+id/bttnTwitter"
@@ -77,7 +70,7 @@
 
             <Button
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="117dp"
                 android:layout_height="wrap_content"
                 android:text="@string/google"
                 android:id="@+id/bttnGoogle"
@@ -86,7 +79,7 @@
 
             <Button
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="118dp"
                 android:layout_height="wrap_content"
                 android:text="@string/facebook"
                 android:id="@+id/bttnFB"
@@ -94,27 +87,6 @@
                 android:layout_toEndOf="@+id/textView"
                 android:enabled="true" />
         </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tutorial"
-            android:id="@+id/bttnTutorial"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Play"
-            android:id="@+id/bttnPlay"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:id="@+id/bttnSettings"
-            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
 

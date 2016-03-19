@@ -4,6 +4,27 @@
     <color name="lightGrey">#c8c9cc</color>
     <color name="darkRose">#ea487f</color>
 
-    <color name="accent_material_dark_1">#d3658a</color>
-    <color name="black">#d3658a</color>
+
+    <color name="darkGreen">#022525</color>
+    <color name="lightGeen">#03554F</color>
+    <color name="bej">#E9DBAE</color>
+    <color name="yell">#FAAF06</color>
+    <color name="darkGreen2">#0B1919</color>
+
+
+
+    <color name="th2_1">#242A30</color>
+    <color name="th2_2">#3F3F46</color>
+    <color name="th2_3">#67696C</color>
+    <color name="th2_4">#A29587</color>
+    <color name="th2_5">#C3B19E</color>
+
+
+    <color name="th3_dbl">#0A1A27</color>
+    <color name="th3_bl">#5D989B</color>
+    <color name="th3_dg">#BDCEC8</color>
+    <color name="th3_lg">#DBE4D3</color>
+    <color name="th3_wh">#F8EED3</color>
+
+
 </resources>

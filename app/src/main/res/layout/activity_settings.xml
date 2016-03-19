@@ -7,44 +7,37 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.masha.applicationname.Settings">
+    tools:context="com.example.masha.applicationname.Settings"
+    android:background="@color/darkGrey">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/act_set"
         android:id="@+id/bttnMenu"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="мб аудио вкл выкл"
-        android:id="@+id/checkBox"
-        android:layout_above="@+id/bttnMenu"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="41dp"
-        android:checked="false" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/darkGrey" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberSigned"
         android:ems="10"
-        android:id="@+id/editText"
-        android:layout_above="@+id/checkBox"
-        android:layout_alignStart="@+id/checkBox"
-        android:text="наверно два парааметра" />
+        android:id="@+id/width"
+        android:text="ширина сетки"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="134dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_above="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:text="размер сетки" />
+        android:id="@+id/height"
+        android:text="высота сетки"
+        android:layout_below="@+id/width"
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>
