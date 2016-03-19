@@ -1,15 +1,17 @@
 package com.example.masha.tetris;
 
-import android.app.Activity;
-
-import static api.HexagonOrientation.POINTY_TOP;
-import static api.HexagonalGridLayout.RECTANGULAR;
-
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.graphics.Path;
+import android.graphics.Paint;
+import android.graphics.Canvas;
+import android.graphics.Paint.Style;
+import android.graphics.Color;
+import android.content.Context;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import java.util.List;
-import java.util.NoSuchElementException;
-
 import api.Hexagon;
 import api.HexagonOrientation;
 import api.HexagonalGrid;
@@ -18,21 +20,16 @@ import api.HexagonalGridCalculator;
 import api.HexagonalGridLayout;
 import api.Point;
 import api.exception.HexagonalGridCreationException;
-import backport.Optional;
-
-import android.util.Log;
-import android.view.View;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import static api.HexagonOrientation.POINTY_TOP;
+import static api.HexagonalGridLayout.RECTANGULAR;
 
 
-public class GamePlay extends Activity {
+public class GamePlay extends AppCompatActivity {
 
-    private static final int DEFAULT_GRID_WIDTH = 5;
-    private static final int DEFAULT_GRID_HEIGHT = 5;
-    private static final int DEFAULT_RADIUS = 10;
+    private static final int BLUE = -16776961;
+    private static final int DEFAULT_GRID_WIDTH = 20;
+    private static final int DEFAULT_GRID_HEIGHT =20;
+    private static final int DEFAULT_RADIUS = 20;
     private static final HexagonOrientation DEFAULT_ORIENTATION = POINTY_TOP;
     private static final HexagonalGridLayout DEFAULT_GRID_LAYOUT = RECTANGULAR;
     private static final int CANVAS_WIDTH = 1000;
@@ -43,101 +40,82 @@ public class GamePlay extends Activity {
     private int radius = DEFAULT_RADIUS;
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
-    private static final String Guten_TAG = "myLogs from GamePlay";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new DrawView(this));
-
-
-
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(new CanvasView(this));
     }
 
 
+    class CanvasView extends View {
 
 
-    class DrawView extends View{   //класс с отрисовкой
-        Paint p;
-
-        public DrawView(Context context){
+        public CanvasView(Context context) {
             super(context);
-            p = new Paint();
         }
 
         @Override
-        protected void onDraw(Canvas canvas)
-        {
-            canvas.drawRGB(11, 25, 25);  //фон
-            p.setColor(Color.YELLOW);     //цвет линии
-            p.setStrokeWidth(5);         //толщина линии
-
-
-
+        protected void onDraw(Canvas canvas) {
+            canvas.drawRGB(11, 25, 25);
+            try {
+                HexagonalGridBuilder builder = new HexagonalGridBuilder()
+                        .setGridWidth(gridWidth)
+                        .setGridHeight(gridHeight)
+                        .setRadius(radius)
+                        .setOrientation(orientation)
+                        .setGridLayout(hexagonGridLayout);
+                hexagonalGrid = builder.build();
+                hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
+            } catch (HexagonalGridCreationException e) {}
             for (Hexagon hexagon : hexagonalGrid.getHexagons()) {
-           //     Optional<SatelliteDataImpl> data = hexagon.<SatelliteDataImpl>getSatelliteData(); // в Дополнительной информации содержится нажимали ли на этот хекс или нет
-                drawEmptyHexagon(hexagon, canvas, p); // иначе нарисовать пустой хекс
+                int[] array = new int[12];
+                drawPoly(canvas,convertToPointsArr(hexagon.getPoints(),array));
             }
 
 
-            regenerateHexagonGrid(canvas);
-            invalidate();//постоянная перерисовка
         }
-
-    };
-
-
-
-
-    // рисуем пустой хекс
-    private void drawEmptyHexagon(Hexagon hexagon , Canvas canvas , Paint p) {
-
-     //   gc.drawPolygon(convertToPointsArr(hexagon.getPoints()));
-        canvas.drawLines(convertToPointsArr(hexagon.getPoints()) , p); //аналог вышезакомченной функции
-                                                                       //должна рисовать 6 линий по координатам из  convertToPointsArr
-
     }
 
+    private void drawPoly(Canvas canvas, int[] array) {
 
+        if (array.length < 12) {
+            return;
+        }
 
-    // Кладем 12 координат (x,y) для 6 точек в массив
-    private float[] convertToPointsArr(List<Point> points) {
-        float[] pointsArr = new float[12];
+        Paint polyPaint = new Paint();
+        polyPaint.setColor(Color.YELLOW);
+        polyPaint.setStyle(Style.FILL);
+
+        Path polyPath = new Path();
+        polyPath.moveTo(array[0], array[1]);
+        int i, len;
+
+        len = array.length;
+        for (i = 0; i < 12; ) {
+
+            polyPath.lineTo(array[i], array[i+1]);
+            i=i+2;
+        }
+        polyPath.lineTo(array[0], array[1]);
+
+        // draw
+        canvas.drawPath(polyPath, polyPaint);
+    }
+
+    private int[] convertToPointsArr(List<Point> points,int[] array) {
         int idx = 0;
         for (Point point : points) {
-            pointsArr[idx] = (int) Math.round(point.getCoordinateX());
-            pointsArr[idx + 1] = (int) Math.round(point.getCoordinateY());
-            idx += 2;
+            array[idx] = (int) Math.round(point.getCoordinateX());
+            array[idx+1] = (int) Math.round(point.getCoordinateY());
+            idx=idx+2;
         }
-        return pointsArr;
+        return array;
     }
-
-    // Создание сетки
-    private void regenerateHexagonGrid(Canvas canvas) {
-
-        try {
-            HexagonalGridBuilder builder = new HexagonalGridBuilder()
-                    .setGridWidth(gridWidth)
-                    .setGridHeight(gridHeight)
-                    .setRadius(radius)
-                    .setOrientation(orientation)
-                    .setGridLayout(hexagonGridLayout);
-            hexagonalGrid = builder.build();
-            hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
-        } catch (HexagonalGridCreationException e) {}
-
-    }
-
-
-
-
-    }
-
-
-
-
+}
 
 
 
