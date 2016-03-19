@@ -1,22 +1,17 @@
 package api;
 
 
-import internal.impl.layoutstrategy.TrapezoidGridLayoutStrategy;
+
 import internal.impl.layoutstrategy.GridLayoutStrategy;
 import internal.impl.layoutstrategy.HexagonalGridLayoutStrategy;
 import internal.impl.layoutstrategy.RectangularGridLayoutStrategy;
-import internal.impl.layoutstrategy.TriangularGridLayoutStrategy;
 
 
 public enum HexagonalGridLayout {
 
     RECTANGULAR(new RectangularGridLayoutStrategy()),
 
-    HEXAGONAL(new HexagonalGridLayoutStrategy()),
-
-    TRIANGULAR(new TriangularGridLayoutStrategy()),
-
-    TRAPEZOID(new TrapezoidGridLayoutStrategy());
+    HEXAGONAL(new HexagonalGridLayoutStrategy());
 
     private GridLayoutStrategy gridLayoutStrategy;
 
