@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">Hexagonal tetris</string>
     <string name="act_set">MENU</string>
-    <string name="main">GHEXTRIX</string>
-    <string name="bttnPlay">PLAY</string>
-    <string name="bttnTutorial">TUTORIAL</string>
-    <string name="bttnSettings">SETTINGS</string>
+
     <string name="twitter">twitter</string>
     <string name="google">google+</string>
     <string name="facebook">facebook</string>
-    <string name="title_activity_web_view">WebViewActivity</string>
 
-    <string name="action_settings">Settings</string>
     <string name="titleLbl">HexTetris</string>
+
     <string name="twt">Tutorial</string>
     <string name="play">Play</string>
     <string name="sett">Settings</string>
+
+    <string name="widthR">grid width</string>
+    <string name="HeighR">grid height</string>
+    <string name="exit">exit</string>
 
 </resources>

@@ -21,6 +21,7 @@
     <color name="th3_dg">#BDCEC8</color>
     <color name="th3_lg">#DBE4D3</color>
     <color name="th3_wh">#F8EED3</color>
+    <color name="foreground_material_light">#d61919</color>
 
 
 </resources>

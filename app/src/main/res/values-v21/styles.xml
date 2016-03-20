@@ -6,4 +6,14 @@
         <!--<item name="android:navigationBarColor">@color/darkGrey</item>-->
         <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
     </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        Customize your theme here.
+        <item name="colorPrimary">@color/lightGeen</item>
+        <item name="colorPrimaryDark">@color/darkGreen</item>
+        <item name="colorAccent">@color/yell</item>
+        <item name="android:colorBackground">@color/darkGreen</item>
+        <item name="android:navigationBarColor">@color/darkGreen</item>
+        <item name="android:colorForeground">@color/yell</item>
+    </style>
 </resources>

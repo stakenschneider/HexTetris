@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hexagonal tetris</string>
+
+    <string name="twt">Lernprogramm</string>
+
+    <string name="twitter">twitter</string>
+    <string name="google">google+</string>
+    <string name="facebook">facebook</string>
+
+    <string name="act_set">Menü</string>
+
+    <string name="play">SPIELEN</string>
+    <string name="sett">Einstellungen</string>
+    <string name="titleLbl">HexTetris</string>
+
+    <string name="widthR">Rasterhöhe</string>
+    <string name="HeighR">Höhenraster</string>
+
+    <string name="exit">Ausgang</string>
+</resources>

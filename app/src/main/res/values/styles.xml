@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/lightGeen</item>
         <item name="colorPrimaryDark">@color/darkGreen</item>
         <item name="colorAccent">@color/yell</item>
+        <item name="android:colorBackground">@color/darkGreen</item>
+        <item name="android:colorForeground">@color/yell</item>
     </style>
 
     <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->

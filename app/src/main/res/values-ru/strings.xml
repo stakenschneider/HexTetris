@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Гексогональный тетрис</string>
+
+    <string name="act_set">Меню</string>
+
+    <string name="facebook">facebook</string>
+    <string name="google">google+</string>
+    <string name="twitter">twitter</string>
+
+    <string name="titleLbl">Гексогональный тетрис</string>
+
+    <string name="sett">Настройки</string>
+    <string name="play">Играть</string>
+    <string name="twt">Смотреть</string>
+
+    <string name="main">Гексогональный тетрис</string>
+
+    <string name="widthR">ширина сетки</string>
+    <string name="HeighR">высота сетки</string>
+
+    <string name="exit">выход</string>
+</resources>

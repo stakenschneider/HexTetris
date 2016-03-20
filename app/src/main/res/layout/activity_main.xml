@@ -92,7 +92,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="exit"
+        android:text="@string/exit"
         android:id="@+id/bttnExit"
         android:enabled="true"
         android:background="@color/darkGreen"
