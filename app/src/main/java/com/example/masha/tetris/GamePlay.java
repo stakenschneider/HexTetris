@@ -2,6 +2,7 @@ package com.example.masha.tetris;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.graphics.Path;
 import android.graphics.Paint;
 import android.graphics.Canvas;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import java.util.List;
+
 import api.Hexagon;
 import api.HexagonOrientation;
 import api.HexagonalGrid;
@@ -19,6 +21,7 @@ import api.HexagonalGridBuilder;
 import api.HexagonalGridCalculator;
 import api.HexagonalGridLayout;
 import api.Point;
+
 import api.exception.HexagonalGridCreationException;
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
@@ -26,13 +29,11 @@ import static api.HexagonalGridLayout.RECTANGULAR;
 
 public class GamePlay extends AppCompatActivity {
 
-    private static final int BLUE = -16776961;
-    private static final int DEFAULT_GRID_WIDTH = 20;
-    private static final int DEFAULT_GRID_HEIGHT =20;
-    private static final int DEFAULT_RADIUS = 20;
+    private static final int DEFAULT_GRID_WIDTH = 5;
+    private static final int DEFAULT_GRID_HEIGHT = 9;
+    private static final int DEFAULT_RADIUS = 81;
     private static final HexagonOrientation DEFAULT_ORIENTATION = POINTY_TOP;
     private static final HexagonalGridLayout DEFAULT_GRID_LAYOUT = RECTANGULAR;
-    private static final int CANVAS_WIDTH = 1000;
     private HexagonalGrid hexagonalGrid;
     private HexagonalGridCalculator hexagonalGridCalculator;
     private int gridWidth = DEFAULT_GRID_WIDTH;
@@ -53,7 +54,6 @@ public class GamePlay extends AppCompatActivity {
 
     class CanvasView extends View {
 
-
         public CanvasView(Context context) {
             super(context);
         }
@@ -71,12 +71,11 @@ public class GamePlay extends AppCompatActivity {
                 hexagonalGrid = builder.build();
                 hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             } catch (HexagonalGridCreationException e) {}
+
             for (Hexagon hexagon : hexagonalGrid.getHexagons()) {
                 int[] array = new int[12];
                 drawPoly(canvas,convertToPointsArr(hexagon.getPoints(),array));
             }
-
-
         }
     }
 
@@ -86,24 +85,21 @@ public class GamePlay extends AppCompatActivity {
             return;
         }
 
-        Paint polyPaint = new Paint();
-        polyPaint.setColor(Color.YELLOW);
-        polyPaint.setStyle(Style.FILL);
+        Paint p = new Paint();
+        p.setColor(Color.rgb(250, 175, 6));
+        p.setStyle(Style.STROKE);
+        p.setStrokeWidth(5);
 
         Path polyPath = new Path();
-        polyPath.moveTo(array[0], array[1]);
-        int i, len;
+        polyPath.moveTo(array[0], array[1]); //первая точка
+        int i;
 
-        len = array.length;
-        for (i = 0; i < 12; ) {
-
+        for (i = 0; i < 12;  i=i+2 )
             polyPath.lineTo(array[i], array[i+1]);
-            i=i+2;
-        }
+
         polyPath.lineTo(array[0], array[1]);
 
-        // draw
-        canvas.drawPath(polyPath, polyPaint);
+        canvas.drawPath(polyPath, p);
     }
 
     private int[] convertToPointsArr(List<Point> points,int[] array) {

@@ -1,6 +1,8 @@
 package com.example.masha.tetris;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +17,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     Intent intent;
     Toast toast;
 
+
     private static final String TAG = "myLogs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        startService(new Intent(this, MyService.class));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -87,6 +91,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.bttnExit:
              //   onDestroy();
+                finish();
                 Log.d(TAG, "нажали Exit");
                 break;
 
@@ -122,6 +127,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         super.onDestroy();
         Log.d(TAG , "Destroy");
     }
+
 }
 
 
