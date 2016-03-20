@@ -46,7 +46,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         bttnExit = (Button) findViewById(R.id.bttnExit);
         bttnExit.setOnClickListener(this);
-
     }
 
 
