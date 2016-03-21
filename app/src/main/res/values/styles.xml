@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/yell</item>
         <item name="android:colorBackground">@color/darkGreen</item>
         <item name="android:colorForeground">@color/yell</item>
+        <!--<item name="android:navigationBarColor">@color/darkGreen</item>-->
     </style>
 
     <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->

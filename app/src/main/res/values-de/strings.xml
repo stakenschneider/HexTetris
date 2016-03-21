@@ -12,10 +12,11 @@
 
     <string name="play">SPIELEN</string>
     <string name="sett">Einstellungen</string>
-    <string name="titleLbl">HexTetris</string>
+    <string name="titleLbl">Hexagonal tetris</string>
 
     <string name="widthR">Rasterhöhe</string>
     <string name="HeighR">Höhenraster</string>
 
     <string name="exit">Ausgang</string>
+    <string name="main">Hexagonal tetris</string>
 </resources>
