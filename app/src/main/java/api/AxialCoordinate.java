@@ -1,7 +1,6 @@
 package api;
 
 import java.io.Serializable;
-
 import static java.lang.Integer.parseInt;
 
 

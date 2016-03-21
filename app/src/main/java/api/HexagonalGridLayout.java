@@ -1,17 +1,12 @@
 package api;
 
-
-
 import internal.impl.layoutstrategy.GridLayoutStrategy;
-import internal.impl.layoutstrategy.HexagonalGridLayoutStrategy;
 import internal.impl.layoutstrategy.RectangularGridLayoutStrategy;
 
 
 public enum HexagonalGridLayout {
 
-    RECTANGULAR(new RectangularGridLayoutStrategy()),
-
-    HEXAGONAL(new HexagonalGridLayoutStrategy());
+    RECTANGULAR(new RectangularGridLayoutStrategy());
 
     private GridLayoutStrategy gridLayoutStrategy;
 

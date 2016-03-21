@@ -1,7 +1,8 @@
 package api;
 
-import backport.Optional;
 import internal.GridData;
+
+import backport.Optional;
 
 
 public interface HexagonalGrid {

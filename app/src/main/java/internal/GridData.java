@@ -1,13 +1,14 @@
 package internal;
 
+
 import api.HexagonOrientation;
-
-import api.Hexagon;
-import api.HexagonalGrid;
 import api.HexagonalGridLayout;
+
 import static java.lang.Math.sqrt;
+import static api.HexagonOrientation.FLAT_TOP;
 
 
+@SuppressWarnings("PMD.UnusedPrivateField")
 public final class GridData {
 
     private final HexagonOrientation orientation;
@@ -26,8 +27,8 @@ public final class GridData {
         this.radius = radius;
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
-        this.hexagonHeight = HexagonOrientation.FLAT_TOP.equals(orientation) ? calculateHeight(radius) : calculateWidth(radius);
-        this.hexagonWidth = HexagonOrientation.FLAT_TOP.equals(orientation) ? calculateWidth(radius) : calculateHeight(radius);
+        this.hexagonHeight = FLAT_TOP.equals(orientation) ? calculateHeight(radius) : calculateWidth(radius);
+        this.hexagonWidth = FLAT_TOP.equals(orientation) ? calculateWidth(radius) : calculateHeight(radius);
     }
 
     private double calculateHeight(final double radius) {

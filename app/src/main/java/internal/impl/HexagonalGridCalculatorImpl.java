@@ -1,6 +1,5 @@
 package internal.impl;
 
-
 import api.AxialCoordinate;
 import api.Hexagon;
 import api.HexagonalGrid;

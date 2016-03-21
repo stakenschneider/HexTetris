@@ -8,5 +8,4 @@ public final class HexagonalGridCreationException extends RuntimeException {
     public HexagonalGridCreationException(String message) {
         super(message);
     }
-
 }

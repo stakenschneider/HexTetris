@@ -1,5 +1,7 @@
 package api;
 
+import static api.HexagonOrientation.FLAT_TOP;
+
 public final class CoordinateConverter {
 
     public CoordinateConverter() {
@@ -7,11 +9,11 @@ public final class CoordinateConverter {
     }
 
     public static int convertOffsetCoordinatesToAxialX(final int offsetX, final int offsetY, final HexagonOrientation orientation) {
-        return HexagonOrientation.FLAT_TOP.equals(orientation) ? offsetX : offsetX - offsetY / 2;
+        return FLAT_TOP.equals(orientation) ? offsetX : offsetX - offsetY / 2;
     }
 
     public static int convertOffsetCoordinatesToAxialZ(final int offsetX, final int offsetY, final HexagonOrientation orientation) {
-        return HexagonOrientation.FLAT_TOP.equals(orientation) ? offsetY - offsetX / 2 : offsetY;
+        return FLAT_TOP.equals(orientation) ? offsetY - offsetX / 2 : offsetY;
     }
 
 }

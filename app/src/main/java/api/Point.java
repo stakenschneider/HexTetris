@@ -17,19 +17,20 @@ public final class Point {
         return new Point(coordinateX, coordinateY);
     }
 
-    public double getCoordinateX()
-    {
-        return coordinateX;
-    }
-
-    public double getCoordinateY()
-    {
-        return coordinateY;
-    }
-
-
     public double distanceFrom(final Point point) {
         return sqrt((this.coordinateX - point.coordinateX) * (this.coordinateX - point.coordinateX)
                 + (this.coordinateY - point.coordinateY) * (this.coordinateY - point.coordinateY));
     }
+    
+    public double getCoordinateX()
+    {
+        return coordinateX;
+    }
+    
+    public double getCoordinateY()
+    {
+        return coordinateY;
+    }
+    
+    
 }

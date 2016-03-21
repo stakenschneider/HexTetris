@@ -1,22 +1,24 @@
 package internal.impl;
 
 
-import api.Hexagon;
-import api.HexagonOrientation;
-import api.Point;
-import backport.Optional;
-import internal.GridData;
-
-
 import api.AxialCoordinate;
-import api.SatelliteData;
+import api.Hexagon;
+import api.Point;
+import internal.GridData;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import backport.Optional;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static api.HexagonOrientation.FLAT_TOP;
+import static api.Point.fromPosition;
+
+/**
+ * Default implementation of the {@link Hexagon} interface.
+ */
 
 public class HexagonImpl implements Hexagon {
 
@@ -30,7 +32,9 @@ public class HexagonImpl implements Hexagon {
         this.dataMap = dataMap;
     }
 
-
+    /**
+     * Creates a new {@link Hexagon} object from shared data and a coordinate.
+     */
     public static Hexagon newHexagon(final GridData gridData, final AxialCoordinate coordinate, Map<AxialCoordinate, Object> dataMap) {
         return new HexagonImpl(gridData, coordinate, dataMap);
     }
@@ -47,7 +51,7 @@ public class HexagonImpl implements Hexagon {
             final double angle = 2 * Math.PI / 6 * (i + sharedData.getOrientation().getCoordinateOffset());
             final double x = getCenterX() + sharedData.getRadius() * cos(angle);
             final double y = getCenterY() + sharedData.getRadius() * sin(angle);
-            points.add(Point.fromPosition(x, y));
+            points.add(fromPosition(x, y));
         }
         return points;
     }
@@ -74,7 +78,7 @@ public class HexagonImpl implements Hexagon {
 
     @Override
     public final double getCenterX() {
-        if (HexagonOrientation.FLAT_TOP.equals(sharedData.getOrientation())) {
+        if (FLAT_TOP.equals(sharedData.getOrientation())) {
             return coordinate.getGridX() * sharedData.getHexagonWidth() + sharedData.getRadius();
         } else {
             return coordinate.getGridX() * sharedData.getHexagonWidth() + coordinate.getGridZ()
@@ -84,27 +88,11 @@ public class HexagonImpl implements Hexagon {
 
     @Override
     public final double getCenterY() {
-        if (HexagonOrientation.FLAT_TOP.equals(sharedData.getOrientation())) {
+        if (FLAT_TOP.equals(sharedData.getOrientation())) {
             return coordinate.getGridZ() * sharedData.getHexagonHeight() + coordinate.getGridX()
                     * sharedData.getHexagonHeight() / 2 + sharedData.getHexagonHeight() / 2;
         } else {
             return coordinate.getGridZ() * sharedData.getHexagonHeight() + sharedData.getRadius();
         }
-    }
-
-    @Override
-    public final <T extends SatelliteData> Optional<T> getSatelliteData() {
-        final Object result = dataMap.get(getAxialCoordinate());
-        return result == null ? Optional.empty() : Optional.of((T) result);
-    }
-
-    @Override
-    public final <T extends SatelliteData> void setSatelliteData(final T satelliteData) {
-        this.dataMap.put(getAxialCoordinate(), satelliteData);
-    }
-
-    @Override
-    public void clearSatelliteData() {
-        this.dataMap.remove(getAxialCoordinate());
     }
 }

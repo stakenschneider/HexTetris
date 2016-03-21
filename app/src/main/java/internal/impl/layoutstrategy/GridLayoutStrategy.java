@@ -1,8 +1,8 @@
 package internal.impl.layoutstrategy;
 
 import api.AxialCoordinate;
-import api.HexagonalGridBuilder;
 import api.HexagonalGrid;
+import api.HexagonalGridBuilder;
 
 import java.util.Set;
 

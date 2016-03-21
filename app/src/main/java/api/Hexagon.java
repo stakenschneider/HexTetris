@@ -1,8 +1,7 @@
 package api;
 
-import backport.Optional;
-
 import java.util.List;
+import backport.Optional;
 
 
 public interface Hexagon {
@@ -22,11 +21,4 @@ public interface Hexagon {
     double getCenterX();
 
     double getCenterY();
-
-    <T extends SatelliteData> Optional<T> getSatelliteData();
-
-    <T extends SatelliteData> void setSatelliteData(T data);
-
-    void clearSatelliteData();
-
 }

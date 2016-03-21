@@ -9,6 +9,8 @@ import internal.impl.layoutstrategy.GridLayoutStrategy;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static api.HexagonalGridLayout.RECTANGULAR;
+
 
 public final class HexagonalGridBuilder {
     private int gridWidth;
@@ -16,7 +18,8 @@ public final class HexagonalGridBuilder {
     private double radius;
     private Map<AxialCoordinate, Object> customStorage = new ConcurrentHashMap<>();
     private HexagonOrientation orientation = HexagonOrientation.POINTY_TOP;
-    private HexagonalGridLayout gridLayout = HexagonalGridLayout.RECTANGULAR;
+    private HexagonalGridLayout gridLayout = RECTANGULAR;
+
 
     public HexagonalGrid build() {
         checkParameters();
@@ -47,7 +50,6 @@ public final class HexagonalGridBuilder {
         return radius;
     }
 
-
     public HexagonalGridBuilder setRadius(final double radius) {
         this.radius = radius;
         return this;
@@ -66,7 +68,6 @@ public final class HexagonalGridBuilder {
     public int getGridHeight() {
         return gridHeight;
     }
-
 
     public HexagonalGridBuilder setGridHeight(final int gridHeight) {
         this.gridHeight = gridHeight;
@@ -91,13 +92,13 @@ public final class HexagonalGridBuilder {
         return customStorage;
     }
 
-
     public GridData getGridData() {
         if (orientation == null || gridLayout == null || radius == 0 || gridWidth == 0 || gridHeight == 0) {
             throw new IllegalStateException("Not all necessary fields are initialized!");
         }
         return new GridData(orientation, gridLayout, radius, gridWidth, gridHeight);
     }
+
 
     public HexagonalGridBuilder setGridLayout(final HexagonalGridLayout gridLayout) {
         this.gridLayout = gridLayout;

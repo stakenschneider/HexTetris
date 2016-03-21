@@ -1,22 +1,27 @@
 package internal.impl;
 
+
 import api.AxialCoordinate;
+import api.CoordinateConverter;
 import api.Hexagon;
+import api.HexagonalGrid;
 import api.HexagonalGridBuilder;
 import api.Point;
-import backport.Optional;
 import internal.GridData;
-
-import api.CoordinateConverter;
-import api.HexagonalGrid;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Iterator;
+import backport.Optional;
 import java.util.Set;
 
+import static api.AxialCoordinate.fromCoordinates;
+import static api.Point.fromPosition;
+import static internal.impl.HexagonImpl.newHexagon;
 
+
+@SuppressWarnings("PMD.UnusedPrivateField")
 public final class HexagonalGridImpl implements HexagonalGrid {
 
     private static final int[][] NEIGHBORS = {{+1, 0}, {+1, -1}, {0, -1}, {-1, 0}, {-1, +1}, {0, +1}};
@@ -33,15 +38,15 @@ public final class HexagonalGridImpl implements HexagonalGrid {
         this.hexagonStorage = builder.getCustomStorage();
         this.coordinates = builder.getGridLayoutStrategy().fetchGridCoordinates(builder);
     }
+       
 
     @Override
     public Iterable<Hexagon> getHexagons() {
         ArrayList <Hexagon> Hexagons = new  ArrayList();
         Iterator<AxialCoordinate> iterator = coordinates.iterator();
-        while(iterator.hasNext()) {
-            Hexagons.add(HexagonImpl.newHexagon(gridData, iterator.next(), hexagonStorage));
-        }
-        iterator.remove();
+         do {
+            Hexagons.add(newHexagon(gridData,iterator.next(), hexagonStorage));
+        } while(iterator.hasNext());
         return Hexagons;
     }
 
@@ -52,9 +57,9 @@ public final class HexagonalGridImpl implements HexagonalGrid {
         {
             for (int z = from.getGridZ(); z <= to.getGridZ(); z++)
             {
-                if(getByAxialCoordinate(AxialCoordinate.fromCoordinates(x, z)).isPresent())
+                if(getByAxialCoordinate(fromCoordinates(x, z)).isPresent())
                 {
-                    Hexagons.add(getByAxialCoordinate(AxialCoordinate.fromCoordinates(x, z)).get());
+                    Hexagons.add(getByAxialCoordinate(fromCoordinates(x, z)).get());
                 }
             }
         }
@@ -68,9 +73,9 @@ public final class HexagonalGridImpl implements HexagonalGrid {
             for (int y = gridYFrom; y <= gridYTo; y++) {
                 final int axialX = CoordinateConverter.convertOffsetCoordinatesToAxialX(x, y, gridData.getOrientation());
                 final int axialZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(x, y, gridData.getOrientation());
-                if(getByAxialCoordinate(AxialCoordinate.fromCoordinates(axialX, axialZ)).isPresent())
+                if(getByAxialCoordinate(fromCoordinates(axialX, axialZ)).isPresent())
                 {
-                    Hexagons.add(getByAxialCoordinate(AxialCoordinate.fromCoordinates(axialX, axialZ)).get());
+                    Hexagons.add(getByAxialCoordinate(fromCoordinates(axialX, axialZ)).get());
                 }
             }
         }
@@ -81,13 +86,18 @@ public final class HexagonalGridImpl implements HexagonalGrid {
 
     @Override
     public boolean containsAxialCoordinate(final AxialCoordinate coordinate) {
-        return this.coordinates.contains(coordinate);
+         for( AxialCoordinate neighbor : this.coordinates)
+         {
+           if ((coordinate.getGridX()==neighbor.getGridX())&&(coordinate.getGridZ()==neighbor.getGridZ()))
+               return true;        
+         }
+        return false;
     }
 
     @Override
     public Optional<Hexagon> getByAxialCoordinate(final AxialCoordinate coordinate) {
         return containsAxialCoordinate(coordinate)
-                ? Optional.of(HexagonImpl.newHexagon(gridData, coordinate, hexagonStorage))
+                ? Optional.of(newHexagon(gridData, coordinate, hexagonStorage))
                 : Optional.empty();
     }
 
@@ -99,10 +109,12 @@ public final class HexagonalGridImpl implements HexagonalGrid {
         estimatedGridZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(estimatedGridX, estimatedGridZ, gridData.getOrientation());
         // it is possible that the estimated coordinates are off the grid so we
         // create a virtual hexagon
-        final AxialCoordinate estimatedCoordinate = AxialCoordinate.fromCoordinates(estimatedGridX, estimatedGridZ);
-        final Hexagon tempHex = HexagonImpl.newHexagon(gridData, estimatedCoordinate, hexagonStorage);
+        final AxialCoordinate estimatedCoordinate = fromCoordinates(estimatedGridX, estimatedGridZ);
+        final Hexagon tempHex = newHexagon(gridData, estimatedCoordinate, hexagonStorage);
 
-        Hexagon trueHex = refineHexagonByPixel(tempHex, Point.fromPosition(coordinateX, coordinateY));
+
+        Hexagon trueHex = refineHexagonByPixel(tempHex, fromPosition(coordinateX, coordinateY));
+        
 
         if (hexagonsAreAtTheSamePosition(tempHex, trueHex)) {
             return getByAxialCoordinate(estimatedCoordinate);
@@ -118,7 +130,7 @@ public final class HexagonalGridImpl implements HexagonalGrid {
             Hexagon retHex;
             final int neighborGridX = hexagon.getGridX() + neighbor[NEIGHBOR_X_INDEX];
             final int neighborGridZ = hexagon.getGridZ() + neighbor[NEIGHBOR_Z_INDEX];
-            final AxialCoordinate neighborCoordinate = AxialCoordinate.fromCoordinates(neighborGridX, neighborGridZ);
+            final AxialCoordinate neighborCoordinate = fromCoordinates(neighborGridX, neighborGridZ);
             if (containsAxialCoordinate(neighborCoordinate)) {
                 retHex = getByAxialCoordinate(neighborCoordinate).get();
                 neighbors.add(retHex);
@@ -143,9 +155,9 @@ public final class HexagonalGridImpl implements HexagonalGrid {
 
     private Hexagon refineHexagonByPixel(final Hexagon hexagon, final Point clickedPoint) {
         Hexagon refined = hexagon;
-        double smallestDistance = clickedPoint.distanceFrom(Point.fromPosition(refined.getCenterX(), refined.getCenterY()));
+        double smallestDistance = clickedPoint.distanceFrom(fromPosition(refined.getCenterX(), refined.getCenterY()));
         for (final Hexagon neighbor : getNeighborsOf(hexagon)) {
-            final double currentDistance = clickedPoint.distanceFrom(Point.fromPosition(neighbor.getCenterX(), neighbor.getCenterY()));
+            final double currentDistance = clickedPoint.distanceFrom(fromPosition(neighbor.getCenterX(), neighbor.getCenterY()));
             if (currentDistance < smallestDistance) {
                 refined = neighbor;
                 smallestDistance = currentDistance;
