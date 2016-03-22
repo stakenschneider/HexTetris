@@ -5,10 +5,17 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
+import android.util.Log;
 
-import com.example.masha.tetris.Settings;
+import com.example.masha.tetris.GamePlay;
+
+import static com.example.masha.tetris.Settings.width;
+import static com.example.masha.tetris.Settings.height;
+import static com.example.masha.tetris.Main.scrw;
+import static com.example.masha.tetris.Main.scrh;
 
 import java.util.List;
+import java.math.*;
 
 import api.Hexagon;
 import api.HexagonOrientation;
@@ -35,31 +42,37 @@ public class DrawGrid {
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
 
 
-public void useBuilder(Canvas canvas)
-{
-    Settings s = new Settings();
+    public void useBuilder(Canvas canvas)
+    {
+        double radius; //описаный
+        int gridWidth = width;
+        int gridHeight = height;
 
-    int gridWidth = s.getW();
-    int gridHeight = s.getW();
-    int radius = 30;
+        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
 
-    try {
-        HexagonalGridBuilder builder = new HexagonalGridBuilder()
-                .setGridWidth(gridWidth)
-                .setGridHeight(gridHeight)
-                .setRadius(radius)
-                .setOrientation(orientation)
-                .setGridLayout(hexagonGridLayout);
-        hexagonalGrid = builder.build();
-        hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
-    } catch (HexagonalGridCreationException e) {}
+        if ((scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше
+//            if (gridHeight % 2 == 0)
+                radius = scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
+            else if ((scrh / ( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0)
+        radius = scrh / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
+
+        try {
+            HexagonalGridBuilder builder = new HexagonalGridBuilder()
+                    .setGridWidth(gridWidth)
+                    .setGridHeight(gridHeight)
+                    .setRadius(radius)
+                    .setOrientation(orientation)
+                    .setGridLayout(hexagonGridLayout);
+            hexagonalGrid = builder.build();
+            hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
+        } catch (HexagonalGridCreationException e) {}
 
 
-    for (Hexagon hexagon : hexagonalGrid.getHexagons()) {
-        int[] array = new int[12];
-        drawPoly(canvas,convertToPointsArr(hexagon.getPoints(),array));
+        for (Hexagon hexagon : hexagonalGrid.getHexagons()) {
+            int[] array = new int[12];
+            drawPoly(canvas,convertToPointsArr(hexagon.getPoints(),array));
+        }
     }
-}
 
 
     private void drawPoly(Canvas canvas, int[] array) {
@@ -86,7 +99,7 @@ public void useBuilder(Canvas canvas)
     }
 
 
-   private int[] convertToPointsArr(List<Point> points,int[] array) {
+    private int[] convertToPointsArr(List<Point> points,int[] array) {
         int idx = 0;
         for (Point point : points) {
             array[idx] = (int) Math.round(point.getCoordinateX());
@@ -96,5 +109,3 @@ public void useBuilder(Canvas canvas)
         return array;
     }
 }
-
-

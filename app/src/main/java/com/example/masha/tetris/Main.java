@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,6 +20,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     Intent intent;
     Toast toast;
     private static final String MY_SETTINGS = "my_settings";
+
+    public static double scrh = 0 , scrw = 0 ;
 
     private static final String TAG = "myLogs";
 
@@ -47,6 +51,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         bttnExit = (Button) findViewById(R.id.bttnExit);
         bttnExit.setOnClickListener(this);
+
+
+        scrh = screenSizeH();
+        scrw = screenSizeW();
 
 
 
@@ -143,4 +151,21 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         Log.d(TAG, "Destroy");
     }
 
+    public double screenSizeW()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics metricsB = new DisplayMetrics();
+        display.getMetrics(metricsB);
+
+        return  metricsB.widthPixels;
+    }
+
+    public double screenSizeH()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics metricsB = new DisplayMetrics();
+        display.getMetrics(metricsB);
+
+        return metricsB.heightPixels;
+    }
 }

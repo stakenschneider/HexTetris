@@ -6,25 +6,30 @@ import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+//сдесь есть два текстовых поля которые высота и ширина сетки
+//их надо с помощью преверенсов всех сохранять что бы можно было пользоваться ими в других активити, а именно в активити с игрой и туториалом
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
     Button bttnMenu;
     Intent intent;
-    EditText eTw , eTh;
+    public EditText eTw , eTh;  //вот эти два поля куда вводим значения
     SharedPreferences sharedPreferences;
 
-    int height = 0 , width = 0;
+    public static int height = 0 , width = 0 ; //соответствено значения которые надо получить
 
-    private static final String TAG = "myLogs";
+    private static final String TAG = "myLogs"; //хуйня
 
-    public static String MY_PREF = "MY_PREF";
+    public static String MY_PREF = "MY_PREF"; //ресурс в виде хмл типо там у нас и хранятся эти значения
 
-    public static final String sWIDTH = "width";
+    public static final String sWIDTH = "width"; //ключ для ширины и высоты соответственно
     public static final String sHEIGHT = "height";
 
 
@@ -55,36 +60,40 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     }
 
 
-    public void saveText()
+    public void saveText() //должен типо сохранять значения 
     {
 
-        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
-        Editor ed = sharedPreferences.edit();
+        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE); //создаем преференсис (MODE_PRIVATE для того что бы эти значения были только для одного приложения (хуйня не обращай внимания))
+        Editor ed = sharedPreferences.edit(); //для изменения и редактирования и бла бла бда
 
-        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
+        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString())); //записываем в ключ ВЫСОТА значение уже переведенное в инт с поля куда вводили 
 
-        ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
+        ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));  //таже нерабочая херня
 
-        ed.commit();  //comm
+        ed.commit();  //сохраняем изменения - типо как в бд комит или apply разницы нет 
     }
 
 
-    void loadText() {
-//        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
+    void loadText() { //функция которая ДОЛЖНА ВОЗВРАЩАТЬ ДОЛБАННЫЕ ЗНАЧЕНИЯ
+        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
 
-//        if (sharedPreferences.contains(APP_PREFERENCES)) {
-            width = sharedPreferences.getInt(sWIDTH , 1 );
-//            eTw.setText("");
-//        }
-        height = sharedPreferences.getInt(sHEIGHT , 1 );
+        //если такой ресурс существует то (сразу говорю тут ошибок нет, потому что и без ифа нихуя не работает)
+        width = sharedPreferences.getInt(sWIDTH , 8 ); //получаем значение по ключу (если такого нет то 8)
+        height = sharedPreferences.getInt(sHEIGHT, 15); //аналогично
     }
 
 
     @Override
     protected void onPause(){
-        saveText();
+        saveText(); //если нажимаем кнопу меню или выходим из этой активити стрелочкой "иди нахуй" то вызываем сохранение 
         super.onPause();
         Log.d(TAG, "Settings Pause");
+    }
+
+    @Override
+    protected void onResume(){
+        loadText();
+        super.onResume();
     }
 
 }
