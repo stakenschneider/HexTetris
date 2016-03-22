@@ -5,9 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
-import android.util.Log;
-
-import com.example.masha.tetris.GamePlay;
 
 import static com.example.masha.tetris.Settings.width;
 import static com.example.masha.tetris.Settings.height;
@@ -15,7 +12,6 @@ import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
 
 import java.util.List;
-import java.math.*;
 
 import api.Hexagon;
 import api.HexagonOrientation;
@@ -50,9 +46,9 @@ public class DrawGrid {
 
         radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
 
-        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше
+        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
                 radius = scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
-            else if ((radius*( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0)
+            else if ((radius*( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0) //если больше и кол во нч
         radius = scrh / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
 
         try {
