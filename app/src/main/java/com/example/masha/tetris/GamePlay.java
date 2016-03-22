@@ -20,6 +20,7 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
     int downPI = 0;
     int upPI = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +75,6 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
             case MotionEvent.ACTION_UP: //отпускание последнего пальца
                 //ничего наверн
                 inTouch = false;
-
 //                break;
 
             case MotionEvent.ACTION_POINTER_UP: //наверно отпускание любого пальца кроме последнего
@@ -85,7 +85,6 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
 
             case MotionEvent.ACTION_MOVE: //движение
                 //влево вправо перемещение фигуры
-
 
 
                 break;

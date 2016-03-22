@@ -5,6 +5,7 @@ import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     Intent intent;
     EditText eTw , eTh;
     SharedPreferences sharedPreferences;
-    final String width = "" , height = "";
+    public String width = "" , height = "";
+    private static final String TAG = "myLogs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,45 +30,54 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bttnMenu = (Button) findViewById(R.id.bttnMenu);
         bttnMenu.setOnClickListener(this);
 
-        loadText();
+        //оптимальные (ИМХО) размеры сетки
+        eTw.setText("8");
+        eTh.setText("15");
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttnMenu:
                 intent = new Intent (this, Main.class);
-                saveText();
                 startActivity(intent);
                 break;
 
         }
     }
 
-    void saveText()
+    public void saveText()   //значения высоты и ширины сетки  сохраняются
     {
-        sharedPreferences = getPreferences( MODE_PRIVATE);
-
+        sharedPreferences = getPreferences(MODE_PRIVATE);
         Editor ed = sharedPreferences.edit();
 
-        ed.putString(width , eTw.getText().toString());
+        height = eTh.getText().toString();
         ed.putString(height, eTh.getText().toString());
+        ed.commit();
+
+        width = eTw.getText().toString();
+        ed.putString(width, eTw.getText().toString());
 
         ed.commit();
     }
 
-    void loadText() {
-        sharedPreferences = getPreferences( MODE_PRIVATE);
 
-        String w = sharedPreferences.getString(width, "");
-        eTw.setText(w);
+//    void loadText() {  //если хотим постоянно свои значения
+//        sharedPreferences = getPreferences( MODE_PRIVATE);
+//        String h = sharedPreferences.getString(height, "");
+//        eTh.setText(h);
+//
+//        String w = sharedPreferences.getString(width, "");
+//        eTw.setText(w);
+//    }
 
-        String h = sharedPreferences.getString(height, "");
-        eTh.setText(h);
+
+    @Override
+    protected void onPause(){
+        saveText();  //значения сохраняются при выходе из активити с настройками или через кнопку меню или назад
+        super.onPause();
+        Log.d(TAG , "Settings Pause");
     }
 
-//    @Override
-//    protected void onDestroy(){
-//        saveText();
-//
-//    }
+
+
 }

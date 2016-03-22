@@ -22,22 +22,22 @@ import static api.HexagonalGridLayout.RECTANGULAR;
 
 public class DrawGrid {
 
-    private static final int DEFAULT_GRID_WIDTH = 5;
-    private static final int DEFAULT_GRID_HEIGHT = 9;
-    private static final int DEFAULT_RADIUS = 81;
     private static final HexagonOrientation DEFAULT_ORIENTATION = POINTY_TOP;
     private static final HexagonalGridLayout DEFAULT_GRID_LAYOUT = RECTANGULAR;
     private HexagonalGrid hexagonalGrid;
     private HexagonalGridCalculator hexagonalGridCalculator;
-    private int gridWidth = DEFAULT_GRID_WIDTH;
-    private int gridHeight = DEFAULT_GRID_HEIGHT;
-    private int radius = DEFAULT_RADIUS;
+    private static final String TAG = "myLogs";
+
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
 
 
 public void useBuilder(Canvas canvas)
 {
+    int gridWidth = 8;
+    int gridHeight = 15;
+    int radius = 30;
+
     try {
         HexagonalGridBuilder builder = new HexagonalGridBuilder()
                 .setGridWidth(gridWidth)

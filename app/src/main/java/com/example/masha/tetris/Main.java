@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
     Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle, bttnExit;
@@ -43,6 +44,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         bttnExit = (Button) findViewById(R.id.bttnExit);
         bttnExit.setOnClickListener(this);
+
     }
 
 
@@ -86,8 +88,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.bttnExit:
-//                finish();
-//                onDestroy();
+                finish();
                 Log.d(TAG, "нажали Exit");
                 break;
 

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:enabled="true" android:name=".MyService" />
+        <!--<service android:enabled="true" android:name=".MyService" />-->
 
         <activity android:name=".Main">
             <intent-filter>
@@ -25,6 +25,6 @@
         <activity android:name=".Settings" />
     </application>
 
-    <service android:enabled="true" android:name=".MyService" />
+    <!--<service android:enabled="true" android:name=".MyService" />-->
 
 </manifest>
