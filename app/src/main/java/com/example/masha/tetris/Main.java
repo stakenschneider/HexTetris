@@ -109,7 +109,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onPause(){
         super.onPause();
-
         Log.d(TAG , "Pause");
     }
 
