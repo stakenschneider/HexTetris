@@ -50,10 +50,9 @@ public class DrawGrid {
 
         radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
 
-        if ((scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше
-//            if (gridHeight % 2 == 0)
+        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше
                 radius = scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
-            else if ((scrh / ( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0)
+            else if ((radius*( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0)
         radius = scrh / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
 
         try {
