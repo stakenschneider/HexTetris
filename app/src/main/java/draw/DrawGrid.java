@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
 
+import com.example.masha.tetris.Settings;
+
 import java.util.List;
 
 import api.Hexagon;
@@ -35,8 +37,10 @@ public class DrawGrid {
 
 public void useBuilder(Canvas canvas)
 {
-    int gridWidth = 8;
-    int gridHeight = 15;
+    Settings s = new Settings();
+
+    int gridWidth = s.getW();
+    int gridHeight = s.getW();
     int radius = 30;
 
     try {

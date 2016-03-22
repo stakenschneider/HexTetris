@@ -1,6 +1,8 @@
 package com.example.masha.tetris;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle, bttnExit;
     Intent intent;
     Toast toast;
+    private static final String MY_SETTINGS = "my_settings";
 
     private static final String TAG = "myLogs";
 
@@ -44,6 +47,19 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         bttnExit = (Button) findViewById(R.id.bttnExit);
         bttnExit.setOnClickListener(this);
+
+
+
+        SharedPreferences sp = getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+        // проверяем, первый ли раз открывается программа
+        boolean hasVisited = sp.getBoolean("hasVisited", false);
+
+        if (!hasVisited) {
+            // при первом открытии инфа
+            SharedPreferences.Editor e = sp.edit();
+            e.putBoolean("hasVisited", true);
+            e.commit(); // не забудьте подтвердить изменения
+        }
 
     }
 

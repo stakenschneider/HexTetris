@@ -1,5 +1,6 @@
 package com.example.masha.tetris;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,17 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     Intent intent;
     EditText eTw , eTh;
     SharedPreferences sharedPreferences;
-    public String width = "" , height = "";
+
+    int height = 0 , width = 0;
+
     private static final String TAG = "myLogs";
+
+    public static String MY_PREF = "MY_PREF";
+
+    public static final String sWIDTH = "width";
+    public static final String sHEIGHT = "height";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +40,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bttnMenu = (Button) findViewById(R.id.bttnMenu);
         bttnMenu.setOnClickListener(this);
 
-        //оптимальные (ИМХО) размеры сетки
-        eTw.setText("8");
-        eTh.setText("15");
+        loadText();
     }
 
     public void onClick(View v) {
@@ -40,44 +48,43 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             case R.id.bttnMenu:
                 intent = new Intent (this, Main.class);
                 startActivity(intent);
+
                 break;
 
         }
     }
 
-    public void saveText()   //значения высоты и ширины сетки  сохраняются
+
+    public void saveText()
     {
-        sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
         Editor ed = sharedPreferences.edit();
 
-        height = eTh.getText().toString();
-        ed.putString(height, eTh.getText().toString());
-        ed.commit();
+        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
 
-        width = eTw.getText().toString();
-        ed.putString(width, eTw.getText().toString());
+        ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
 
-        ed.commit();
+        ed.commit();  //comm
     }
 
 
-//    void loadText() {  //если хотим постоянно свои значения
-//        sharedPreferences = getPreferences( MODE_PRIVATE);
-//        String h = sharedPreferences.getString(height, "");
-//        eTh.setText(h);
-//
-//        String w = sharedPreferences.getString(width, "");
-//        eTw.setText(w);
-//    }
+    void loadText() {
+//        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
+
+//        if (sharedPreferences.contains(APP_PREFERENCES)) {
+            width = sharedPreferences.getInt(sWIDTH , 1 );
+//            eTw.setText("");
+//        }
+        height = sharedPreferences.getInt(sHEIGHT , 1 );
+    }
 
 
     @Override
     protected void onPause(){
-        saveText();  //значения сохраняются при выходе из активити с настройками или через кнопку меню или назад
+        saveText();
         super.onPause();
-        Log.d(TAG , "Settings Pause");
+        Log.d(TAG, "Settings Pause");
     }
-
-
 
 }
