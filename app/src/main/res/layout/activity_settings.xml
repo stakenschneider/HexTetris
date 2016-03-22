@@ -26,11 +26,10 @@
         android:inputType="numberSigned"
         android:ems="10"
         android:id="@+id/width"
-        android:text="@string/widthR"
+        android:layout_marginTop="135dp"
+        android:textColor="@color/yell"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="134dp"
-        android:textColor="@color/yell" />
+        android:layout_alignEnd="@+id/bttnMenu" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,9 +37,28 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/height"
-        android:text="@string/HeighR"
+        android:textColor="@color/yell"
         android:layout_below="@+id/width"
-        android:layout_alignParentLeft="true"
+        android:layout_alignStart="@+id/width" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/lblw"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/height"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/yell" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/lblh"
+        android:id="@+id/textView3"
+        android:layout_alignBottom="@+id/height"
+        android:layout_alignParentStart="true"
         android:textColor="@color/yell" />
 
 </RelativeLayout>

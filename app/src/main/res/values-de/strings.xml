@@ -19,4 +19,8 @@
 
     <string name="exit">Ausgang</string>
     <string name="main">Hexagonal tetris</string>
+
+    <string name="lblw">Rasterhöhe:</string>
+    <string name="lblh">Höhenraster:</string>
+
 </resources>

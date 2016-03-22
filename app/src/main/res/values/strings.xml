@@ -16,4 +16,7 @@
     <string name="HeighR">grid height</string>
     <string name="exit">exit</string>
 
+    <string name="lblw">width:</string>
+    <string name="lblh">height:</string>
+
 </resources>

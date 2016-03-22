@@ -86,8 +86,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.bttnExit:
-                finish();
-                onDestroy();
+//                finish();
+//                onDestroy();
                 Log.d(TAG, "нажали Exit");
                 break;
 
