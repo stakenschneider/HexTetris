@@ -91,10 +91,4 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         Log.d(TAG, "Settings Pause");
     }
 
-//    @Override
-//    protected void onResume(){
-//        loadText();
-//        super.onResume();
-//    }
-
 }
