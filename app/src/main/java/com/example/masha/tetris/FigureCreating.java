@@ -1,7 +1,6 @@
 package com.example.masha.tetris;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -25,7 +25,8 @@
         <activity android:name=".GamePlay" />
         <activity android:name=".Settings" />
         <activity android:name=".WebViewActivity" />
-        <activity android:name=".FigureCreating"></activity>
+        <activity android:name=".FigureCreating" />
+        <!--<activity android:name=".Start android:theme="@style/Theme.MyTransparent" "></activity>-->
     </application>
 
 </manifest>

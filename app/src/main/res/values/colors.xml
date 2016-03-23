@@ -23,5 +23,7 @@
     <color name="th3_wh">#F8EED3</color>
     <color name="foreground_material_light">#d61919</color>
 
+    <color name="bg">#000000</color>
+
 
 </resources>
