@@ -17,7 +17,7 @@ import service.MyService;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle, bttnExit;
+    Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle, bttnExit, bttnAdd;
     Intent intent;
     Toast toast;
     private static final String MY_SETTINGS = "my_settings";
@@ -53,6 +53,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         bttnExit = (Button) findViewById(R.id.bttnExit);
         bttnExit.setOnClickListener(this);
 
+        bttnAdd = (Button) findViewById(R.id.bttnAdd);
+        bttnAdd.setOnClickListener(this);
 
         scrh = screenSizeH();
         scrw = screenSizeW();
@@ -115,6 +117,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             case R.id.bttnExit:
                 finish();
                 Log.d(TAG, "нажали Exit");
+                break;
+
+            case R.id.bttnAdd:
+                intent = new Intent (this, FigureCreating.class);
+                startActivity(intent);
                 break;
 
         }

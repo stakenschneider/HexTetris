@@ -24,5 +24,6 @@
 
     <string name="add">add</string>
     <string name="playbttn">play</string>
+    <string name="btnadd">add</string>
 
 </resources>

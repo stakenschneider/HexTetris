@@ -113,5 +113,16 @@
         android:layout_below="@+id/bttnTutorial"
         android:layout_alignParentLeft="true" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnadd"
+        android:id="@+id/bttnAdd"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_below="@+id/bttnSettings"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

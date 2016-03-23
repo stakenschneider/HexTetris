@@ -28,14 +28,13 @@ public static int hBttn = 0;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(new CanvasView(this));
-        hBttn = bttnAdd.getHeight();
 
         bttnAdd = (Button) findViewById(R.id.bttnAdd);
+        hBttn = bttnAdd.getHeight();
         bttnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //метод добавления фигуры
-                hBttn = bttnAdd.getHeight();
 
             }
         });
