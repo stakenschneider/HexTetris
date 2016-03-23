@@ -23,4 +23,7 @@
     <string name="lblw">Rasterhöhe:</string>
     <string name="lblh">Höhenraster:</string>
 
+    <string name="minW">Mindestbreite des Rasters:: 8</string>
+    <string name="minH">Mindesthöhe des Gitters:: 17</string>
+
 </resources>

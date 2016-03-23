@@ -1,24 +1,21 @@
 package com.example.masha.tetris;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import static com.example.masha.tetris.Main.scrw;
+import static com.example.masha.tetris.Main.scrh;
 
-//сдесь есть два текстовых поля которые высота и ширина сетки
-//их надо с помощью преверенсов всех сохранять что бы можно было пользоваться ими в других активити, а именно в активити с игрой и туториалом
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnMenu;
+    Button bttnMenu , bttnSentence;
     Intent intent;
     public EditText eTw , eTh;  //вот эти два поля куда вводим значения
     SharedPreferences sharedPreferences;
@@ -45,6 +42,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bttnMenu = (Button) findViewById(R.id.bttnMenu);
         bttnMenu.setOnClickListener(this);
 
+        bttnSentence = (Button) findViewById(R.id.bttnSentence);
+        bttnSentence.setOnClickListener(this);
+
         loadText();
     }
 
@@ -53,9 +53,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             case R.id.bttnMenu:
                 intent = new Intent (this, Main.class);
                 startActivity(intent);
-
                 break;
 
+            case R.id.bttnSentence:
+                eTh.setText("" +(int)((2*scrh-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
         }
     }
 
@@ -90,10 +91,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         Log.d(TAG, "Settings Pause");
     }
 
-    @Override
-    protected void onResume(){
-        loadText();
-        super.onResume();
-    }
+//    @Override
+//    protected void onResume(){
+//        loadText();
+//        super.onResume();
+//    }
 
 }

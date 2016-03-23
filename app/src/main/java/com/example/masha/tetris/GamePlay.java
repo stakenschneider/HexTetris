@@ -4,16 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import draw.DrawGrid;
 
@@ -22,9 +17,7 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
 
     float x, y;
     boolean inTouch = false;
-    int downPI = 0;
-    int upPI = 0;
-    private static final String TAG = "myLogs";
+    int downPI = 0, upPI = 0;
 
 
     @Override
@@ -102,7 +95,6 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
         }
         return true;
     }
-
 
 }
 

@@ -26,10 +26,11 @@
         android:inputType="numberSigned"
         android:ems="10"
         android:id="@+id/width"
-        android:layout_marginTop="135dp"
+        android:layout_marginTop="141dp"
         android:textColor="@color/yell"
+        android:text="8"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/bttnMenu" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,6 +39,7 @@
         android:ems="10"
         android:id="@+id/height"
         android:textColor="@color/yell"
+        android:text="17"
         android:layout_below="@+id/width"
         android:layout_alignStart="@+id/width" />
 
@@ -47,9 +49,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/lblw"
         android:id="@+id/textView2"
-        android:layout_above="@+id/height"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/yell" />
+        android:textColor="@color/yell"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignBottom="@+id/width" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,8 +59,40 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/lblh"
         android:id="@+id/textView3"
+        android:textColor="@color/yell"
         android:layout_alignBottom="@+id/height"
+        android:layout_alignStart="@+id/bttnMenu" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/minW"
+        android:id="@+id/textView4"
         android:layout_alignParentStart="true"
-        android:textColor="@color/yell" />
+        android:textColor="@color/yell"
+        android:layout_above="@+id/textView5"
+        android:layout_alignLeft="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/minH"
+        android:id="@+id/textView5"
+        android:layout_marginBottom="61dp"
+        android:textColor="@color/yell"
+        android:layout_above="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="я не могу придумать название для этой кнопки"
+        android:id="@+id/bttnSentence"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

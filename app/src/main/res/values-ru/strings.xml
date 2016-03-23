@@ -23,4 +23,7 @@
 
     <string name="lblw">ширина:</string>
     <string name="lblh">высота:</string>
+
+    <string name="minW">минимальная ширина сетки: 8</string>
+    <string name="minH">минимальная высота сетки: 17</string>
 </resources>
