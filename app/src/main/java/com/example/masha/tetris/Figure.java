@@ -41,7 +41,6 @@ public class Figure {
 
     public AxialCoordinate convertToGrid (int width, ArrayList <Hexagon> hex)
     {
-        if (hex==null) Log.d(TAG, "Jeppa");
         Hexagons = hex;
         int firstcol;
         int firstrow;
