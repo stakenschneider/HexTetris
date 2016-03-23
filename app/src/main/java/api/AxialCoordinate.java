@@ -1,12 +1,11 @@
 package api;
 
-import java.io.Serializable;
+
 import static java.lang.Integer.parseInt;
 
 
-public final class AxialCoordinate implements Serializable {
+public final class AxialCoordinate  {
 
-    private static final long serialVersionUID = -6656555565645274603L;
     private final int gridX;
     private final int gridZ;
 

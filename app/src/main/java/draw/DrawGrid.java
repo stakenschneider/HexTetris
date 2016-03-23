@@ -43,11 +43,15 @@ public class DrawGrid {
 
     public void useBuilder(Canvas canvas)
     {
-        double radius; //описаный
-        int gridWidth = width;
-        int gridHeight = height;
-
-        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
+        double radius; //описанный
+        int gridWidth = 15;
+        int gridHeight = 29;
+        if ((width>gridWidth)&(height>gridHeight))
+        {
+             gridWidth = width;
+             gridHeight = height;
+        }
+      radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
 
         if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
                 radius = scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
@@ -72,16 +76,16 @@ public class DrawGrid {
         }
 
         // Тип создал свою временную фигуру
-        Figure figure = new Figure();
-        AxialCoordinate ax = new AxialCoordinate(1,1);
-        AxialCoordinate ax1 = new AxialCoordinate(1,3);
-        AxialCoordinate ax2 = new AxialCoordinate(1,5);
-        AxialCoordinate ax3 = new AxialCoordinate(1,4);
+        AxialCoordinate ax = new AxialCoordinate(2,12);
+        AxialCoordinate ax1 = new AxialCoordinate(8,4);
+        AxialCoordinate ax2 = new AxialCoordinate(6,6);
+        AxialCoordinate ax3 = new AxialCoordinate(5,10);
         ArrayList<Hexagon> hex = new ArrayList();
         hex.add(hexagonalGrid.getByAxialCoordinate(ax).get());
         hex.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
         hex.add(hexagonalGrid.getByAxialCoordinate(ax2).get());
         hex.add(hexagonalGrid.getByAxialCoordinate(ax3).get());
+        Figure figure = new Figure(hex);
 
 
         int[] array0 = new int[12];
@@ -95,7 +99,7 @@ public class DrawGrid {
 
 
 
-        Hexagon hexagon = hexagonalGrid.getByAxialCoordinate(figure.convertToGrid(gridWidth, hex)).get();
+        Hexagon hexagon = hexagonalGrid.getByAxialCoordinate(figure.convertToGrid(gridWidth)).get();
         int[] array = new int[12];
         drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array),0, 0);
 

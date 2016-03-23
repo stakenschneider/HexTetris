@@ -31,35 +31,33 @@ public class Figure {
     int maxcol = -1;
     int dx;
     int dy;
-    ArrayList <Hexagon> Hexagons = new  ArrayList();
+    ArrayList <Hexagon> Hexagons;
 
-    public Figure()
+    public Figure(ArrayList <Hexagon> hex)
     {
-
+        Hexagons = hex;
+        quantity = Hexagons.size();
     }
 
 
-    public AxialCoordinate convertToGrid (int width, ArrayList <Hexagon> hex)
+    public AxialCoordinate convertToGrid (int width)
     {
-        Hexagons = hex;
         int firstcol;
         int firstrow;
         OffsetCoordinate offsetCoordinate = placeFirst();
-        int change = 0;
             if ((maxcol-offsetCoordinate.col) % 2 == 0)
             {
-                change= (width/2)-((maxcol-offsetCoordinate.col+1)/2)-1;
+                dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2)-1);
             }
             else
             {
-                change= (width/2)-((maxcol-offsetCoordinate.col+1)/2);
+                dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2));
             }
         firstrow = Hexagons.get(0).getGridZ()- offsetCoordinate.row;
-        firstcol = convertToCol(Hexagons.get(0).getGridX(), Hexagons.get(0).getGridZ(), POINTY_TOP)- (offsetCoordinate.col-change);
-        firstcol = convertOffsetCoordinatesToAxialX(firstcol,firstrow,POINTY_TOP);
+        firstcol = convertToCol(Hexagons.get(0).getGridX(), Hexagons.get(0).getGridZ())- dx;
+        firstcol = convertOffsetCoordinatesToAxialX(firstcol,firstrow);
         AxialCoordinate coordinate = new AxialCoordinate(firstcol,firstrow);
         dy = offsetCoordinate.row;
-        dx = offsetCoordinate.col-change;
         return coordinate;
     }
 
@@ -68,14 +66,13 @@ public class Figure {
         int row = hex.getGridZ()-dy;
         int col = 0;
         if (row%2!=0) {
-            col = convertToCol(hex.getGridX(), hex.getGridZ(), POINTY_TOP) - dx - 1;
+            col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx - 1;
         }
         else
         {
-            col = convertToCol(hex.getGridX(), hex.getGridZ(), POINTY_TOP) - dx;
+            col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx;
         }
-
-        col = convertOffsetCoordinatesToAxialX(col,row,POINTY_TOP);
+        col = convertOffsetCoordinatesToAxialX(col,row);
         AxialCoordinate coordinate = new AxialCoordinate(col,row);
         return coordinate;
     }
@@ -89,7 +86,7 @@ public class Figure {
         Iterator<Hexagon> iterator = Hexagons.iterator();
         do {
             coordinate = iterator.next().getAxialCoordinate();
-            int currentcol = convertToCol(coordinate.getGridX(),coordinate.getGridZ(),POINTY_TOP);
+            int currentcol = convertToCol(coordinate.getGridX(),coordinate.getGridZ());
             int currentrow = convertToRow(coordinate.getGridZ());
             if (currentcol<mincol||mincol==-1)
             {
