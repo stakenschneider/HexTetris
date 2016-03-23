@@ -39,7 +39,7 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
         protected void onDraw(Canvas canvas) {
             canvas.drawRGB(11, 25, 25);
             DrawGrid d = new DrawGrid();
-            d.useBuilder(canvas);
+            d.useBuilder(canvas , 0);
         }
     }
 

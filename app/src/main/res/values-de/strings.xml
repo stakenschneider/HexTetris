@@ -26,4 +26,7 @@
     <string name="minW">Mindestbreite des Rasters:: 8</string>
     <string name="minH">Mindesthöhe des Gitters:: 17</string>
 
+    <string name="add">add</string>
+    <string name="playbttn">SPIELEN</string>
+
 </resources>

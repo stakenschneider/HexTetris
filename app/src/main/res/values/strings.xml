@@ -22,4 +22,7 @@
     <string name="minW">minimum width of the grid: 8</string>
     <string name="minH">minimum height of the grid: 17</string>
 
+    <string name="add">add</string>
+    <string name="playbttn">play</string>
+
 </resources>

@@ -26,4 +26,7 @@
 
     <string name="minW">минимальная ширина сетки: 8</string>
     <string name="minH">минимальная высота сетки: 17</string>
+
+    <string name="add">добавить</string>
+    <string name="playbttn">играть</string>
 </resources>

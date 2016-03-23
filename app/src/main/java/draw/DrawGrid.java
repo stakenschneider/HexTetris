@@ -10,6 +10,7 @@ import static com.example.masha.tetris.Settings.width;
 import static com.example.masha.tetris.Settings.height;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
+import static com.example.masha.tetris.FigureCreating.hBttn;
 
 import java.util.List;
 
@@ -37,19 +38,18 @@ public class DrawGrid {
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
 
+    double radius; //описаный
+    int gridWidth = width;
+    int gridHeight = height;
 
-    public void useBuilder(Canvas canvas)
+
+    public void useBuilder(Canvas canvas , int act) //
     {
-        double radius; //описаный
-        int gridWidth = width;
-        int gridHeight = height;
 
-        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
+        if (act == 0)
+        radius = radGame(); else  radius = radAdd();
 
-        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
-                radius = scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
-            else if ((radius*( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0) //если больше и кол во нч
-        radius = scrh / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
+
 
         try {
             HexagonalGridBuilder builder = new HexagonalGridBuilder()
@@ -72,9 +72,8 @@ public class DrawGrid {
 
     private void drawPoly(Canvas canvas, int[] array) {
 
-        if (array.length < 12) {
+        if (array.length < 12)
             return;
-        }
 
         Paint p = new Paint();
         p.setColor(Color.rgb(250, 175, 6));
@@ -103,4 +102,32 @@ public class DrawGrid {
         }
         return array;
     }
+
+
+    public double radGame()
+    {
+        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
+
+        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
+            radius = scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
+        else if ((radius*( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0) //если больше и кол во нч
+            radius = scrh / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
+
+        return radius;
+    }
+
+
+    public double radAdd()
+    {
+
+        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
+
+        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > (scrh- 2*hBttn) && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
+            radius = (scrh- 2*hBttn) / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
+        else if ((radius*( gridHeight + ((gridHeight+1) /2))) > (scrh- 2*hBttn) && gridHeight % 2 != 0) //если больше и кол во нч
+            radius = (scrh- 2*hBttn) / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
+
+        return radius;
+    }
+
 }

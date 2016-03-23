@@ -1,9 +1,11 @@
-package com.example.masha.tetris;
+package service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+
+import com.example.masha.tetris.R;
 
 
 public class MyService extends Service {

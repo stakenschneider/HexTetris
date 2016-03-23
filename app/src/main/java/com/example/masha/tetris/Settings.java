@@ -57,6 +57,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
             case R.id.bttnSentence:
                 eTh.setText("" +(int)((2*scrh-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
+                break;
         }
     }
 
