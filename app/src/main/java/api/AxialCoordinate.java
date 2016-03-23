@@ -10,7 +10,7 @@ public final class AxialCoordinate implements Serializable {
     private final int gridX;
     private final int gridZ;
 
-    private AxialCoordinate(final int gridX, final int gridZ) {
+    public AxialCoordinate(final int gridX, final int gridZ) {
         this.gridX = gridX;
         this.gridZ = gridZ;
     }

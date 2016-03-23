@@ -11,8 +11,10 @@ import static com.example.masha.tetris.Settings.height;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import api.AxialCoordinate;
 import api.Hexagon;
 import api.HexagonOrientation;
 import api.HexagonalGrid;
@@ -20,6 +22,7 @@ import api.HexagonalGridBuilder;
 import api.HexagonalGridCalculator;
 import api.HexagonalGridLayout;
 import api.Point;
+import com.example.masha.tetris.Figure;
 
 import api.exception.HexagonalGridCreationException;
 import static api.HexagonOrientation.POINTY_TOP;
@@ -65,19 +68,61 @@ public class DrawGrid {
 
         for (Hexagon hexagon : hexagonalGrid.getHexagons()) {
             int[] array = new int[12];
-            drawPoly(canvas,convertToPointsArr(hexagon.getPoints(),array));
+            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array),250,6);
         }
+
+        // Тип создал свою временную фигуру
+        Figure figure = new Figure();
+        AxialCoordinate ax = new AxialCoordinate(1,1);
+        AxialCoordinate ax1 = new AxialCoordinate(1,3);
+        AxialCoordinate ax2 = new AxialCoordinate(1,5);
+        AxialCoordinate ax3 = new AxialCoordinate(1,4);
+        ArrayList<Hexagon> hex = new ArrayList();
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax2).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax3).get());
+
+
+        int[] array0 = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(ax).get().getPoints(), array0),0, 0);
+        int[] array01 = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(ax1).get().getPoints(), array01), 0, 250);
+        int[] array02 = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(ax2).get().getPoints(), array02), 0, 250);
+        int[] array03 = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(ax3).get().getPoints(), array03), 0, 250);
+
+
+
+        Hexagon hexagon = hexagonalGrid.getByAxialCoordinate(figure.convertToGrid(gridWidth, hex)).get();
+        int[] array = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array),0, 0);
+
+        Hexagon hexagon1 = hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(1))).get();
+        int[] array1 = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagon1.getPoints(), array1), 0, 250);
+
+        Hexagon hexagon2 = hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(2))).get();
+        int[] array2 = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagon2.getPoints(), array2),0, 250);
+
+        Hexagon hexagon3 = hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(3))).get();
+        int[] array3 = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagon3.getPoints(), array3),0, 250);
+
     }
 
 
-    private void drawPoly(Canvas canvas, int[] array) {
+
+    private void drawPoly(Canvas canvas, int[] array, int color, int color1) {
 
         if (array.length < 12) {
             return;
         }
 
         Paint p = new Paint();
-        p.setColor(Color.rgb(250, 175, 6));
+        p.setColor(Color.rgb(color, 175, color1));
         p.setStyle(Style.STROKE);
         p.setStrokeWidth(5);
 

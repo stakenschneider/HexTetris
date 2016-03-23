@@ -16,4 +16,14 @@ public final class CoordinateConverter {
         return FLAT_TOP.equals(orientation) ? offsetY - offsetX / 2 : offsetY;
     }
 
+    public static int convertToCol(final int AxialX, final int AxialZ, final HexagonOrientation orientation) {
+        return  AxialX + (AxialZ - (AxialZ&1)) / 2;
+    }
+
+    public static int convertToRow(final int AxialZ) {
+        return  AxialZ;
+    }
+
+
 }
+
