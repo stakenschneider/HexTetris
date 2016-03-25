@@ -5,6 +5,7 @@ package api;
 public final class CoordinateConverter {
 
 
+
     public CoordinateConverter() {
         throw new UnsupportedOperationException("This utility class is not meant to be instantiated.");
     }
