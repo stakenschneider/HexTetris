@@ -29,4 +29,8 @@
     <string name="add">hinzufügen</string>
     <string name="playbttn">SPIELEN</string>
 
+    <string name="start_text">Welcome to the Hexagonal Tetris. Blah blah blah - rules - blah blah blah.</string>
+    <string name="Score">Ergebnis:</string>
+    <string name="mus">music off</string>
+
 </resources>

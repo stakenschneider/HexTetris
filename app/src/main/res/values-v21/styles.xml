@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MashaTheme" parent="Theme.AppCompat.NoActionBar">
-        <!--<item name="colorAccent">@color/darkGreen</item>-->
-        <!--<item name="android:navigationBarColor">@color/darkGrey</item>-->
-        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
-    </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         Customize your theme here.

@@ -13,8 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="добро пожало"
+        android:text="@string/start_text"
         android:id="@+id/textView7"
+        android:textColor="@color/yell"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="100dp" />
 </RelativeLayout>

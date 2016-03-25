@@ -9,23 +9,4 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.masha.tetris.FigureCreating">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/playbttn"
-        android:id="@+id/bttnPl"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/yell"
-        android:background="@color/darkGreen" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:id="@+id/bttnAdd"
-        android:layout_above="@+id/bttnPl"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/yell"
-        android:background="@color/darkGreen" />
 </RelativeLayout>

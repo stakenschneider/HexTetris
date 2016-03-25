@@ -20,7 +20,7 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         player = MediaPlayer.create(this, R.raw.bg);
-        player.setLooping(true); // зацикливаем
+        player.setLooping(true); // зацикливание
     }
 
     @Override

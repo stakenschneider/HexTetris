@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.widget.TextView;
 
 import draw.DrawGrid;
 
@@ -18,7 +19,7 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
     float x, y;
     boolean inTouch = false;
     int downPI = 0, upPI = 0;
-
+    TextView t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,8 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(new CanvasView(this));
+
+
     }
 
 
@@ -40,6 +43,7 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
             canvas.drawRGB(11, 25, 25);
             DrawGrid d = new DrawGrid();
             d.useBuilder(canvas , 0);
+
         }
     }
 

@@ -8,18 +8,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import draw.DrawGrid;
 
 
 public class FigureCreating extends AppCompatActivity implements View.OnTouchListener {
 
-    Button bttnAdd, bttnPl;
     float x = 0 , y = 0;
 //    Intent intent;
-public static int hBttn = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +24,7 @@ public static int hBttn = 0;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(new CanvasView(this));
 
-        bttnAdd = (Button) findViewById(R.id.bttnAdd);
-        hBttn = bttnAdd.getHeight();
-        bttnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //метод добавления фигуры
 
-            }
-        });
-
-        bttnPl = (Button) findViewById(R.id.bttnPl);
-        bttnPl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                intent = new Intent( GamePlay.class);
-//                startActivity(intent);
-            }
-        });
     }
 
     class CanvasView extends View {

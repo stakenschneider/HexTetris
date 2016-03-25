@@ -20,16 +20,16 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle, bttnExit, bttnAdd;
     Intent intent;
     Toast toast;
-    private static final String MY_SETTINGS = "my_settings";
 
+    private static final String MY_SETTINGS = "my_settings" ,  TAG = "myLogs";;
     public static double scrh = 0 , scrw = 0 ;
 
-    private static final String TAG = "myLogs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startService(new Intent(this, MyService.class));
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         bttnPlay = (Button) findViewById(R.id.bttnPlay);
@@ -41,7 +41,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         bttnSettings = (Button) findViewById(R.id.bttnSettings);
         bttnSettings.setOnClickListener(this);
 
-        bttnFB = (Button) findViewById(R.id.bttnFacebook);
+        bttnFB = (Button) findViewById(R.id.bttnFB);
         bttnFB.setOnClickListener(this);
 
         bttnGoogle = (Button) findViewById(R.id.bttnGoogle);
@@ -60,18 +60,18 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         scrw = screenSizeW();
 
 
-
         SharedPreferences sp = getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-        // проверяем, первый ли раз открывается программа
-        boolean hasVisited = sp.getBoolean("hasVisited", false);
+
+        boolean hasVisited = sp.getBoolean("hasVisited", false);    // проверяем, первый ли раз открывается программа
 
         if (!hasVisited) {
-            // при первом открытии инфа
+            intent = new Intent (this, Start.class);
+            startActivity(intent);
+
             SharedPreferences.Editor e = sp.edit();
             e.putBoolean("hasVisited", true);
-            e.commit(); // не забудьте подтвердить изменения
+            e.commit();
         }
-
     }
 
 
@@ -81,42 +81,16 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             case R.id.bttnPlay:
                 intent = new Intent (this, GamePlay.class);
                 startActivity(intent);
-                Log.d(TAG, "нажали gameplay");
                 break;
 
             case R.id.bttnTutorial:
                 intent = new Intent (this, GamePlay.class);
                 startActivity(intent);
-                Log.d(TAG, "нажали tutorial");
                 break;
 
             case R.id.bttnSettings:
                 intent = new Intent (this, Settings.class);
                 startActivity(intent);
-                Log.d(TAG, "нажали settings");
-                break;
-
-            case R.id.bttnFacebook:
-                 toast = Toast.makeText(getApplicationContext(), "FaceBook", Toast.LENGTH_SHORT);
-                toast.show();
-                Log.d(TAG, "нажали imgFB");
-                break;
-
-            case R.id.bttnGoogle:
-                toast = Toast.makeText(getApplicationContext(), "Google+", Toast.LENGTH_SHORT);
-                toast.show();
-                Log.d(TAG, "нажали imgGplus");
-                break;
-
-            case R.id.bttnTwitter:
-                toast = Toast.makeText(getApplicationContext(), "Twitter", Toast.LENGTH_SHORT);
-                toast.show();
-                Log.d(TAG, "нажали imgTweet");
-                break;
-
-            case R.id.bttnExit:
-                finish();
-                Log.d(TAG, "нажали Exit");
                 break;
 
             case R.id.bttnAdd:
@@ -124,32 +98,50 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
 
+            case R.id.bttnExit:
+                finish();
+                break;
+
+
+            case R.id.bttnFB:
+                toast = Toast.makeText(getApplicationContext(), "FaceBook", Toast.LENGTH_SHORT);
+                toast.show();
+                break;
+
+            case R.id.bttnGoogle:
+                toast = Toast.makeText(getApplicationContext(), "Google+", Toast.LENGTH_SHORT);
+                toast.show();
+                break;
+
+            case R.id.bttnTwitter:
+                toast = Toast.makeText(getApplicationContext(), "Twitter", Toast.LENGTH_SHORT);
+                toast.show();
+                break;
         }
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        Log.d(TAG , "Start");
+        Log.d(TAG, "Start");
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        Log.d(TAG , "Resume");
+        Log.d(TAG, "Resume");
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        Log.d(TAG , "Pause");
+        Log.d(TAG, "Pause");
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-
-        Log.d(TAG , "Stop");
+        Log.d(TAG, "Stop");
     }
 
     @Override

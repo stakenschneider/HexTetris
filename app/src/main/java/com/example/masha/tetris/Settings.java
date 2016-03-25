@@ -9,6 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+
+import service.MyService;
+
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
 
@@ -17,6 +21,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
     Button bttnMenu , bttnSentence;
     Intent intent;
+    RadioButton radioButton;
     public EditText eTw , eTh;  //вот эти два поля куда вводим значения
     SharedPreferences sharedPreferences;
 
@@ -45,32 +50,44 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bttnSentence = (Button) findViewById(R.id.bttnSentence);
         bttnSentence.setOnClickListener(this);
 
+        radioButton = (RadioButton) findViewById(R.id.radioButton);
+
         loadText();
+        intent = new Intent (this, Main.class);
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttnMenu:
-                intent = new Intent (this, Main.class);
+
                 startActivity(intent);
+                finish();
                 break;
 
             case R.id.bttnSentence:
-                eTh.setText("" +(int)((2*scrh-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
+                eTh.setText("" +(int)((2*(scrh-30)-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
                 break;
+        }
+
+        if (radioButton.isChecked()) { // доделать мнгновенное срабатывание
+            stopService(new Intent(this, MyService.class));
+            radioButton.setText("micic on");
+        } else
+        {
+            startService(new Intent(this, MyService.class));
+            radioButton.setText("micic off");
         }
     }
 
 
-    public void saveText() //должен типо сохранять значения 
+    public void saveText() //должен типа сохранять значения
     {
 
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE); //создаем преференсис (MODE_PRIVATE для того что бы эти значения были только для одного приложения (хуйня не обращай внимания))
         Editor ed = sharedPreferences.edit(); //для изменения и редактирования и бла бла бда
 
-        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString())); //записываем в ключ ВЫСОТА значение уже переведенное в инт с поля куда вводили 
-
-        ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));  //таже нерабочая херня
+        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString())); //записываем в ключ ВЫСОТА значение уже переведенное в инт с поля куда вводили
+        ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
 
         ed.commit();  //сохраняем изменения - типо как в бд комит или apply разницы нет 
     }
@@ -79,9 +96,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     void loadText() { //функция которая ДОЛЖНА ВОЗВРАЩАТЬ ДОЛБАННЫЕ ЗНАЧЕНИЯ
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
 
-        //если такой ресурс существует то (сразу говорю тут ошибок нет, потому что и без ифа нихуя не работает)
         width = sharedPreferences.getInt(sWIDTH , 8 ); //получаем значение по ключу (если такого нет то 8)
-        height = sharedPreferences.getInt(sHEIGHT, 15); //аналогично
+        height = sharedPreferences.getInt(sHEIGHT, 16); //аналогично
     }
 
 

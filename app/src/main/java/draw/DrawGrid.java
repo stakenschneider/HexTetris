@@ -10,7 +10,6 @@ import static com.example.masha.tetris.Settings.width;
 import static com.example.masha.tetris.Settings.height;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
-import static com.example.masha.tetris.FigureCreating.hBttn;
 
 import java.util.List;
 
@@ -43,13 +42,13 @@ public class DrawGrid {
     int gridHeight = height;
 
 
+
     public void useBuilder(Canvas canvas , int act) //
     {
 
-        if (act == 0)
-        radius = radGame(); else  radius = radAdd();
-
-
+        if (gridHeight == 0) gridHeight = 15; //эти строчки надо удалить когда разберусь с preferen и переходами между activity
+        if (gridWidth == 0) gridWidth = 8;
+        radius = radGame();
 
         try {
             HexagonalGridBuilder builder = new HexagonalGridBuilder()
@@ -65,12 +64,12 @@ public class DrawGrid {
 
         for (Hexagon hexagon : hexagonalGrid.getHexagons()) {
             int[] array = new int[12];
-            drawPoly(canvas,convertToPointsArr(hexagon.getPoints(),array));
+            drawPoly(canvas,convertToPointsArr(hexagon.getPoints(),array) , act);
         }
     }
 
 
-    private void drawPoly(Canvas canvas, int[] array) {
+    private void drawPoly(Canvas canvas, int[] array , int act) {
 
         if (array.length < 12)
             return;
@@ -90,6 +89,18 @@ public class DrawGrid {
         polyPath.lineTo(array[0], array[1]);
 
         canvas.drawPath(polyPath, p);
+
+        p.setStrokeWidth(1);
+        p.setStyle(Style.FILL_AND_STROKE);
+        p.setTextSize(40);
+
+        if (act == 0)
+        canvas.drawText("score:" , 30 , (float)scrh-15, p);
+        else
+        {
+            canvas.drawText("add" , 30 , (float)scrh-15, p);
+            canvas.drawText("play" , (float)scrw/2 , (float)scrh-15, p);
+        }
     }
 
 
@@ -108,26 +119,14 @@ public class DrawGrid {
     {
         radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
 
-        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > scrh && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
-            radius = scrh / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
-        else if ((radius*( gridHeight + ((gridHeight+1) /2))) > scrh && gridHeight % 2 != 0) //если больше и кол во нч
-            radius = scrh / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
+        int dfkj = 50; //отступ для score или
+        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > (scrh-dfkj) && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
+            radius = (scrh-dfkj) / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
+        else if ((radius*( gridHeight + ((gridHeight+1) /2))) > (scrh-dfkj) && gridHeight % 2 != 0) //если больше и кол во нч
+            radius = (scrh-dfkj) / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
 
         return radius;
     }
 
-
-    public double radAdd()
-    {
-
-        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
-
-        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > (scrh- 2*hBttn) && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
-            radius = (scrh- 2*hBttn) / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
-        else if ((radius*( gridHeight + ((gridHeight+1) /2))) > (scrh- 2*hBttn) && gridHeight % 2 != 0) //если больше и кол во нч
-            radius = (scrh- 2*hBttn) / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
-
-        return radius;
-    }
 
 }

@@ -38,13 +38,13 @@ public final class HexagonalGridImpl implements HexagonalGrid {
         this.hexagonStorage = builder.getCustomStorage();
         this.coordinates = builder.getGridLayoutStrategy().fetchGridCoordinates(builder);
     }
-       
+
 
     @Override
     public Iterable<Hexagon> getHexagons() {
         ArrayList <Hexagon> Hexagons = new  ArrayList();
         Iterator<AxialCoordinate> iterator = coordinates.iterator();
-         do {
+        do {
             Hexagons.add(newHexagon(gridData,iterator.next(), hexagonStorage));
         } while(iterator.hasNext());
         return Hexagons;
@@ -71,8 +71,8 @@ public final class HexagonalGridImpl implements HexagonalGrid {
         ArrayList<Hexagon> Hexagons = new ArrayList();
         for (int x = gridXFrom; x <= gridXTo; x++) {
             for (int y = gridYFrom; y <= gridYTo; y++) {
-                final int axialX = CoordinateConverter.convertOffsetCoordinatesToAxialX(x, y, gridData.getOrientation());
-                final int axialZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(x, y, gridData.getOrientation());
+                final int axialX = CoordinateConverter.convertOffsetCoordinatesToAxialX(x, y);
+                final int axialZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(x, y);
                 if(getByAxialCoordinate(fromCoordinates(axialX, axialZ)).isPresent())
                 {
                     Hexagons.add(getByAxialCoordinate(fromCoordinates(axialX, axialZ)).get());
@@ -86,11 +86,11 @@ public final class HexagonalGridImpl implements HexagonalGrid {
 
     @Override
     public boolean containsAxialCoordinate(final AxialCoordinate coordinate) {
-         for( AxialCoordinate neighbor : this.coordinates)
-         {
-           if ((coordinate.getGridX()==neighbor.getGridX())&&(coordinate.getGridZ()==neighbor.getGridZ()))
-               return true;        
-         }
+        for( AxialCoordinate neighbor : this.coordinates)
+        {
+            if ((coordinate.getGridX()==neighbor.getGridX())&&(coordinate.getGridZ()==neighbor.getGridZ()))
+                return true;
+        }
         return false;
     }
 
@@ -105,8 +105,8 @@ public final class HexagonalGridImpl implements HexagonalGrid {
     public Optional<Hexagon> getByPixelCoordinate(final double coordinateX, final double coordinateY) {
         int estimatedGridX = (int) (coordinateX / gridData.getHexagonWidth());
         int estimatedGridZ = (int) (coordinateY / gridData.getHexagonHeight());
-        estimatedGridX = CoordinateConverter.convertOffsetCoordinatesToAxialX(estimatedGridX, estimatedGridZ, gridData.getOrientation());
-        estimatedGridZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(estimatedGridX, estimatedGridZ, gridData.getOrientation());
+        estimatedGridX = CoordinateConverter.convertOffsetCoordinatesToAxialX(estimatedGridX, estimatedGridZ);
+        estimatedGridZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(estimatedGridX, estimatedGridZ);
         // it is possible that the estimated coordinates are off the grid so we
         // create a virtual hexagon
         final AxialCoordinate estimatedCoordinate = fromCoordinates(estimatedGridX, estimatedGridZ);
@@ -114,7 +114,7 @@ public final class HexagonalGridImpl implements HexagonalGrid {
 
 
         Hexagon trueHex = refineHexagonByPixel(tempHex, fromPosition(coordinateX, coordinateY));
-        
+
 
         if (hexagonsAreAtTheSamePosition(tempHex, trueHex)) {
             return getByAxialCoordinate(estimatedCoordinate);
@@ -137,11 +137,6 @@ public final class HexagonalGridImpl implements HexagonalGrid {
             }
         }
         return neighbors;
-    }
-
-    @Override
-    public void clearSatelliteData() {
-        hexagonStorage.clear();
     }
 
     @Override

@@ -53,8 +53,8 @@
         android:id="@+id/bttnTutorial"
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
-        android:layout_below="@+id/bttnGoogle"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bttnPlay" />
 
     <Button
         android:layout_width="match_parent"
@@ -76,42 +76,8 @@
         android:layout_gravity="center_horizontal"
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
-        android:layout_below="@+id/bttnTwitter"
-        android:layout_alignParentLeft="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/twitter"
-        android:id="@+id/bttnTwitter"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/bttnFacebook"
-        android:layout_alignParentLeft="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/google"
-        android:id="@+id/bttnGoogle"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/bttnPlay"
-        android:layout_alignParentLeft="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/facebook"
-        android:id="@+id/bttnFacebook"
-        android:enabled="true"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/bttnTutorial"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bttnTutorial" />
 
     <Button
         android:layout_width="match_parent"
@@ -122,6 +88,40 @@
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
         android:layout_below="@+id/bttnSettings"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/google"
+        android:id="@+id/bttnGoogle"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_below="@+id/bttnAdd"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/facebook"
+        android:id="@+id/bttnFB"
+        android:enabled="true"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_below="@+id/bttnGoogle"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/twitter"
+        android:id="@+id/bttnTwitter"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_below="@+id/bttnFB"
         android:layout_centerHorizontal="true" />
 
 
