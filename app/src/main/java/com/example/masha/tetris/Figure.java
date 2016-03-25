@@ -99,6 +99,7 @@ public class Figure {
             if (currentrow<minrow||minrow==-1)
             {
                 minrow = currentrow;
+
             }
         } while(iterator.hasNext());
         OffsetCoordinate offsetCoordinate = new OffsetCoordinate(mincol,minrow);
