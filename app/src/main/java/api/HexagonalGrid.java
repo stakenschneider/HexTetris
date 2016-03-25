@@ -23,4 +23,5 @@ public interface HexagonalGrid {
 
     Iterable<Hexagon> getNeighborsOf(Hexagon hexagon);
 
+    void clearSatelliteData();
 }

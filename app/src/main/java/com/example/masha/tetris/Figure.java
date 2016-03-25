@@ -45,6 +45,7 @@ public class Figure {
         int firstcol;
         int firstrow;
         OffsetCoordinate offsetCoordinate = placeFirst();
+<<<<<<< HEAD
         if ((maxcol-offsetCoordinate.col) % 2 == 0)
         {
             dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2)-1);
@@ -53,6 +54,16 @@ public class Figure {
         {
             dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2));
         }
+=======
+            if ((maxcol-offsetCoordinate.col) % 2 == 0)
+            {
+                dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2)-1);
+            }
+            else
+            {
+                dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2));
+            }
+>>>>>>> origin/master
         firstrow = Hexagons.get(0).getGridZ()- offsetCoordinate.row;
         firstcol = convertToCol(Hexagons.get(0).getGridX(), Hexagons.get(0).getGridZ())- dx;
         firstcol = convertOffsetCoordinatesToAxialX(firstcol,firstrow);
@@ -109,4 +120,8 @@ public class Figure {
     {
         return quantity;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
