@@ -37,7 +37,6 @@ public class FigureCreating extends AppCompatActivity implements View.OnTouchLis
         protected void onDraw(Canvas canvas) {
             canvas.drawRGB(11, 25, 25);
             DrawGrid d = new DrawGrid();
-            d.useBuilder(canvas , 1);
         }
     }
 

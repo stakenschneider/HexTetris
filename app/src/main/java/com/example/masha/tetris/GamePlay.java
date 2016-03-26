@@ -4,21 +4,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import draw.DrawGrid;
 
 
-public class GamePlay extends AppCompatActivity implements OnTouchListener {
+public class GamePlay extends AppCompatActivity  {
 
-    float x, y;
     boolean inTouch = false;
+    DrawGrid d;
     int downPI = 0, upPI = 0;
+    private static final String TAG = "myLogs";
+    String movement = "START";
+    CanvasView view;
+
+
     TextView t;
 
     @Override
@@ -26,9 +34,52 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(new CanvasView(this));
+        view = new CanvasView(this);
+
+        view.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, final MotionEvent e) {
+                gd.onTouchEvent(e);
+                return true;
+            }
+        });
+        setContentView(view);
+    }
 
 
+    private final GestureDetector gd = new GestureDetector(new GestureListener());
+
+    private static final int DISTANCE = 100;
+    private static final int VELOCITY = 200;
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if(e1.getX() - e2.getX() > DISTANCE && Math.abs(velocityX) > VELOCITY) {
+                movement = "LEFT";
+                view.invalidate();
+                return false;
+            }
+            if (e2.getX() - e1.getX() > DISTANCE && Math.abs(velocityX) > VELOCITY) {
+                movement = "RIGHT";
+                view.invalidate();
+                return false;
+            }
+            if (e2.getY() - e1.getY() > DISTANCE && Math.abs(velocityY) > VELOCITY)
+            {
+                Log.d(TAG, "dsafasf");
+                movement = "DOWN";
+                view.invalidate();
+                return false;
+            }
+            if (e1.getY() - e2.getY() > DISTANCE && Math.abs(velocityY) > VELOCITY)
+            {
+                Log.d(TAG, "dsafasf");
+                movement = "DOWN";
+                view.invalidate();
+                return false;
+            }
+            return false;
+        }
     }
 
 
@@ -36,71 +87,24 @@ public class GamePlay extends AppCompatActivity implements OnTouchListener {
 
         public CanvasView(Context context) {
             super(context);
+            d = new DrawGrid();
         }
+
 
         @Override
         protected void onDraw(Canvas canvas) {
             canvas.drawRGB(11, 25, 25);
-            DrawGrid d = new DrawGrid();
-            d.useBuilder(canvas , 0);
-
+            d.useBuilder(canvas,movement);
         }
     }
 
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
 
-        x = event.getX();
-        y = event.getY();
-
-        int actionMask = event.getActionMasked();   //событие
-        int pointerIndex = event.getActionIndex();  //индекс касания
-        int pointerCount = event.getPointerCount(); //число касаний
-
-
-        switch (actionMask) {
-            case MotionEvent.ACTION_DOWN: //нажатие первое
-                inTouch = true;
-//                break;
-
-            case MotionEvent.ACTION_POINTER_DOWN: //нажатие больше 1
-                downPI = pointerIndex;
-
-                if (pointerCount == 2)
-                {
-                    //поворот
-                }
-                break;
-
-
-            case MotionEvent.ACTION_UP: //отпускание последнего пальца
-                //ничего наверн
-                inTouch = false;
-//                break;
-
-            case MotionEvent.ACTION_POINTER_UP: //наверно отпускание любого пальца кроме последнего
-                //возвращение на ACTION_MOVE. ГО ТУ!
-                upPI = pointerIndex;
-                break;
-
-
-            case MotionEvent.ACTION_MOVE: //движение
-                //влево вправо перемещение фигуры
-
-
-                break;
-
-            case MotionEvent.ACTION_CANCEL: //хз но по-моему прописывать надо
-                //что то если ломается и опять же ИМХО
-
-                break;
-
-        }
-        return true;
-    }
 
 }
+
+
+
 
 
 

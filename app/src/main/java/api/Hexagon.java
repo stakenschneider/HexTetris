@@ -1,7 +1,8 @@
 package api;
 
 import java.util.List;
-import backport.Optional;
+
+import internal.impl.HexagonData;
 
 
 public interface Hexagon {
@@ -11,6 +12,10 @@ public interface Hexagon {
     List<Point> getPoints();
 
     AxialCoordinate getAxialCoordinate();
+
+    void setState(boolean state1 , boolean state2);
+
+    HexagonData getHexagonData();
 
     int getGridX();
 

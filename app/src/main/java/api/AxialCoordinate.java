@@ -6,8 +6,8 @@ import static java.lang.Integer.parseInt;
 
 public final class AxialCoordinate  {
 
-    private final int gridX;
-    private final int gridZ;
+    private int gridX;
+    private int gridZ;
 
     public AxialCoordinate(final int gridX, final int gridZ) {
         this.gridX = gridX;
@@ -38,6 +38,17 @@ public final class AxialCoordinate  {
     public static AxialCoordinate fromCoordinates(final int gridX, final int gridZ) {
         return new AxialCoordinate(gridX, gridZ);
     }
+
+    public void setGridX (int x)
+    {
+        gridX = x;
+    }
+
+    public void setGridZ (int z)
+    {
+        gridZ = z;
+    }
+
 
     public String toKey() {
         return gridX + "," + gridZ;
