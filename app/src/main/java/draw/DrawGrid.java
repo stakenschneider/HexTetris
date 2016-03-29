@@ -112,12 +112,8 @@ public class DrawGrid {
             int[] array = new int[12];
             if ((hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).isPresent())&(hexagon.partOfLocked!=true)) {
                 drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).get().getPoints(), array), 0, 250, Style.FILL_AND_STROKE);
-                Log.d("V", Integer.toString(hexagon.coordinate.getGridZ() % 2));
-                Log.d("D", Integer.toString(hexagon.coordinate.getGridZ()));
-                Log.d("PIska", Integer.toString(hexagon.X));
                 if ((hexagon.coordinate.getGridZ()%2==1)) {
                     if ((hexagon.coordinate.getGridZ() == height - 1) || (hexagon.X == width-1  ) || (hexagon.X == 0)) {
-                        Log.d("D", "Peppa");
                         for (HexagonData data : hexagonalGrid.getHexagonStorage()) {
 
                             data.partOfLocked = true;
@@ -125,7 +121,6 @@ public class DrawGrid {
                     }
                 }
                 else { if ((hexagon.coordinate.getGridZ() == height - 1) || (hexagon.X == width -3 ) || (hexagon.X == -1)) {
-                    Log.d("D", "George");
                     for (HexagonData data : hexagonalGrid.getHexagonStorage()) {
                         data.partOfLocked = true;
                     }
