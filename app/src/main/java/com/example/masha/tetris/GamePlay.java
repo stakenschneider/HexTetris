@@ -19,7 +19,6 @@ import draw.DrawGrid;
 
 public class GamePlay extends AppCompatActivity{
 
-    private final GestureDetector gd = new GestureDetector(new GestureListener());
 
     private static final int DISTANCE = 100;
     private static final int VELOCITY = 200;

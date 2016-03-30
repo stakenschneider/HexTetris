@@ -61,10 +61,10 @@ public class DrawGrid {
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             controller = new Controller(builder.getCustomStorage());
         } catch (HexagonalGridCreationException e) {}
-        AxialCoordinate ax = new AxialCoordinate(1, 1);
-        AxialCoordinate ax1 = new AxialCoordinate(1, 2);
-        AxialCoordinate ax2 = new AxialCoordinate(1, 3);
-        AxialCoordinate ax3 = new AxialCoordinate(1, 4);
+        AxialCoordinate ax = new AxialCoordinate(1, 2);
+        AxialCoordinate ax1 = new AxialCoordinate(3, 2);
+        AxialCoordinate ax2 = new AxialCoordinate(4, 2);
+        AxialCoordinate ax3 = new AxialCoordinate(2, 2);
         ArrayList<Hexagon> hex = new ArrayList();
         hex.add(hexagonalGrid.getByAxialCoordinate(ax).get());
         hex.add(hexagonalGrid.getByAxialCoordinate(ax1).get());

@@ -1,5 +1,7 @@
 package com.example.masha.tetris;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import api.HexagonalGrid;
@@ -21,34 +23,68 @@ public class Controller {
     public ArrayList<HexagonData> moveDownRight(HexagonalGrid hexagonalGrid)
     {
         for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++) {
-            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
-            if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX(), dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+            if (!checkDownRight(i,hexagonalGrid))
             {
-                for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
-                    dataMap.get(j).partOfLocked = true;
+                for (int j = dataMap.size() - lastFigure; j < i; j++)
+                    dataMap.get(j).coordinate.setGridZ(dataMap.get(j).coordinate.getGridZ() - 1);
                 lastFigure = 0;
                 break;
             }
+            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
+            if (!checkDownLeft(i, hexagonalGrid)) 
+                lastFigure = 0;
+
         }
         return dataMap;
     }
 
+    private boolean checkDownRight (int i, HexagonalGrid hexagonalGrid )
+    {
+        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX(), dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+        {
+            for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
+                dataMap.get(j).partOfLocked = true;
+            return false;
+        }
+        return true;
+    }
+
+
     public ArrayList<HexagonData> moveDownLeft(HexagonalGrid hexagonalGrid)
     {
         for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++){
-            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
-            dataMap.get(i).coordinate.setGridX(dataMap.get(i).coordinate.getGridX() - 1);
-            if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX(), dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+            if (!checkDownLeft(i, hexagonalGrid))
             {
-                for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
-                    dataMap.get(j).partOfLocked = true;
+                for (int j = dataMap.size() - lastFigure; j < i; j++)
+                {
+                    dataMap.get(j).coordinate.setGridZ(dataMap.get(j).coordinate.getGridZ() - 1);
+                    dataMap.get(j).coordinate.setGridX(dataMap.get(j).coordinate.getGridX() + 1);
+                }
                 lastFigure = 0;
                 break;
             }
+            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
+            dataMap.get(i).coordinate.setGridX(dataMap.get(i).coordinate.getGridX() - 1);
+            if (!checkDownRight(i, hexagonalGrid))
+                lastFigure = 0;
+
+
     }
 
         return dataMap;
     }
+
+    private boolean checkDownLeft (int i, HexagonalGrid hexagonalGrid )
+    {
+        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX()-1, dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+        {
+            for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
+                dataMap.get(j).partOfLocked = true;
+            return false;
+        }
+        return true;
+    }
+
 
 
     public ArrayList<HexagonData> moveRight(HexagonalGrid hexagonalGrid)
