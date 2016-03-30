@@ -77,7 +77,6 @@ public class DrawGrid {
         hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(3))).get().setState(true, false);
         controller.lastFigure = 4;
 
-
     }
 
 
@@ -85,18 +84,25 @@ public class DrawGrid {
 
         switch (movement) {
             case "UP":
+                hexagonalGrid.setHexagonStorage(controller.rotation());
                 break;
 
-            case "DOWN":
-                hexagonalGrid.setHexagonStorage(controller.movedown(hexagonalGrid));
+                
+            case "DOWN_RIGHT":
+                hexagonalGrid.setHexagonStorage(controller.moveDownRight());
+                break;
+
+            case "DOWN_LEFT":
+                hexagonalGrid.setHexagonStorage(controller.moveDownLeft());
                 break;
 
             case "RIGHT":
                 hexagonalGrid.setHexagonStorage(controller.moveright(hexagonalGrid));
+                hexagonalGrid.setHexagonStorage(controller.moveRight());
                 break;
 
             case "LEFT":
-                hexagonalGrid.setHexagonStorage(controller.moveleft(hexagonalGrid));
+                hexagonalGrid.setHexagonStorage(controller.moveLeft());
                 break;
         }
 
