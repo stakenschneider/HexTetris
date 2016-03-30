@@ -5,13 +5,12 @@ import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import service.MyService; 
+import service.MyService;
 
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
@@ -19,7 +18,7 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnMenu , bttnSentence , bttnAdd;
+    Button bttnMenu , bttnSentence;
     Intent intent;
     RadioButton radioButton;
 
@@ -49,9 +48,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bttnSentence = (Button) findViewById(R.id.bttnSentence);
         bttnSentence.setOnClickListener(this);
 
-        bttnAdd = (Button) findViewById(R.id.bttnAdd);
-        bttnAdd.setOnClickListener(this);
-
         radioButton = (RadioButton) findViewById(R.id.radioButton);
 
         loadText();
@@ -65,11 +61,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 startActivity(intent);
                 loadText();
                 finish();
-                break;
-
-            case R.id.bttnAdd:
-                intent = new Intent (this, FigureCreating.class);
-                startActivity(intent);
                 break;
 
             case R.id.bttnSentence:
@@ -112,6 +103,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onPause(){
         saveText();
+        loadText();
         super.onPause();
     }
 

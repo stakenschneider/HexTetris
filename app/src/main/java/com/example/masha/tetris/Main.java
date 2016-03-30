@@ -53,9 +53,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         bttnExit = (Button) findViewById(R.id.bttnExit);
         bttnExit.setOnClickListener(this);
 
-        bttnAdd = (Button) findViewById(R.id.bttnAdd);
-        bttnAdd.setOnClickListener(this);
-
         scrh = screenSizeH();
         scrw = screenSizeW();
 
@@ -96,7 +93,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             case R.id.bttnExit:
                 finish();
                 break;
-
 
             case R.id.bttnFB:
                 toast = Toast.makeText(getApplicationContext(), "FaceBook", Toast.LENGTH_SHORT);

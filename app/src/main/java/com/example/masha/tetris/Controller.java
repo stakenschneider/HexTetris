@@ -1,7 +1,5 @@
 package com.example.masha.tetris;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import internal.impl.HexagonData;
