@@ -104,7 +104,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
     }
 
     @Override
-    public Optional<Hexagon> getByAxialCoordinate(final AxialCoordinate coordinate) {
+    public  Optional<Hexagon> getByAxialCoordinate(final AxialCoordinate coordinate) {
         return containsAxialCoordinate(coordinate)
                 ? Optional.of(newHexagon(gridData, coordinate, hexagonStorage))
                 : Optional.empty();

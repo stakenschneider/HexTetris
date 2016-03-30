@@ -87,8 +87,8 @@ public class GamePlay extends AppCompatActivity  {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            canvas.drawRGB(11, 25, 25);
-            d.useBuilder(canvas , movement , 0);
+
+            d.useBuilder(canvas, movement);
         }
     }
 }

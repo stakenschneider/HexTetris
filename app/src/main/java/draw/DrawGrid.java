@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.example.masha.tetris.Controller;
 import com.example.masha.tetris.Figure;
 
+import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
 import api.Hexagon;
 import api.HexagonOrientation;
@@ -35,7 +36,7 @@ public class DrawGrid {
 
     private static final HexagonOrientation DEFAULT_ORIENTATION = POINTY_TOP;
     private static final HexagonalGridLayout DEFAULT_GRID_LAYOUT = RECTANGULAR;
-    private HexagonalGrid hexagonalGrid;
+    public HexagonalGrid hexagonalGrid;
     private HexagonalGridCalculator hexagonalGridCalculator;
     private Controller controller;
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
@@ -60,64 +61,63 @@ public class DrawGrid {
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             controller = new Controller(builder.getCustomStorage());
         } catch (HexagonalGridCreationException e) {}
+        AxialCoordinate ax = new AxialCoordinate(1, 1);
+        AxialCoordinate ax1 = new AxialCoordinate(1, 2);
+        AxialCoordinate ax2 = new AxialCoordinate(1, 3);
+        AxialCoordinate ax3 = new AxialCoordinate(1, 4);
+        ArrayList<Hexagon> hex = new ArrayList();
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax2).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax3).get());
+        Figure figure = new Figure(hex);
+        hexagonalGrid.getByAxialCoordinate(figure.convertToGrid(gridWidth)).get().setState(true, false);
+        hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(1))).get().setState(true, false);
+        hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(2))).get().setState(true, false);
+        hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(3))).get().setState(true, false);
+        controller.lastFigure = 4;
+
 
     }
 
 
-    public void useBuilder(Canvas canvas, String movement , int act) {
+    public void useBuilder(Canvas canvas, String movement) {
 
         switch (movement) {
             case "UP":
                 break;
 
             case "DOWN":
-                hexagonalGrid.setHexagonStorage(controller.movedown());
+                hexagonalGrid.setHexagonStorage(controller.movedown(hexagonalGrid));
                 break;
 
             case "RIGHT":
-                hexagonalGrid.setHexagonStorage(controller.moveright());
+                hexagonalGrid.setHexagonStorage(controller.moveright(hexagonalGrid));
                 break;
 
             case "LEFT":
-                hexagonalGrid.setHexagonStorage(controller.moveleft());
+                hexagonalGrid.setHexagonStorage(controller.moveleft(hexagonalGrid));
                 break;
         }
 
-        for (Hexagon hexagon : hexagonalGrid.getHexagons()) { //сетка
-            int[] array = new int[12];
-            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), 250, 175 ,  6, Style.STROKE, act);
-        }
 
+        canvas.drawRGB(11, 25, 25);
+        for (Hexagon hexagon : hexagonalGrid.getHexagons()) {//сетка
+            int[] array = new int[12];
+            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), 250, 175 ,  6, Style.STROKE);
+        }
         for (HexagonData hexagon : hexagonalGrid.getHexagonStorage()) {
             int[] array = new int[12];
-
-            if ((hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).isPresent())&(hexagon.partOfLocked == false)) {
-
-                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).get().getPoints(), array), 250, 175, 6, Style.FILL, act); //фигруа
-
-                if ((hexagon.coordinate.getGridZ()%2==1)) {
-                    if ((hexagon.coordinate.getGridZ() == height - 1) || (hexagon.X == width-1  ) || (hexagon.X == 0))
-                        for (HexagonData data : hexagonalGrid.getHexagonStorage())
-                            data.partOfLocked = true;
-                }
-                else  if ((hexagon.coordinate.getGridZ() == height - 1) || (hexagon.X == width -3 ) || (hexagon.X == -1))
-                    for (HexagonData data : hexagonalGrid.getHexagonStorage())
-                        data.partOfLocked = true;
-
-
-            }
-        }
-
-        for (HexagonData hexagon : hexagonalGrid.getHexagonStorage()) {
-            int[] array = new int[12];
-            if ((hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).isPresent()) & (hexagon.partOfLocked == true))
-                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).get().getPoints(), array), 233,219,  193, Style.FILL_AND_STROKE , act);
+            if (hexagon.partOfLocked == false) {
+                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).get().getPoints(), array), 250, 175, 6, Style.FILL); //фигруа
+            } else
+                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).get().getPoints(), array), 233,219,  193, Style.FILL_AND_STROKE);
         }
     }
 
 
 
-    private void drawPoly(Canvas canvas, int[] array, int color, int color15 , int color1,  Style style , int act) {
+    private void drawPoly(Canvas canvas, int[] array, int color, int color15 , int color1,  Style style) {
 
         if (array.length < 12)
             return;
@@ -137,14 +137,7 @@ public class DrawGrid {
         p.setStrokeWidth(1);
         p.setStyle(Style.FILL_AND_STROKE);
         p.setTextSize(40);
-
-        if (act == 0)
-            canvas.drawText("score:" , 30 , (float)scrh-15, p);
-        else
-        {
-            canvas.drawText("add" , 30 , (float)scrh-15, p);
-            canvas.drawText("play" , (float)scrw/2 , (float)scrh-15, p);
-        }
+        canvas.drawText("score:", 30, (float) scrh - 15, p);
     }
 
 
