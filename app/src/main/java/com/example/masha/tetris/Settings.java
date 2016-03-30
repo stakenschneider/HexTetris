@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import service.MyService;
+import service.MyService; 
 
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
