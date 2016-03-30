@@ -80,17 +80,6 @@
         android:layout_below="@+id/bttnTutorial" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btnadd"
-        android:id="@+id/bttnAdd"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/bttnSettings"
-        android:layout_alignParentStart="true" />
-
-    <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,8 +87,9 @@
         android:id="@+id/bttnGoogle"
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
-        android:layout_below="@+id/bttnAdd"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/bttnSettings"
+        android:visibility="invisible" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -111,7 +101,8 @@
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
         android:layout_below="@+id/bttnGoogle"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -122,7 +113,8 @@
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
         android:layout_below="@+id/bttnFB"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>

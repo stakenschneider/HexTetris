@@ -15,7 +15,6 @@ import draw.DrawGrid;
 public class FigureCreating extends AppCompatActivity implements View.OnTouchListener {
 
     float x = 0 , y = 0;
-//    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +22,8 @@ public class FigureCreating extends AppCompatActivity implements View.OnTouchLis
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(new CanvasView(this));
-
-
     }
+
 
     class CanvasView extends View {
 
@@ -37,7 +35,7 @@ public class FigureCreating extends AppCompatActivity implements View.OnTouchLis
         protected void onDraw(Canvas canvas) {
             canvas.drawRGB(11, 25, 25);
             DrawGrid d = new DrawGrid();
-            d.useBuilder(canvas , 1);
+            d.useBuilder(canvas , "ADD" , 1);
         }
     }
 
@@ -56,8 +54,6 @@ public class FigureCreating extends AppCompatActivity implements View.OnTouchLis
             case MotionEvent.ACTION_CANCEL:
                 //не трогай
                 break;
-
-
         }
 
         return true;

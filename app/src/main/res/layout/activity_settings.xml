@@ -104,4 +104,14 @@
         android:textColor="@color/yell"
         android:checked="false" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Добавление фигур"
+        android:id="@+id/bttnAdd"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_below="@+id/bttnSentence"
+        android:layout_alignEnd="@+id/bttnSentence" />
+
 </RelativeLayout>

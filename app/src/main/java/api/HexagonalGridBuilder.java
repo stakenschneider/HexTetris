@@ -2,12 +2,12 @@ package api;
 
 import api.exception.HexagonalGridCreationException;
 import internal.GridData;
+import internal.impl.HexagonData;
 import internal.impl.HexagonalGridCalculatorImpl;
 import internal.impl.HexagonalGridImpl;
 import internal.impl.layoutstrategy.GridLayoutStrategy;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
 
 import static api.HexagonalGridLayout.RECTANGULAR;
 
@@ -16,7 +16,7 @@ public final class HexagonalGridBuilder {
     private int gridWidth;
     private int gridHeight;
     private double radius;
-    private Map<AxialCoordinate, Object> customStorage = new ConcurrentHashMap<>();
+    private ArrayList<HexagonData>  customStorage = new ArrayList<>();
     private HexagonOrientation orientation = HexagonOrientation.POINTY_TOP;
     private HexagonalGridLayout gridLayout = RECTANGULAR;
 
@@ -88,7 +88,7 @@ public final class HexagonalGridBuilder {
         return gridLayout.getGridLayoutStrategy();
     }
 
-    public Map<AxialCoordinate, Object> getCustomStorage() {
+    public ArrayList<HexagonData>  getCustomStorage() {
         return customStorage;
     }
 

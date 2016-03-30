@@ -19,15 +19,14 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnMenu , bttnSentence;
+    Button bttnMenu , bttnSentence , bttnAdd;
     Intent intent;
     RadioButton radioButton;
-    public EditText eTw , eTh;  //вот эти два поля куда вводим значения
+
     SharedPreferences sharedPreferences;
 
-    public static int height = 0 , width = 0 ; //соответствено значения которые надо получить
-
-    private static final String TAG = "myLogs"; //хуйня
+    public EditText eTw , eTh;
+    public static int height = 0 , width = 0 ;
 
     public static String MY_PREF = "MY_PREF"; //ресурс в виде хмл типо там у нас и хранятся эти значения
 
@@ -50,18 +49,27 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bttnSentence = (Button) findViewById(R.id.bttnSentence);
         bttnSentence.setOnClickListener(this);
 
+        bttnAdd = (Button) findViewById(R.id.bttnAdd);
+        bttnAdd.setOnClickListener(this);
+
         radioButton = (RadioButton) findViewById(R.id.radioButton);
 
         loadText();
-        intent = new Intent (this, Main.class);
     }
+
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttnMenu:
-
+                intent = new Intent (this, Main.class);
                 startActivity(intent);
+                loadText();
                 finish();
+                break;
+
+            case R.id.bttnAdd:
+                intent = new Intent (this, FigureCreating.class);
+                startActivity(intent);
                 break;
 
             case R.id.bttnSentence:
@@ -71,41 +79,40 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         if (radioButton.isChecked()) { // доделать мнгновенное срабатывание
             stopService(new Intent(this, MyService.class));
-            radioButton.setText("micic on");
+            radioButton.setText("music on");
         } else
         {
             startService(new Intent(this, MyService.class));
-            radioButton.setText("micic off");
+            radioButton.setText("music off");
         }
     }
 
 
-    public void saveText() //должен типа сохранять значения
+    public void saveText()
     {
 
-        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE); //создаем преференсис (MODE_PRIVATE для того что бы эти значения были только для одного приложения (хуйня не обращай внимания))
-        Editor ed = sharedPreferences.edit(); //для изменения и редактирования и бла бла бда
+        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
+        Editor ed = sharedPreferences.edit();
 
-        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString())); //записываем в ключ ВЫСОТА значение уже переведенное в инт с поля куда вводили
+        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
         ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
 
-        ed.commit();  //сохраняем изменения - типо как в бд комит или apply разницы нет 
+        ed.commit();
     }
 
 
-    void loadText() { //функция которая ДОЛЖНА ВОЗВРАЩАТЬ ДОЛБАННЫЕ ЗНАЧЕНИЯ
+    void loadText() {
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
 
-        width = sharedPreferences.getInt(sWIDTH , 8 ); //получаем значение по ключу (если такого нет то 8)
-        height = sharedPreferences.getInt(sHEIGHT, 16); //аналогично
+        width = sharedPreferences.getInt(sWIDTH , 8 );
+        height = sharedPreferences.getInt(sHEIGHT, 16);
     }
 
 
     @Override
     protected void onPause(){
-        saveText(); //если нажимаем кнопу меню или выходим из этой активити стрелочкой "иди нахуй" то вызываем сохранение 
+        saveText();
         super.onPause();
-        Log.d(TAG, "Settings Pause");
     }
 
 }

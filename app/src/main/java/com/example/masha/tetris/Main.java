@@ -93,11 +93,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
 
-            case R.id.bttnAdd:
-                intent = new Intent (this, FigureCreating.class);
-                startActivity(intent);
-                break;
-
             case R.id.bttnExit:
                 finish();
                 break;

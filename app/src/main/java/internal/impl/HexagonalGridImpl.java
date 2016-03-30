@@ -21,15 +21,14 @@ import static api.Point.fromPosition;
 import static internal.impl.HexagonImpl.newHexagon;
 
 
-@SuppressWarnings("PMD.UnusedPrivateField")
-public final class HexagonalGridImpl implements HexagonalGrid {
+public class HexagonalGridImpl implements HexagonalGrid {
 
     private static final int[][] NEIGHBORS = {{+1, 0}, {+1, -1}, {0, -1}, {-1, 0}, {-1, +1}, {0, +1}};
     private static final int NEIGHBOR_X_INDEX = 0;
     private static final int NEIGHBOR_Z_INDEX = 1;
 
     private final GridData gridData;
-    private final Map<AxialCoordinate, Object> hexagonStorage;
+    public ArrayList<HexagonData>  hexagonStorage;
     private final Set<AxialCoordinate> coordinates;
 
 
@@ -37,6 +36,16 @@ public final class HexagonalGridImpl implements HexagonalGrid {
         this.gridData = builder.getGridData();
         this.hexagonStorage = builder.getCustomStorage();
         this.coordinates = builder.getGridLayoutStrategy().fetchGridCoordinates(builder);
+    }
+
+    public void setHexagonStorage (ArrayList<HexagonData> storage)
+    {
+        hexagonStorage = storage;
+    }
+
+    public ArrayList<HexagonData> getHexagonStorage ()
+    {
+        return hexagonStorage;
     }
 
 
