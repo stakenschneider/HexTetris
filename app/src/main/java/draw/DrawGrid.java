@@ -83,11 +83,14 @@ public class DrawGrid {
     public void useBuilder(Canvas canvas, String movement) {
 
         switch (movement) {
-            case "UP":
-                hexagonalGrid.setHexagonStorage(controller.rotation(hexagonalGrid));
+            case "COUNTER_CLCK":
+                hexagonalGrid.setHexagonStorage(controller.rotationCounterClockwise());
                 break;
 
-                
+            case "CLCk":
+                hexagonalGrid.setHexagonStorage(controller.rotationClockwise());
+                break;
+
             case "DOWN_RIGHT":
                 hexagonalGrid.setHexagonStorage(controller.moveDownRight(hexagonalGrid));
                 break;
@@ -122,15 +125,18 @@ public class DrawGrid {
 
 
 
-    private void drawPoly(Canvas canvas, int[] array, int color, int color15 , int color1,  Style style) {
+    private void drawPoly(Canvas canvas, int[] array, int color, int color2 , int color3,  Style style) {
 
         if (array.length < 12)
             return;
 
         Paint p = new Paint();
-        p.setColor(Color.rgb(color, color15, color1));
+        p.setColor(Color.rgb(color, color2, color3));
         p.setStyle(style);
-        p.setStrokeWidth(5);
+        if (gridWidth > 15) {
+            p.setStrokeWidth(2);
+        }else if (gridWidth>30)p.setStrokeWidth(1); else p.setStrokeWidth(5);
+
         Path polyPath = new Path();
         polyPath.moveTo(array[0], array[1]); //первая точка
 
@@ -142,7 +148,8 @@ public class DrawGrid {
         p.setStrokeWidth(1);
         p.setStyle(Style.FILL_AND_STROKE);
         p.setTextSize(40);
-        canvas.drawText("score:", 30, (float) scrh - 15, p);
+        canvas.drawText("score:" /** + point*/, 30 , (float)scrh-15, p);
+
     }
 
 

@@ -83,7 +83,13 @@ public class Controller {
         return dataMap;
     }
 
-    public ArrayList<HexagonData> rotation(HexagonalGrid hexagonalGrid)
+    public ArrayList<HexagonData> rotationClockwise()
+    {
+
+        return dataMap;
+    }
+
+    public ArrayList<HexagonData> rotationCounterClockwise()
     {
 
         return dataMap;
