@@ -4,18 +4,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import draw.DrawGrid;
 
 
 public class GamePlay extends AppCompatActivity  {
 
+    boolean inTouch = false;
+    int downPI = 0, upPI = 0;
+    private static final String TAG = "myLogs";
+    
+    TextView t;
     private final GestureDetector gd = new GestureDetector(new GestureListener());
 
     private static final int DISTANCE = 100;
@@ -91,8 +99,6 @@ public class GamePlay extends AppCompatActivity  {
         }
     }
 }
-
-
 
 
 

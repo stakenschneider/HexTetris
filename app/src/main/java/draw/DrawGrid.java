@@ -159,7 +159,7 @@ public class DrawGrid {
     }
 
 
-   public double radGame()
+    public double radGame()
     {
         radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
         int dfkj = 50; //отступ для score или

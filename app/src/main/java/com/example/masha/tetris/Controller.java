@@ -1,6 +1,9 @@
 package com.example.masha.tetris;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+
 import internal.impl.HexagonData;
 
 
@@ -31,11 +34,14 @@ public class Controller {
     public ArrayList<HexagonData> moveright()
     {
         for (HexagonData data : dataMap)
+        {
             if (data.partOfLocked!=true) {
+
                 data.coordinate.setGridX(data.coordinate.getGridX() + 1);
                 data.X=data.X+1;
             }
 
+        }
         return dataMap;
     }
 
@@ -43,11 +49,13 @@ public class Controller {
     public ArrayList<HexagonData> moveleft()
     {
         for (HexagonData data : dataMap)
+        {
             if (data.partOfLocked!=true) {
+
                 data.coordinate.setGridX(data.coordinate.getGridX() - 1);
                 data.X = data.X-1;
             }
-
+        }
         return dataMap;
     }
 
