@@ -84,25 +84,24 @@ public class DrawGrid {
 
         switch (movement) {
             case "UP":
-                hexagonalGrid.setHexagonStorage(controller.rotation());
+                hexagonalGrid.setHexagonStorage(controller.rotation(hexagonalGrid));
                 break;
 
                 
             case "DOWN_RIGHT":
-                hexagonalGrid.setHexagonStorage(controller.moveDownRight());
+                hexagonalGrid.setHexagonStorage(controller.moveDownRight(hexagonalGrid));
                 break;
 
             case "DOWN_LEFT":
-                hexagonalGrid.setHexagonStorage(controller.moveDownLeft());
+                hexagonalGrid.setHexagonStorage(controller.moveDownLeft(hexagonalGrid));
                 break;
 
             case "RIGHT":
-                hexagonalGrid.setHexagonStorage(controller.moveright(hexagonalGrid));
-                hexagonalGrid.setHexagonStorage(controller.moveRight());
+                hexagonalGrid.setHexagonStorage(controller.moveRight(hexagonalGrid));
                 break;
 
             case "LEFT":
-                hexagonalGrid.setHexagonStorage(controller.moveLeft());
+                hexagonalGrid.setHexagonStorage(controller.moveLeft(hexagonalGrid));
                 break;
         }
 
@@ -114,7 +113,7 @@ public class DrawGrid {
         }
         for (HexagonData hexagon : hexagonalGrid.getHexagonStorage()) {
             int[] array = new int[12];
-            if (hexagon.partOfLocked == false) {
+            if (!hexagon.partOfLocked) {
                 drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).get().getPoints(), array), 250, 175, 6, Style.FILL); //фигруа
             } else
                 drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(hexagon.coordinate).get().getPoints(), array), 233,219,  193, Style.FILL_AND_STROKE);

@@ -2,6 +2,7 @@ package com.example.masha.tetris;
 
 import java.util.ArrayList;
 
+import api.HexagonalGrid;
 import internal.impl.HexagonData;
 import static api.AxialCoordinate.fromCoordinates;
 
@@ -17,34 +18,40 @@ public class Controller {
     }
 
 
-    public ArrayList<HexagonData> moveDownRight()
+    public ArrayList<HexagonData> moveDownRight(HexagonalGrid hexagonalGrid)
     {
-        for (HexagonData data : dataMap)
-            if (data.partOfLocked!=true)
-                data.coordinate.setGridZ(data.coordinate.getGridZ() + 1);
-        return dataMap;
-    }
-
-    public ArrayList<HexagonData> moveDownLeft()
-    {
-        for (HexagonData data : dataMap)
-            if (data.partOfLocked!=true) {
-                data.coordinate.setGridZ(data.coordinate.getGridZ() + 1);
-                data.coordinate.setGridX(data.coordinate.getGridX()-1);
+        for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++) {
+            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
+            if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX(), dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+            {
+                for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
+                    dataMap.get(j).partOfLocked = true;
+                lastFigure = 0;
+                break;
             }
-
-            else
-                {
-                    dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
-                    if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX()-1, dataMap.get(i).coordinate.getGridZ()+1)).isPresent())
-                       for (int j = dataMap.size()-lastFigure; j<dataMap.size(); j++) dataMap.get(j).partOfLocked=true;
-                }
         }
         return dataMap;
     }
 
+    public ArrayList<HexagonData> moveDownLeft(HexagonalGrid hexagonalGrid)
+    {
+        for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++){
+            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
+            dataMap.get(i).coordinate.setGridX(dataMap.get(i).coordinate.getGridX() - 1);
+            if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX(), dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+            {
+                for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
+                    dataMap.get(j).partOfLocked = true;
+                lastFigure = 0;
+                break;
+            }
+    }
 
-    public ArrayList<HexagonData> moveRight()
+        return dataMap;
+    }
+
+
+    public ArrayList<HexagonData> moveRight(HexagonalGrid hexagonalGrid)
     {
         for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++)
         {
@@ -61,7 +68,7 @@ public class Controller {
     }
 
 
-    public ArrayList<HexagonData> moveLeft()
+    public ArrayList<HexagonData> moveLeft(HexagonalGrid hexagonalGrid)
     {
         for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++)
         {
@@ -76,7 +83,7 @@ public class Controller {
         return dataMap;
     }
 
-    public ArrayList<HexagonData> rotation()
+    public ArrayList<HexagonData> rotation(HexagonalGrid hexagonalGrid)
     {
 
         return dataMap;
