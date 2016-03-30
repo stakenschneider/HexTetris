@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.example.masha.tetris.Controller;
 import com.example.masha.tetris.Figure;
 
+import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
 import api.Hexagon;
 import api.HexagonOrientation;
@@ -61,6 +62,22 @@ public class DrawGrid {
             controller = new Controller(builder.getCustomStorage());
         } catch (HexagonalGridCreationException e) {}
 
+        AxialCoordinate ax = new AxialCoordinate(1, 1);
+        AxialCoordinate ax1 = new AxialCoordinate(1, 2);
+        AxialCoordinate ax2 = new AxialCoordinate(1, 3);
+        AxialCoordinate ax3 = new AxialCoordinate(1, 4);
+
+        ArrayList<Hexagon> hex = new ArrayList();
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax2).get());
+        hex.add(hexagonalGrid.getByAxialCoordinate(ax3).get());
+
+        Figure figure = new Figure(hex);
+        hexagonalGrid.getByAxialCoordinate(figure.convertToGrid(gridWidth)).get().setState(true, false);
+        hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(1))).get().setState(true, false);
+        hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(2))).get().setState(true, false);
+        hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(3))).get().setState(true, false);
     }
 
 
@@ -68,18 +85,23 @@ public class DrawGrid {
 
         switch (movement) {
             case "UP":
+                hexagonalGrid.setHexagonStorage(controller.rotation());
                 break;
 
-            case "DOWN":
-                hexagonalGrid.setHexagonStorage(controller.movedown());
+            case "DOWN_RIGHT":
+                hexagonalGrid.setHexagonStorage(controller.moveDownRight());
+                break;
+
+            case "DOWN_LEFT":
+                hexagonalGrid.setHexagonStorage(controller.moveDownLeft());
                 break;
 
             case "RIGHT":
-                hexagonalGrid.setHexagonStorage(controller.moveright());
+                hexagonalGrid.setHexagonStorage(controller.moveRight());
                 break;
 
             case "LEFT":
-                hexagonalGrid.setHexagonStorage(controller.moveleft());
+                hexagonalGrid.setHexagonStorage(controller.moveLeft());
                 break;
         }
 

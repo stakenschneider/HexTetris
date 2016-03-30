@@ -50,7 +50,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         radioButton = (RadioButton) findViewById(R.id.radioButton);
 
-        loadText();
     }
 
 
@@ -106,5 +105,4 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         loadText();
         super.onPause();
     }
-
 }

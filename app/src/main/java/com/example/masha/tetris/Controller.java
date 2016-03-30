@@ -16,20 +16,27 @@ public class Controller {
     }
 
 
-    public ArrayList<HexagonData> movedown()
+    public ArrayList<HexagonData> moveDownRight()
+    {
+        for (HexagonData data : dataMap)
+            if (data.partOfLocked!=true)
+                data.coordinate.setGridZ(data.coordinate.getGridZ() + 1);
+        return dataMap;
+    }
+
+    public ArrayList<HexagonData> moveDownLeft()
     {
         for (HexagonData data : dataMap)
             if (data.partOfLocked!=true) {
                 data.coordinate.setGridZ(data.coordinate.getGridZ() + 1);
-                if (dataMap.get(0).coordinate.getGridZ()%2==0)
-                    data.coordinate.setGridX(data.coordinate.getGridX()-1);
+                data.coordinate.setGridX(data.coordinate.getGridX()-1);
             }
 
         return dataMap;
     }
 
 
-    public ArrayList<HexagonData> moveright()
+    public ArrayList<HexagonData> moveRight()
     {
         for (HexagonData data : dataMap)
         {
@@ -44,7 +51,7 @@ public class Controller {
     }
 
 
-    public ArrayList<HexagonData> moveleft()
+    public ArrayList<HexagonData> moveLeft()
     {
         for (HexagonData data : dataMap)
         {
@@ -54,6 +61,12 @@ public class Controller {
                 data.X = data.X-1;
             }
         }
+        return dataMap;
+    }
+
+    public ArrayList<HexagonData> rotation()
+    {
+
         return dataMap;
     }
 
