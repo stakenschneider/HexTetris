@@ -18,6 +18,10 @@ import draw.DrawGrid;
 
 public class GamePlay extends AppCompatActivity{
 
+
+    private static final int DISTANCE = 100;
+    private static final int VELOCITY = 200;
+
     DrawGrid d;
     String movement = "START";
     CanvasView view;
@@ -92,7 +96,6 @@ public class GamePlay extends AppCompatActivity{
 
         @Override
         protected void onDraw(Canvas canvas) {
-            canvas.drawRGB(11, 25, 25);
             d.useBuilder(canvas, movement);
         }
     }
