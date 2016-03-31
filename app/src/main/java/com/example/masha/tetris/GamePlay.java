@@ -13,7 +13,6 @@ import android.view.View.OnTouchListener;
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 
-
 import draw.DrawGrid;
 
 
