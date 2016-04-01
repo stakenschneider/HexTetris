@@ -32,6 +32,89 @@
             android:enabled="false"
             android:layout_gravity="center_horizontal" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/play"
+            android:id="@+id/bttnPlay"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell"
+            android:layout_below="@+id/login_layout"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="82dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/twt"
+            android:id="@+id/bttnTutorial"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/bttnPlay" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sett"
+            android:id="@+id/bttnSettings"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/bttnTutorial" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/twitter"
+            android:id="@+id/bttnTwitter"
+            android:background="@color/darkGreen"
+            android:textColor="@color/yell"
+            android:layout_below="@+id/bttnFB"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <EditText
+            android:id="@+id/share_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/darkGreen"
+            android:inputType="textMultiLine"
+            android:minLines="5"
+            android:padding="10dp"
+            android:textColor="@color/yell"
+            />
+
+        <Button
+        android:id="@+id/btn_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+            android:background="@color/darkGreen"
+            android:text="@string/share_btn"
+            android:textColor="@color/yell"/>
+
+        <Button
+            android:id="@+id/btn_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/darkGreen"
+            android:text="@string/share_btn"
+            android:textColor="@color/yell"
+            />
     </LinearLayout>
 
     <Button
@@ -44,77 +127,9 @@
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/login_layout" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/twt"
-        android:id="@+id/bttnTutorial"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bttnPlay" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/play"
-        android:id="@+id/bttnPlay"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/login_layout"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="82dp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sett"
-        android:id="@+id/bttnSettings"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bttnTutorial" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/google"
-        android:id="@+id/bttnGoogle"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/bttnSettings"
-        android:visibility="invisible" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/facebook"
-        android:id="@+id/bttnFB"
-        android:enabled="true"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/bttnGoogle"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/twitter"
-        android:id="@+id/bttnTwitter"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/bttnFB"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
+
+

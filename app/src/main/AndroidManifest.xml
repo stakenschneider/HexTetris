@@ -11,22 +11,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service android:enabled="true" android:name="service.MyService" />
-
+        <service
+            android:name="service.MyService"
+            android:enabled="true" />
 
         <activity android:name=".Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".GamePlay" />
         <activity android:name=".Settings" />
         <activity android:name=".WebViewActivity" />
         <activity android:name=".FigureCreating" />
-        <activity android:name=".Start"></activity>
+        <activity android:name=".Start" />
+        <activity android:name=".Twitter"></activity>
     </application>
 
 </manifest>
