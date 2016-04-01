@@ -12,7 +12,6 @@ import static api.CoordinateConverter.convertOffsetCoordinatesToAxialX;
 
 public class Figure {
 
-
     private class OffsetCoordinate
     {
         public int col , row;

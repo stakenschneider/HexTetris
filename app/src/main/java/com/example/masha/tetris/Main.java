@@ -21,7 +21,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     Intent intent;
     Toast toast;
 
-    private static final String MY_SETTINGS = "my_settings" ,  TAG = "myLogs";
+    private static final String MY_SETTINGS = "my_settings";
     public static double scrh = 0 , scrw = 0 ;
 
 
@@ -111,36 +111,37 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+
     @Override
     protected void onStart(){
         super.onStart();
-        Log.d(TAG, "Start");
     }
+
 
     @Override
     protected void onResume(){
         super.onResume();
-        Log.d(TAG, "Resume");
     }
+
 
     @Override
     protected void onPause(){
         super.onPause();
-        Log.d(TAG, "Pause");
     }
+
 
     @Override
     protected void onStop(){
         super.onStop();
-        Log.d(TAG, "Stop");
     }
+
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
         stopService(new Intent(this, MyService.class));
-        Log.d(TAG, "Destroy");
     }
+
 
     public double screenSizeW()
     {
@@ -150,6 +151,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         return  metricsB.widthPixels;
     }
+
 
     public double screenSizeH()
     {

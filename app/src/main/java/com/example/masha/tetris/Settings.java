@@ -33,7 +33,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public static final String sHEIGHT = "height";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +79,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
     public void saveText()
     {
-
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
         Editor ed = sharedPreferences.edit();
 
