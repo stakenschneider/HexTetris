@@ -17,11 +17,11 @@ import service.MyService;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle, bttnExit, bttnAdd;
+    Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter, bttnFB, bttnGoogle, bttnExit;
     Intent intent;
     Toast toast;
 
-    private static final String MY_SETTINGS = "my_settings" ,  TAG = "myLogs";;
+    private static final String MY_SETTINGS = "my_settings" ,  TAG = "myLogs";
     public static double scrh = 0 , scrw = 0 ;
 
 

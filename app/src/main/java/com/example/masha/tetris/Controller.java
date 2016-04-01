@@ -1,7 +1,5 @@
 package com.example.masha.tetris;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import api.HexagonalGrid;
@@ -13,6 +11,8 @@ public class Controller {
 
     private  ArrayList<HexagonData> dataMap; //лист падающих фигур
     public int lastFigure;
+
+
     public Controller( ArrayList<HexagonData> dataMap)
     {
         this.dataMap = dataMap;
@@ -37,6 +37,7 @@ public class Controller {
         }
         return dataMap;
     }
+
 
     private boolean checkDownRight (int i, HexagonalGrid hexagonalGrid )
     {
@@ -67,12 +68,11 @@ public class Controller {
             dataMap.get(i).coordinate.setGridX(dataMap.get(i).coordinate.getGridX() - 1);
             if (!checkDownRight(i, hexagonalGrid))
                 lastFigure = 0;
-
-
     }
 
         return dataMap;
     }
+
 
     private boolean checkDownLeft (int i, HexagonalGrid hexagonalGrid )
     {
@@ -84,7 +84,6 @@ public class Controller {
         }
         return true;
     }
-
 
 
     public ArrayList<HexagonData> moveRight(HexagonalGrid hexagonalGrid)
@@ -119,14 +118,29 @@ public class Controller {
         return dataMap;
     }
 
+
     public ArrayList<HexagonData> rotationClockwise()
     {
+        int turnX = 3 , turnY = -4  , turnZ = 1 ; //координаты точки поворота
+
+        for (HexagonData data : dataMap) {
+            data.coordinate.setGridX((data.coordinate.getGridZ()-turnZ)*(-1)+turnX);
+            data.coordinate.setGridZ((-data.coordinate.getGridX()-data.coordinate.getGridZ()-turnY)*(-1)+turnZ);
+        }
 
         return dataMap;
     }
 
+
     public ArrayList<HexagonData> rotationCounterClockwise()
     {
+
+        int turnX = 3 , turnY = -4  , turnZ = 1 ; //координаты точки поворота
+
+        for (HexagonData data : dataMap) {
+            data.coordinate.setGridX((-data.coordinate.getGridX()-data.coordinate.getGridZ()-turnY)*(-1)+turnX);
+            data.coordinate.setGridZ((data.coordinate.getGridX()-turnX)*(-1)+turnZ);
+        }
 
         return dataMap;
     }

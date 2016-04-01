@@ -19,9 +19,6 @@ import draw.DrawGrid;
 public class GamePlay extends AppCompatActivity{
 
 
-    private static final int DISTANCE = 100;
-    private static final int VELOCITY = 200;
-
     DrawGrid d;
     String movement = "START";
     CanvasView view;
@@ -67,13 +64,13 @@ public class GamePlay extends AppCompatActivity{
                             return false;
                         }
 
-                        if (y < (scrh / 5) && x < scrw / 2) {
+                        if (y < (scrh / 5) && x > scrw / 2) {
                             movement = "CLCK";
                             view.invalidate();
                             return false;
                         }
 
-                        if (y < (scrh / 5) && x > scrw / 2) {
+                        if (y < (scrh / 5) && x < scrw / 2) {
                             movement = "COUNTER_CLCK";
                             view.invalidate();
                             return false;

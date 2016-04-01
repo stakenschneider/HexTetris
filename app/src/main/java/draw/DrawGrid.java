@@ -61,15 +61,18 @@ public class DrawGrid {
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             controller = new Controller(builder.getCustomStorage());
         } catch (HexagonalGridCreationException e) {}
-        AxialCoordinate ax = new AxialCoordinate(1, 2);
-        AxialCoordinate ax1 = new AxialCoordinate(3, 2);
-        AxialCoordinate ax2 = new AxialCoordinate(4, 2);
-        AxialCoordinate ax3 = new AxialCoordinate(2, 2);
+
+        AxialCoordinate ax = new AxialCoordinate(1, 1);
+        AxialCoordinate ax1 = new AxialCoordinate(1, 2);
+        AxialCoordinate ax2 = new AxialCoordinate(1, 3);
+        AxialCoordinate ax3 = new AxialCoordinate(1, 4);
+
         ArrayList<Hexagon> hex = new ArrayList();
         hex.add(hexagonalGrid.getByAxialCoordinate(ax).get());
         hex.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
         hex.add(hexagonalGrid.getByAxialCoordinate(ax2).get());
         hex.add(hexagonalGrid.getByAxialCoordinate(ax3).get());
+
         Figure figure = new Figure(hex);
         hexagonalGrid.getByAxialCoordinate(figure.convertToGrid(gridWidth)).get().setState(true, false);
         hexagonalGrid.getByAxialCoordinate(figure.getNewCoordinate(hex.get(1))).get().setState(true, false);
@@ -87,7 +90,7 @@ public class DrawGrid {
                 hexagonalGrid.setHexagonStorage(controller.rotationCounterClockwise());
                 break;
 
-            case "CLCk":
+            case "CLCK":
                 hexagonalGrid.setHexagonStorage(controller.rotationClockwise());
                 break;
 
