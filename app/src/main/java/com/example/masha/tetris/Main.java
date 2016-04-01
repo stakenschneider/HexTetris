@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -31,40 +30,21 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnPlay , bttnSettings , bttnTutorial , bttnTwitter,  bttnExit;
-    Intent intent;
-    Toast toast;
+    private Intent intent;
+    private EditText shareEditText;
+    private View loginLayout , shareLayout;
+    private ProgressDialog pDialog;
 
-    private static final String MY_SETTINGS = "my_settings";
     public static double scrh = 0 , scrw = 0 ;
 
-
-
-    private static final String PREF_NAME = "sample_twitter_pref";
-    private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
-    private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
-    private static final String PREF_KEY_TWITTER_LOGIN = "is_twitter_loggedin";
-    private static final String PREF_USER_NAME = "twitter_user_name";
+    private static final String MY_SETTINGS = "my_settings" , PREF_NAME = "sample_twitter_pref" , PREF_KEY_OAUTH_TOKEN = "oauth_token" , PREF_KEY_OAUTH_SECRET = "oauth_token_secret" , PREF_KEY_TWITTER_LOGIN = "is_twitter_loggedin" , PREF_USER_NAME = "twitter_user_name";
+    private String consumerKey = null , consumerSecret = null , callbackUrl = null , oAuthVerifier = null;
 
     public static final int WEBVIEW_REQUEST_CODE = 100;
 
-    private ProgressDialog pDialog;
-
     private static Twitter twitter;
     private static RequestToken requestToken;
-
     private static SharedPreferences sharedPreferences;
-
-    private EditText shareEditText;
-    //    private TextView userName;
-    private View loginLayout;
-    private View shareLayout;
-
-    private String consumerKey = null;
-    private String consumerSecret = null;
-    private String callbackUrl = null;
-    private String oAuthVerifier = null;
-
 
 
     @Override
@@ -78,35 +58,22 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         setContentView(R.layout.activity_main);
 
-        bttnPlay = (Button) findViewById(R.id.bttnPlay);
-        bttnPlay.setOnClickListener(this);
-
-        bttnTutorial = (Button) findViewById(R.id.bttnTutorial);
-        bttnTutorial.setOnClickListener(this);
-
-        bttnSettings = (Button) findViewById(R.id.bttnSettings);
-        bttnSettings.setOnClickListener(this);
-
-        bttnTwitter = (Button) findViewById(R.id.bttnTwitter);
-        bttnTwitter.setOnClickListener(this);
-
-        bttnExit = (Button) findViewById(R.id.bttnExit);
-        bttnExit.setOnClickListener(this);
+        findViewById(R.id.bttnPlay).setOnClickListener(this);
+        findViewById(R.id.bttnTutorial).setOnClickListener(this);
+        findViewById(R.id.bttnSettings).setOnClickListener(this);
+        findViewById(R.id.bttnTwitter).setOnClickListener(this);
+        findViewById(R.id.bttnExit).setOnClickListener(this);
+        findViewById(R.id.btn_share).setOnClickListener(this);
 
         scrh = screenSizeH();
         scrw = screenSizeW();
-
 
         loginLayout = (LinearLayout) findViewById(R.id.login_layout);
         shareLayout = (LinearLayout) findViewById(R.id.share_layout);
 
         shareEditText = (EditText) findViewById(R.id.share_text);
 
-        findViewById(R.id.btn_share).setOnClickListener(this);
-
         sharedPreferences = getSharedPreferences(PREF_NAME, 0);
-
-        boolean isLoggedIn = sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
 
         loginLayout.setVisibility(View.VISIBLE);
         shareLayout.setVisibility(View.GONE);
@@ -127,13 +94,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
                 loginLayout.setVisibility(View.GONE);
                 shareLayout.setVisibility(View.VISIBLE);
-                } catch (Exception e) { e.printStackTrace();}
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
 
         SharedPreferences sp = getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-
         boolean hasVisited = sp.getBoolean("hasVisited", false);    // проверяем, первый ли раз открывается программа
-
         if (!hasVisited) {
             intent = new Intent (this, Start.class);
             startActivity(intent);
@@ -167,7 +134,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 finish();
                 break;
 
-
             case R.id.bttnTwitter:
                 loginToTwitter();
                 break;
@@ -182,30 +148,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 }
                 break;
         }
-    }
-
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-    }
-
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-    }
-
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-    }
-
-
-    @Override
-    protected void onStop(){
-        super.onStop();
     }
 
 
@@ -235,20 +177,20 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         return metricsB.heightPixels;
     }
 
+
     private void initTwitterConfigs() {
         consumerKey = getString(R.string.twitter_consumer_key);
         consumerSecret = getString(R.string.twitter_consumer_secret);
         oAuthVerifier = getString(R.string.twitter_oauth_verifier);
     }
 
+
     private void saveTwitterInfo(AccessToken accessToken) {
 
         long userId = accessToken.getUserId();
-
         User user;
 
         try {
-
             user = twitter.showUser(userId);
             String username = user.getName();
 
@@ -263,6 +205,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+
 
     private void loginToTwitter() {
 
@@ -292,6 +235,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -312,6 +256,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
     class updateTwitterStatus extends AsyncTask<String, String, Void> {
 
         @Override
@@ -324,6 +269,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             pDialog.setCancelable(false);
             pDialog.show();
         }
+
 
         @Override
         protected Void doInBackground(String... params) {
@@ -352,6 +298,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {
