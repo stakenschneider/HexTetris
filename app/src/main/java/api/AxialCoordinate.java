@@ -25,6 +25,29 @@ public final class AxialCoordinate  {
         return result;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AxialCoordinate other = (AxialCoordinate) obj;
+        if (gridX != other.gridX)
+            return false;
+        if (gridZ != other.gridZ)
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + gridX;
+        result = prime * result + gridZ;
+        return result;
+    }
+
     public int getGridX()
     {
         return gridX;
@@ -39,13 +62,19 @@ public final class AxialCoordinate  {
         return new AxialCoordinate(gridX, gridZ);
     }
 
-    public void setGridX (int x)
+    public void setGridX (final int x)
     {
         gridX = x;
     }
 
-    public void setGridZ (int z)
+    public void setGridZ (final int z)
     {
+        gridZ = z;
+    }
+
+    public void setCoordinate(final int x, final int z)
+    {
+        gridX = x;
         gridZ = z;
     }
 

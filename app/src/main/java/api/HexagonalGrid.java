@@ -1,11 +1,11 @@
 package api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import internal.GridData;
 
 import backport.Optional;
-import internal.impl.HexagonData;
 
 
 public interface HexagonalGrid {
@@ -26,8 +26,10 @@ public interface HexagonalGrid {
 
     Iterable<Hexagon> getNeighborsOf(Hexagon hexagon);
 
-    void setHexagonStorage (ArrayList<HexagonData> storage);
+    void setHexagonStorage (ArrayList<AxialCoordinate> storage);
 
-    ArrayList<HexagonData> getHexagonStorage ();
+    HashMap<AxialCoordinate,Integer> getLockedHexagons();
+
+    ArrayList<AxialCoordinate> getHexagonStorage ();
 
 }

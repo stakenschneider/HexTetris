@@ -10,6 +10,7 @@ import api.Point;
 import internal.GridData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Iterator;
@@ -28,8 +29,9 @@ public class HexagonalGridImpl implements HexagonalGrid {
     private static final int NEIGHBOR_Z_INDEX = 1;
 
     private final GridData gridData;
-    public ArrayList<HexagonData>  hexagonStorage;
+    public ArrayList<AxialCoordinate>  hexagonStorage;
     private final Set<AxialCoordinate> coordinates;
+    private HashMap <AxialCoordinate,Integer> lockedHexagons = new HashMap<AxialCoordinate,Integer>();
 
 
     public HexagonalGridImpl(final HexagonalGridBuilder builder) {
@@ -38,12 +40,18 @@ public class HexagonalGridImpl implements HexagonalGrid {
         this.coordinates = builder.getGridLayoutStrategy().fetchGridCoordinates(builder);
     }
 
-    public void setHexagonStorage (ArrayList<HexagonData> storage)
+    @Override
+    public HashMap <AxialCoordinate,Integer> getLockedHexagons()
+    {
+        return lockedHexagons;
+    }
+
+    public void setHexagonStorage (ArrayList<AxialCoordinate> storage)
     {
         hexagonStorage = storage;
     }
 
-    public ArrayList<HexagonData> getHexagonStorage ()
+    public ArrayList<AxialCoordinate> getHexagonStorage ()
     {
         return hexagonStorage;
     }
@@ -95,12 +103,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
 
     @Override
     public boolean containsAxialCoordinate(final AxialCoordinate coordinate) {
-        for( AxialCoordinate neighbor : this.coordinates)
-        {
-            if ((coordinate.getGridX()==neighbor.getGridX())&&(coordinate.getGridZ()==neighbor.getGridZ()))
-                return true;
-        }
-        return false;
+        return this.coordinates.contains(coordinate);
     }
 
     @Override

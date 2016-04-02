@@ -1,148 +1,136 @@
 package com.example.masha.tetris;
 
-import java.util.ArrayList;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import api.AxialCoordinate;
 import api.HexagonalGrid;
-import internal.impl.HexagonData;
+
 import static api.AxialCoordinate.fromCoordinates;
 
 
 public class Controller {
 
-    private  ArrayList<HexagonData> dataMap; //лист падающих фигур
-    public int lastFigure;
+    private  ArrayList<AxialCoordinate> dataMap; //хексы активной фигуры
+    private  HashMap <AxialCoordinate,Integer> lockedHexagons; // залоченные хексы
 
 
-    public Controller( ArrayList<HexagonData> dataMap)
+    public Controller( ArrayList<AxialCoordinate> dataMap, HashMap <AxialCoordinate,Integer> lockedHexagons)
     {
         this.dataMap = dataMap;
-        lastFigure = 0;
+        this.lockedHexagons = lockedHexagons;
     }
 
 
-    public ArrayList<HexagonData> moveDownRight(HexagonalGrid hexagonalGrid)
+    public void moveDownRight(HexagonalGrid hexagonalGrid)
     {
-        for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++) {
-            if (!checkDownRight(i,hexagonalGrid))
+        for (int i = 0; i<dataMap.size(); i++) {
+            if (!checkDownRight(i, hexagonalGrid))  // проверка на столкновение
             {
-                for (int j = dataMap.size() - lastFigure; j < i; j++)
-                    dataMap.get(j).coordinate.setGridZ(dataMap.get(j).coordinate.getGridZ() - 1);
-                lastFigure = 0;
+                for (int j = 0; j < i; j++) {
+                    dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);   // если было столкновение, то предыдущие хексы делают шаг назад
+                    lockedHexagons.put(dataMap.get(j),j);           // и сразу вносим их в список залоченных хексов
+                }
+                for ( int j = i; j < dataMap.size(); j++)         // заносим в список оставишиеся хексы, которым шаг назад не требовался
+                    lockedHexagons.put(dataMap.get(j),j);
+                dataMap.clear();                             // очищаем список активной фигуры, чтобы потом вызвать следующую
                 break;
             }
-            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
-            if (!checkDownLeft(i, hexagonalGrid)) 
-                lastFigure = 0;
-
+            dataMap.get(i).setGridZ(dataMap.get(i).getGridZ() + 1);
         }
-        return dataMap;
     }
 
 
     private boolean checkDownRight (int i, HexagonalGrid hexagonalGrid )
     {
-        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX(), dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX(), dataMap.get(i).getGridZ() + 1)).isPresent()||(lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX(),dataMap.get(i).getGridZ()+1))))
         {
-            for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
-                dataMap.get(j).partOfLocked = true;
             return false;
         }
         return true;
     }
 
 
-    public ArrayList<HexagonData> moveDownLeft(HexagonalGrid hexagonalGrid)
+    public void moveDownLeft(HexagonalGrid hexagonalGrid)
     {
-        for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++){
+        for (int i = 0; i<dataMap.size(); i++){
             if (!checkDownLeft(i, hexagonalGrid))
             {
-                for (int j = dataMap.size() - lastFigure; j < i; j++)
+                for (int j = 0; j < i; j++)
                 {
-                    dataMap.get(j).coordinate.setGridZ(dataMap.get(j).coordinate.getGridZ() - 1);
-                    dataMap.get(j).coordinate.setGridX(dataMap.get(j).coordinate.getGridX() + 1);
+                    dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
+                    dataMap.get(j).setGridX(dataMap.get(j).getGridX() + 1);
                 }
-                lastFigure = 0;
+                for (int j = i ; j < dataMap.size(); j++)
+                    lockedHexagons.put(dataMap.get(j),j);
+                dataMap.clear();
                 break;
             }
-            dataMap.get(i).coordinate.setGridZ(dataMap.get(i).coordinate.getGridZ() + 1);
-            dataMap.get(i).coordinate.setGridX(dataMap.get(i).coordinate.getGridX() - 1);
-            if (!checkDownRight(i, hexagonalGrid))
-                lastFigure = 0;
+            dataMap.get(i).setGridZ(dataMap.get(i).getGridZ() + 1);
+            dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
     }
 
-        return dataMap;
     }
 
 
     private boolean checkDownLeft (int i, HexagonalGrid hexagonalGrid )
     {
-        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX()-1, dataMap.get(i).coordinate.getGridZ() + 1)).isPresent())
+        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1, dataMap.get(i).getGridZ() + 1)).isPresent()||(lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()-1,dataMap.get(i).getGridZ()+1))))
         {
-            for (int j = dataMap.size() - lastFigure; j < dataMap.size(); j++)
-                dataMap.get(j).partOfLocked = true;
             return false;
         }
         return true;
     }
 
 
-    public ArrayList<HexagonData> moveRight(HexagonalGrid hexagonalGrid)
+    public void moveRight(HexagonalGrid hexagonalGrid)
     {
-        for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++)
+        for (int i = 0; i<dataMap.size(); i++)
         {
-            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX()+1, dataMap.get(i).coordinate.getGridZ())).isPresent())
-                dataMap.get(i).coordinate.setGridX(dataMap.get(i).coordinate.getGridX() + 1);
+            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()+1, dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()+1,dataMap.get(i).getGridZ()))))
+                dataMap.get(i).setGridX(dataMap.get(i).getGridX() + 1);
             else {
-                for (int j = dataMap.size() - lastFigure; j < i; j++)
-                    dataMap.get(j).coordinate.setGridX(dataMap.get(j).coordinate.getGridX() - 1);
+                for (int j = 0; j < i; j++)
+                    dataMap.get(j).setGridX(dataMap.get(j).getGridX() - 1);
                 break;
             }
 
         }
-        return dataMap;
     }
 
 
-    public ArrayList<HexagonData> moveLeft(HexagonalGrid hexagonalGrid)
+    public void moveLeft(HexagonalGrid hexagonalGrid)
     {
-        for (int i = dataMap.size()-lastFigure; i<dataMap.size(); i++)
+        for (int i = 0; i<dataMap.size(); i++)
         {
-            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).coordinate.getGridX()-1, dataMap.get(i).coordinate.getGridZ())).isPresent())
-                dataMap.get(i).coordinate.setGridX(dataMap.get(i).coordinate.getGridX() - 1);
+            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1, dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()-1,dataMap.get(i).getGridZ()))))
+                dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
             else {
-                for (int j = dataMap.size() - lastFigure; j < i; j++)
-                    dataMap.get(j).coordinate.setGridX(dataMap.get(j).coordinate.getGridX() - 1);
+                for (int j = dataMap.size(); j < i; j++)
+                    dataMap.get(j).setGridX(dataMap.get(j).getGridX() - 1);
                 break;
             }
         }
-        return dataMap;
     }
 
 
-    public ArrayList<HexagonData> rotationClockwise()
+    public void rotationClockwise()
     {
-        int turnX = 3 , turnY = -4  , turnZ = 1 ; //координаты точки поворота
-
-        for (HexagonData data : dataMap) {
-            data.coordinate.setGridX((data.coordinate.getGridZ()-turnZ)*(-1)+turnX);
-            data.coordinate.setGridZ((-data.coordinate.getGridX()-data.coordinate.getGridZ()-turnY)*(-1)+turnZ);
+        int x = dataMap.get(0).getGridX(); int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ(); int z = dataMap.get(0).getGridZ();
+        for (int i = 1; i<dataMap.size(); i++) {
+            dataMap.get(i).setCoordinate((dataMap.get(i).getGridZ() - z) * (-1) + x, (-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) * (-1) + z);
         }
-
-        return dataMap;
     }
 
 
-    public ArrayList<HexagonData> rotationCounterClockwise()
+    public void rotationCounterClockwise()
     {
-
-        int turnX = 3 , turnY = -4  , turnZ = 1 ; //координаты точки поворота
-
-        for (HexagonData data : dataMap) {
-            data.coordinate.setGridX((-data.coordinate.getGridX()-data.coordinate.getGridZ()-turnY)*(-1)+turnX);
-            data.coordinate.setGridZ((data.coordinate.getGridX()-turnX)*(-1)+turnZ);
+        int x = dataMap.get(0).getGridX(); int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ(); int z = dataMap.get(0).getGridZ();
+        for (int i = 1; i<dataMap.size(); i++) {
+            dataMap.get(i).setCoordinate((-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) * (-1) + x,(dataMap.get(i).getGridX() -x)*(-1)+z);
         }
-
-        return dataMap;
     }
 
 }

@@ -2,7 +2,6 @@ package api;
 
 import api.exception.HexagonalGridCreationException;
 import internal.GridData;
-import internal.impl.HexagonData;
 import internal.impl.HexagonalGridCalculatorImpl;
 import internal.impl.HexagonalGridImpl;
 import internal.impl.layoutstrategy.GridLayoutStrategy;
@@ -16,7 +15,7 @@ public final class HexagonalGridBuilder {
     private int gridWidth;
     private int gridHeight;
     private double radius;
-    private ArrayList<HexagonData>  customStorage = new ArrayList<>();
+    private ArrayList<AxialCoordinate>  customStorage = new ArrayList<>();
     private HexagonOrientation orientation = HexagonOrientation.POINTY_TOP;
     private HexagonalGridLayout gridLayout = RECTANGULAR;
 
@@ -88,7 +87,7 @@ public final class HexagonalGridBuilder {
         return gridLayout.getGridLayoutStrategy();
     }
 
-    public ArrayList<HexagonData>  getCustomStorage() {
+    public ArrayList<AxialCoordinate>  getCustomStorage() {
         return customStorage;
     }
 

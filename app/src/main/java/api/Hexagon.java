@@ -2,8 +2,6 @@ package api;
 
 import java.util.List;
 
-import internal.impl.HexagonData;
-
 
 public interface Hexagon {
 
@@ -13,9 +11,9 @@ public interface Hexagon {
 
     AxialCoordinate getAxialCoordinate();
 
-    void setState(boolean state1 , boolean state2);
+    void setState();
 
-    HexagonData getHexagonData();
+    AxialCoordinate getHexagonData();
 
     int getGridX();
 

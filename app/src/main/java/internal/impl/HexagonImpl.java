@@ -16,6 +16,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static api.HexagonOrientation.FLAT_TOP;
 import static api.Point.fromPosition;
+import static api.AxialCoordinate.fromCoordinates;
 
 /**
  * Default implementation of the {@link Hexagon} interface.
@@ -25,10 +26,10 @@ public class HexagonImpl implements Hexagon {
 
     private final AxialCoordinate coordinate;
     private final transient GridData sharedData;
-    private final transient ArrayList<HexagonData> dataMap;
+    private final transient ArrayList<AxialCoordinate> dataMap;
     private static final String TAG = "myLogs";
 
-    private HexagonImpl(final GridData gridData, final AxialCoordinate coordinate, ArrayList<HexagonData> dataMap) {
+    private HexagonImpl(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap) {
         this.sharedData = gridData;
         this.coordinate = coordinate;
         this.dataMap = dataMap;
@@ -37,7 +38,7 @@ public class HexagonImpl implements Hexagon {
     /**
      * Creates a new {@link Hexagon} object from shared data and a coordinate.
      */
-    public static Hexagon newHexagon(final GridData gridData, final AxialCoordinate coordinate, ArrayList<HexagonData> dataMap) {
+    public static Hexagon newHexagon(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap) {
         return new HexagonImpl(gridData, coordinate, dataMap);
     }
 
@@ -58,22 +59,22 @@ public class HexagonImpl implements Hexagon {
         return points;
     }
     @Override
-    public  HexagonData getHexagonData() {
-        for (HexagonData data : dataMap)
+    public  AxialCoordinate getHexagonData() {
+        for (AxialCoordinate data : dataMap)
         {
-            if ((getAxialCoordinate().getGridX()==data.coordinate.getGridX())&(getAxialCoordinate().getGridZ()==data.coordinate.getGridZ()))
+            if ((getAxialCoordinate().getGridX()==data.getGridX())&(getAxialCoordinate().getGridZ()==data.getGridZ()))
             {
                 return data;
             }
 
         }
-        HexagonData data = new HexagonData(false,false,getAxialCoordinate());
+        AxialCoordinate data = fromCoordinates(getAxialCoordinate().getGridX(), getAxialCoordinate().getGridZ());
         return data;
     }
     @Override
-    public void setState(boolean state1 , boolean state2)
+    public void setState()
     {
-        HexagonData data = new HexagonData(state1,state2, getAxialCoordinate());
+        AxialCoordinate data = fromCoordinates(getAxialCoordinate().getGridX(), getAxialCoordinate().getGridZ());
         dataMap.add(data);
     }
 
