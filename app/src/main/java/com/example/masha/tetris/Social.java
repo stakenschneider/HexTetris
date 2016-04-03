@@ -104,10 +104,7 @@ public class Social extends AppCompatActivity implements View.OnClickListener {
             e.putBoolean(PREF_KEY_TWITTER_LOGIN, true);
             e.putString(PREF_USER_NAME, username);
             e.commit();
-
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
+        } catch (TwitterException e) {e.printStackTrace();}
     }
 
 
@@ -176,17 +173,12 @@ public class Social extends AppCompatActivity implements View.OnClickListener {
                 String acces_token_secret = sharedPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
 
                 AccessToken accessToken = new AccessToken(access_token, acces_token_secret);
-
                 Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 
                 StatusUpdate statusUpdate = new StatusUpdate(status);
-
-
                 twitter4j.Status response = twitter.updateStatus(statusUpdate);
 
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
+            } catch (TwitterException e) {e.printStackTrace();}
 
             return null;
         }

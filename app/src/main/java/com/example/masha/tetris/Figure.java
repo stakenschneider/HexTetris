@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import api.Hexagon;
 import api.AxialCoordinate;
+
 import static api.CoordinateConverter.convertToCol;
 import static api.CoordinateConverter.convertToRow;
 import static api.CoordinateConverter.convertOffsetCoordinatesToAxialX;
@@ -55,7 +56,7 @@ public class Figure {
 
     public AxialCoordinate getNewCoordinate(Hexagon hex)
     {
-        int row = hex.getGridZ()-dy , col = 0;
+        int row = hex.getGridZ()-dy , col;
 
         if (row%2!=0)
             col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx - 1;

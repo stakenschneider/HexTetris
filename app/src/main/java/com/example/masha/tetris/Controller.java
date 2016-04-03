@@ -31,8 +31,10 @@ public class Controller {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);   // если было столкновение, то предыдущие хексы делают шаг назад
                     lockedHexagons.put(dataMap.get(j),j);           // и сразу вносим их в список залоченных хексов
                 }
+
                 for ( int j = i; j < dataMap.size(); j++)         // заносим в список оставишиеся хексы, которым шаг назад не требовался
                     lockedHexagons.put(dataMap.get(j),j);
+
                 dataMap.clear();                             // очищаем список активной фигуры, чтобы потом вызвать следующую
                 break;
             }
@@ -43,7 +45,9 @@ public class Controller {
 
     private boolean checkDownRight (int i, HexagonalGrid hexagonalGrid )
     {
-        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX(), dataMap.get(i).getGridZ() + 1)).isPresent()||(lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX(),dataMap.get(i).getGridZ()+1))))
+        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX(),
+                dataMap.get(i).getGridZ() + 1)).isPresent() || (lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX(),
+                dataMap.get(i).getGridZ()+1))))
             return false;
         return true;
     }
@@ -58,12 +62,15 @@ public class Controller {
                 {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
                     dataMap.get(j).setGridX(dataMap.get(j).getGridX() + 1);
+                    lockedHexagons.put(dataMap.get(j),j);     //а вот и он! С просонья наверн не увидел)
                 }
                 for (int j = i ; j < dataMap.size(); j++)
                     lockedHexagons.put(dataMap.get(j),j);
+
                 dataMap.clear();
                 break;
             }
+
             dataMap.get(i).setGridZ(dataMap.get(i).getGridZ() + 1);
             dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
         }
@@ -73,8 +80,11 @@ public class Controller {
 
     private boolean checkDownLeft (int i, HexagonalGrid hexagonalGrid)
     {
-        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1, dataMap.get(i).getGridZ() + 1)).isPresent()||(lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()-1,dataMap.get(i).getGridZ()+1))))
+        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1,
+                dataMap.get(i).getGridZ() + 1)).isPresent() || (lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()-1,
+                dataMap.get(i).getGridZ()+1))))
             return false;
+
         return true;
     }
 
