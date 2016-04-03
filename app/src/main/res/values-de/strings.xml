@@ -31,5 +31,6 @@
     <string name="musoff">Musik aus</string>
     <string name="muson">Musik an</string>
     <string name="share_btn">Aktie</string>
+    <string name="back_to_menu">zurück zum Hauptmenü</string>
 
 </resources>

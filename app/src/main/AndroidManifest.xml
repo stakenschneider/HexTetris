@@ -22,10 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GamePlay" android:screenOrientation="portrait" />
+        <activity
+            android:name=".GamePlay"
+            android:screenOrientation="portrait" />
         <activity android:name=".Settings" />
         <activity android:name=".WebViewActivity" />
         <activity android:name=".Start" />
+        <activity android:name=".Social"></activity>
     </application>
 
 </manifest>

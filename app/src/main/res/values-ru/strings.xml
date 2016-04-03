@@ -32,4 +32,5 @@
     <string name="musoff">выключить музыку</string>
     <string name="muson">включить музыку</string>
     <string name="share_btn">отправить</string>
+    <string name="back_to_menu">обратно в меню</string>
 </resources>

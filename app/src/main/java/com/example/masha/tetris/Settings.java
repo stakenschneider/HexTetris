@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 
 import service.MyService;
 
@@ -18,8 +17,7 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-    RadioButton radioButton;
-
+    CheckBox checkBox;
     SharedPreferences sharedPreferences;
 
     public EditText eTw , eTh;
@@ -41,7 +39,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         findViewById(R.id.bttnSentence).setOnClickListener(this);
 
-        radioButton = (RadioButton) findViewById(R.id.radioButton);
+        checkBox = (CheckBox) findViewById(R.id.radioButton);
+        checkBox.setOnClickListener(this);
 
     }
 
@@ -51,19 +50,26 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             case R.id.bttnSentence:
                 eTh.setText("" +(int)((2*(scrh-30)-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
                 break;
-
-            case R.id.radioButton:
-                if (radioButton.isChecked()) { // доделать мнгновенное срабатывание
-                    stopService(new Intent(this, MyService.class));
-                    radioButton.setText(getResources().getString(R.string.muson));
-                } else
-                {
-                    startService(new Intent(this, MyService.class));
-                    radioButton.setText(getResources().getString(R.string.musoff));
-                }
-                break;
         }
 
+        //ЧТО БЫ НЕ ЗАБЫТЬ!!!!!!!!!
+
+        // ТУТ ИЛИ ГДЕ ТО В ЭТОМ КЛАССЕ НЕ ЗАБЫТЬ ПОСТАВИТЬ ШЕРЕДПРЕФЕРЕНСИС (НАВЕРНО, ЛУЧШЕ БЫ СДЕЛАТЬ ЧТО ТО БОЛЕЕ УДОБНОЕ
+        // ДЛЯ ТОГО ЧТО БЫ РАБОТА С ГОВЯНЫМ ЧЕКБОКСОМ БЫЛА НОРМАЛЬНА
+
+        // ПРОБЛЕМА: ЕСЛИ ВЫКЛЮЧИТЬ МУЗЫКУ ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ ПОТОМ ЗАХОДИМ ОБРАТНО БУДЕТ ПРЕДЛОЖЕНО ЕЕ ОПЯТЬ ВЫКЛЮЧИТЬ
+        //ВКЛЮЧИТЬ ТОЛЬКО ПРИ ТРЕХКРАТНОМ НАЖАТИЕ ЧТО - ГОВНОКОД
+
+        if (checkBox.isChecked()) {
+            stopService(new Intent(this, MyService.class));
+            checkBox.setText(getResources().getString(R.string.muson));
+        }
+
+        if (!checkBox.isChecked())
+        {
+            startService(new Intent(this, MyService.class));
+            checkBox.setText(getResources().getString(R.string.musoff));
+        }
 
     }
 
