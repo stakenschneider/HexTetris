@@ -5,8 +5,6 @@
     <string name="twt">Lernprogramm</string>
 
     <string name="twitter">twitter</string>
-    <string name="google">google+</string>
-    <string name="facebook">facebook</string>
 
     <string name="act_set">Menü</string>
 
@@ -26,11 +24,12 @@
     <string name="minW">Mindestbreite des Rasters:: 8</string>
     <string name="minH">Mindesthöhe des Gitters:: 17</string>
 
-    <string name="add">hinzufügen</string>
-    <string name="playbttn">SPIELEN</string>
-
     <string name="start_text">Welcome to the Hexagonal Tetris. Blah blah blah - rules - blah blah blah.</string>
     <string name="Score">Ergebnis:</string>
-    <string name="mus">music off</string>
+    <string name="score">Ergebnis:</string>
+    <string name="login_btn">Einloggen dann Twitter</string>
+    <string name="musoff">Musik aus</string>
+    <string name="muson">Musik an</string>
+    <string name="share_btn">Aktie</string>
 
 </resources>

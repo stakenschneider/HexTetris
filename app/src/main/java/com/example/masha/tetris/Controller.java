@@ -1,7 +1,5 @@
 package com.example.masha.tetris;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,9 +44,7 @@ public class Controller {
     private boolean checkDownRight (int i, HexagonalGrid hexagonalGrid )
     {
         if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX(), dataMap.get(i).getGridZ() + 1)).isPresent()||(lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX(),dataMap.get(i).getGridZ()+1))))
-        {
             return false;
-        }
         return true;
     }
 
@@ -70,17 +66,15 @@ public class Controller {
             }
             dataMap.get(i).setGridZ(dataMap.get(i).getGridZ() + 1);
             dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
-    }
+        }
 
     }
 
 
-    private boolean checkDownLeft (int i, HexagonalGrid hexagonalGrid )
+    private boolean checkDownLeft (int i, HexagonalGrid hexagonalGrid)
     {
         if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1, dataMap.get(i).getGridZ() + 1)).isPresent()||(lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()-1,dataMap.get(i).getGridZ()+1))))
-        {
             return false;
-        }
         return true;
     }
 
@@ -116,9 +110,11 @@ public class Controller {
     }
 
 
-    public void rotationClockwise()
-    {
-        int x = dataMap.get(0).getGridX(); int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ(); int z = dataMap.get(0).getGridZ();
+    public void rotationClockwise() {
+        int x = dataMap.get(0).getGridX();
+        int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ();
+        int z = dataMap.get(0).getGridZ();
+
         for (int i = 1; i<dataMap.size(); i++) {
             dataMap.get(i).setCoordinate((dataMap.get(i).getGridZ() - z) * (-1) + x, (-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) * (-1) + z);
         }
@@ -127,7 +123,10 @@ public class Controller {
 
     public void rotationCounterClockwise()
     {
-        int x = dataMap.get(0).getGridX(); int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ(); int z = dataMap.get(0).getGridZ();
+        int x = dataMap.get(0).getGridX();
+        int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ();
+        int z = dataMap.get(0).getGridZ();
+
         for (int i = 1; i<dataMap.size(); i++) {
             dataMap.get(i).setCoordinate((-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) * (-1) + x,(dataMap.get(i).getGridX() -x)*(-1)+z);
         }

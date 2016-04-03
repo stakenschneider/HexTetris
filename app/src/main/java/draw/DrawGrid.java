@@ -7,11 +7,10 @@ import android.graphics.Paint.Style;
 import android.graphics.Color;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import com.example.masha.tetris.Controller;
-import com.example.masha.tetris.Figure;
+import com.example.masha.tetris.R;
 
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
@@ -89,7 +88,7 @@ public class DrawGrid {
                 break;
 
             case "RIGHT":
-               controller.moveRight(hexagonalGrid);
+                controller.moveRight(hexagonalGrid);
                 break;
 
             case "LEFT":
@@ -109,7 +108,7 @@ public class DrawGrid {
         }
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) {
             int[] array = new int[12];
-                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), 250, 175, 6, Style.FILL); //фигруа
+            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), 250, 175, 6, Style.FILL); //фигруа
         }
         Set <AxialCoordinate> coordinates = hexagonalGrid.getLockedHexagons().keySet();
         for (AxialCoordinate coordinate: coordinates)
@@ -145,7 +144,7 @@ public class DrawGrid {
         p.setStrokeWidth(1);
         p.setStyle(Style.FILL_AND_STROKE);
         p.setTextSize(40);
-        canvas.drawText("score:" /** + point*/, 30 , (float)scrh-15, p);
+        canvas.drawText("score: "  /** + point*/, 30 , (float)scrh-15, p);
 
     }
 

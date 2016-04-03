@@ -4,8 +4,6 @@
 
     <string name="act_set">Меню</string>
 
-    <string name="facebook">facebook</string>
-    <string name="google">google+</string>
     <string name="twitter">twitter</string>
 
     <string name="titleLbl">Гексогональный тетрис</string>
@@ -27,10 +25,11 @@
     <string name="minW">минимальная ширина сетки: 8</string>
     <string name="minH">минимальная высота сетки: 17</string>
 
-    <string name="add">добавить</string>
-    <string name="playbttn">играть</string>
-
     <string name="start_text">вы первый раз скачали это приложение так то так то в него играть</string>
     <string name="Score">очки:</string>
-    <string name="mus">выключить музыку</string>
+    <string name="score">Очки: </string>
+    <string name="login_btn">Войти в Twitter</string>
+    <string name="musoff">выключить музыку</string>
+    <string name="muson">включить музыку</string>
+    <string name="share_btn">отправить</string>
 </resources>

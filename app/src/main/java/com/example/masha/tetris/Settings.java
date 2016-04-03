@@ -18,8 +18,6 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-    Button bttnMenu , bttnSentence;
-    Intent intent;
     RadioButton radioButton;
 
     SharedPreferences sharedPreferences;
@@ -41,11 +39,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         eTw = (EditText) findViewById(R.id.width);
         eTh = (EditText) findViewById(R.id.height);
 
-        bttnMenu = (Button) findViewById(R.id.bttnMenu);
-        bttnMenu.setOnClickListener(this);
-
-        bttnSentence = (Button) findViewById(R.id.bttnSentence);
-        bttnSentence.setOnClickListener(this);
+        findViewById(R.id.bttnSentence).setOnClickListener(this);
 
         radioButton = (RadioButton) findViewById(R.id.radioButton);
 
@@ -54,38 +48,37 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bttnMenu:
-                intent = new Intent (this, Main.class);
-                startActivity(intent);
-                loadText();
-                finish();
-                break;
-
             case R.id.bttnSentence:
                 eTh.setText("" +(int)((2*(scrh-30)-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
                 break;
+
+            case R.id.radioButton:
+                if (radioButton.isChecked()) { // доделать мнгновенное срабатывание
+                    stopService(new Intent(this, MyService.class));
+                    radioButton.setText(getResources().getString(R.string.muson));
+                } else
+                {
+                    startService(new Intent(this, MyService.class));
+                    radioButton.setText(getResources().getString(R.string.musoff));
+                }
+                break;
         }
 
-        if (radioButton.isChecked()) { // доделать мнгновенное срабатывание
-            stopService(new Intent(this, MyService.class));
-            radioButton.setText("music on");
-        } else
-        {
-            startService(new Intent(this, MyService.class));
-            radioButton.setText("music off");
-        }
+
     }
 
 
     public void saveText()
     {
-        sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
-        Editor ed = sharedPreferences.edit();
+        if (!eTh.getText().toString().equals("") && !eTw.getText().toString().equals("")) {
+            sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
+            Editor ed = sharedPreferences.edit();
 
-        ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
-        ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
+            ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
+            ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
 
-        ed.commit();
+            ed.commit();
+        }
     }
 
 

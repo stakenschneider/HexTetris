@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.io.InputStream;
+
 import service.MyService;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -289,6 +292,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 
                 StatusUpdate statusUpdate = new StatusUpdate(status);
+
 
                 twitter4j.Status response = twitter.updateStatus(statusUpdate);
 

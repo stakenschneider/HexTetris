@@ -3,8 +3,6 @@
     <string name="act_set">MENU</string>
 
     <string name="twitter">twitter</string>
-    <string name="google">google+</string>
-    <string name="facebook">facebook</string>
 
     <string name="titleLbl">Hexagonal tetris</string>
 
@@ -22,22 +20,20 @@
     <string name="minW">minimum width of the grid: 8</string>
     <string name="minH">minimum height of the grid: 17</string>
 
-    <string name="add">add</string>
-
-    <string name="playbttn">play</string>
-    <string name="btnadd">add</string>
-
     <string name="start_text">Welcome to the Hexagonal Tetris. Blah blah blah - rules - blah blah blah.</string>
     <string name="Score">Score:</string>
-    <string name="mus">music off</string>
+    <string name="musoff">music off</string>
+    <string name="muson">music on</string>
 
-
-    <string name="twitter_consumer_key">t7pUO3Qii11hZE9q1iQ7n9Ahb</string>
-    <string name="twitter_consumer_secret">5MLvSsmdKZil0iF0SHITRGPR47xUkNJJMxdhE7ezdfabR4va9b</string>
-    <string name="twitter_oauth_verifier">oauth_verifier</string>
-    <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="twitter_consumer_key" translatable="false">t7pUO3Qii11hZE9q1iQ7n9Ahb</string>
+    <string name="twitter_consumer_secret" translatable="false">5MLvSsmdKZil0iF0SHITRGPR47xUkNJJMxdhE7ezdfabR4va9b</string>
+    <string name="twitter_oauth_verifier" translatable="false">oauth_verifier</string>
+    <string name="title_activity_web_view" translatable="false">WebViewActivity</string>
     <string name="share_btn">Share</string>
 
     <string name="login_btn">Login to Twitter</string>
+
+    <string name="score">score: </string>
+    <string name="back_to_menu">back to main menu</string>
 
 </resources>

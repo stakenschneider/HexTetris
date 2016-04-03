@@ -10,16 +10,6 @@
     tools:context="com.example.masha.applicationname.Settings"
     android:background="@color/darkGreen">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/act_set"
-        android:id="@+id/bttnMenu"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,9 +18,10 @@
         android:id="@+id/width"
         android:layout_marginTop="101dp"
         android:textColor="@color/yell"
-        android:text="8"
         android:layout_below="@+id/textView5"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:numeric="integer"
+        android:hint="8" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -39,9 +30,9 @@
         android:ems="10"
         android:id="@+id/height"
         android:textColor="@color/yell"
-        android:text="16"
         android:layout_below="@+id/width"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:hint="16" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,8 +51,7 @@
         android:text="@string/lblh"
         android:id="@+id/textView3"
         android:textColor="@color/yell"
-        android:layout_alignBottom="@+id/height"
-        android:layout_alignStart="@+id/bttnMenu" />
+        android:layout_alignBottom="@+id/height" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -96,7 +86,7 @@
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mus"
+        android:text="@string/musoff"
         android:id="@+id/radioButton"
         android:layout_below="@+id/bttnSentence"
         android:layout_alignParentStart="true"
