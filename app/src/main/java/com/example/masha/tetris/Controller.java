@@ -14,7 +14,6 @@ public class Controller {
     private  ArrayList<AxialCoordinate> dataMap; //хексы активной фигуры
     private  HashMap <AxialCoordinate,Integer> lockedHexagons; // залоченные хексы
 
-
     public Controller( ArrayList<AxialCoordinate> dataMap, HashMap <AxialCoordinate,Integer> lockedHexagons)
     {
         this.dataMap = dataMap;
