@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+import android.widget.Toast;
 
 import service.MyService;
 
@@ -58,8 +59,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.bttnTutorial:
-                intent = new Intent (this, GamePlay.class);
-                startActivity(intent);
+                Toast.makeText(this, "Может когда-нибудь потом", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.bttnSettings:

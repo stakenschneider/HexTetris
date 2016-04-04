@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -40,13 +41,16 @@ public class DrawGrid {
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
     private int gridWidth = width , gridHeight = height;
-    NormalPack pack;
     double radius;
+    NormalPack pack;
+
 
     public DrawGrid () {
 
         if (gridHeight == 0) gridHeight = 15; //эти строчки надо удалить когда разберусь с preferen и переходами между activity
+        // (в жопу разбираться с preferen оставим так)
         if (gridWidth == 0) gridWidth = 8;
+
         radius = radGame();
 
         try {
@@ -95,52 +99,57 @@ public class DrawGrid {
                 controller.moveLeft(hexagonalGrid);
                 break;
         }
+
         if (hexagonalGrid.getHexagonStorage().isEmpty())  // если фигура залочилась, достаем следующую
-        {
             pack.getFigure(gridWidth);
-        }
 
 
-        canvas.drawRGB(11, 25, 25);
-        for (Hexagon hexagon : hexagonalGrid.getHexagons()) {//сетка
+        canvas.drawColor(Color.parseColor("#1B2024"));
+
+        for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) { //фигруа
             int[] array = new int[12];
-            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), 250, 175 ,  6, Style.STROKE);
+            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
         }
-        for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) {
-            int[] array = new int[12];
-            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), 250, 175, 6, Style.FILL); //фигруа
-        }
+
         Set <AxialCoordinate> coordinates = hexagonalGrid.getLockedHexagons().keySet();
-        for (AxialCoordinate coordinate: coordinates)
+        for (AxialCoordinate coordinate: coordinates) //залоченные фигуры
         {
             int[] array = new int[12];
-            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(coordinate).get().getPoints(), array),  233,219,  193, Style.FILL_AND_STROKE);
+            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(coordinate).get().getPoints(), array),  "#FF5346", Style.FILL);
+        }
+
+        for (Hexagon hexagon : hexagonalGrid.getHexagons()) { //сетка
+            int[] array = new int[12];
+            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
         }
 
     }
 
 
-
-    private void drawPoly(Canvas canvas, int[] array, int color, int color2 , int color3,  Style style) {
+    private void drawPoly(Canvas canvas, int[] array, String color,  Style style) {
 
         if (array.length < 12)
             return;
 
         Paint p = new Paint();
-        p.setColor(Color.rgb(color, color2, color3));
+
+        p.setColor(Color.parseColor(color));
         p.setStyle(style);
-        if (gridWidth > 15) {
+
+        if (gridWidth > 15)
             p.setStrokeWidth(2);
-        }else if (gridWidth>30)p.setStrokeWidth(1); else p.setStrokeWidth(5);
+        else if (gridWidth>30)p.setStrokeWidth(1);
+        else p.setStrokeWidth(5);
 
         Path polyPath = new Path();
-        polyPath.moveTo(array[0], array[1]); //первая точка
+        polyPath.moveTo(array[0], array[1]);
 
         for (int i = 0; i < 12;  i=i+2 )
             polyPath.lineTo(array[i], array[i+1]);
 
         polyPath.lineTo(array[0], array[1]);
         canvas.drawPath(polyPath, p);
+
         p.setStrokeWidth(1);
         p.setStyle(Style.FILL_AND_STROKE);
         p.setTextSize(40);

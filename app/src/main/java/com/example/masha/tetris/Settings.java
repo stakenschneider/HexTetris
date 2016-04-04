@@ -17,6 +17,7 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
+    Boolean flag = false;
     CheckBox checkBox;
     SharedPreferences sharedPreferences;
 
@@ -27,6 +28,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
     public static final String sWIDTH = "width"; //ключ для ширины и высоты соответственно
     public static final String sHEIGHT = "height";
+    public static final String FLAG = "flag";
 
 
     @Override
@@ -41,6 +43,11 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         checkBox = (CheckBox) findViewById(R.id.radioButton);
         checkBox.setOnClickListener(this);
+
+        if (flag) {
+//            checkBox.isChecked();
+            checkBox.setText(getResources().getString(R.string.muson));
+        }
 
     }
 
@@ -60,13 +67,15 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         // ПРОБЛЕМА: ЕСЛИ ВЫКЛЮЧИТЬ МУЗЫКУ ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ ПОТОМ ЗАХОДИМ ОБРАТНО БУДЕТ ПРЕДЛОЖЕНО ЕЕ ОПЯТЬ ВЫКЛЮЧИТЬ
         //ВКЛЮЧИТЬ ТОЛЬКО ПРИ ТРЕХКРАТНОМ НАЖАТИЕ ЧТО - ГОВНОКОД
 
-        if (checkBox.isChecked()) {
+        if (checkBox.isChecked()) { //выключить музыку
+            flag = true;
             stopService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.muson));
         }
 
-        if (!checkBox.isChecked())
+        if (!checkBox.isChecked()) //включить
         {
+            flag = false;
             startService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.musoff));
         }
@@ -80,6 +89,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
             Editor ed = sharedPreferences.edit();
 
+            ed.putBoolean(FLAG , flag);
             ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
             ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
 
@@ -91,6 +101,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     void loadText() {
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
 
+        flag = sharedPreferences.getBoolean(FLAG , true);
         width = sharedPreferences.getInt(sWIDTH , 8 );
         height = sharedPreferences.getInt(sHEIGHT, 16);
     }

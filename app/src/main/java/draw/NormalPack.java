@@ -17,6 +17,7 @@ public class NormalPack {
     private ArrayList<Hexagon> figure2;
     private ArrayList<Hexagon> figure3;
     private ArrayList<Hexagon> figure4;
+
     ArrayList <ArrayList<Hexagon>> pack = new ArrayList<ArrayList<Hexagon>>();
     private AxialCoordinate ax1;
     private AxialCoordinate ax2;

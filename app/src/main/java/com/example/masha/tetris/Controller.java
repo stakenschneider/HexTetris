@@ -61,7 +61,7 @@ public class Controller {
                 {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
                     dataMap.get(j).setGridX(dataMap.get(j).getGridX() + 1);
-                    lockedHexagons.put(dataMap.get(j),j);     //а вот и он! С просонья наверн не увидел)
+                    lockedHexagons.put(dataMap.get(j), j);     //а вот и он! С просонья наверн не увидел)
                 }
                 for (int j = i ; j < dataMap.size(); j++)
                     lockedHexagons.put(dataMap.get(j),j);
@@ -121,23 +121,24 @@ public class Controller {
 
     public void rotationClockwise() {
         int x = dataMap.get(0).getGridX();
-        int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ();
         int z = dataMap.get(0).getGridZ();
+        int y = - x - z;
 
         for (int i = 1; i<dataMap.size(); i++) {
-            dataMap.get(i).setCoordinate((dataMap.get(i).getGridZ() - z) * (-1) + x, (-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) * (-1) + z);
+            dataMap.get(i).setCoordinate(-(dataMap.get(i).getGridZ() - z) + x,
+                    -(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z);
         }
     }
 
 
-    public void rotationCounterClockwise()
-    {
+    public void rotationCounterClockwise() {
         int x = dataMap.get(0).getGridX();
-        int y = -dataMap.get(0).getGridX()-dataMap.get(0).getGridZ();
         int z = dataMap.get(0).getGridZ();
+        int y = - x - z;
 
         for (int i = 1; i<dataMap.size(); i++) {
-            dataMap.get(i).setCoordinate((-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) * (-1) + x,(dataMap.get(i).getGridX() -x)*(-1)+z);
+            dataMap.get(i).setCoordinate(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,
+                    -(dataMap.get(i).getGridX() -x) + z);
         }
     }
 

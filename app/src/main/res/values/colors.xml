@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="darkGreen">#022525</color>
-    <color name="lightGeen">#03554F</color>
-    <color name="bej">#E9DBAE</color>
-    <color name="yell">#FAAF06</color>
-    <color name="darkGreen2">#0B1919</color>
-
-
-
-    <color name="th2_1">#242A30</color>
-    <color name="th2_2">#3F3F46</color>
-    <color name="th2_3">#67696C</color>
-    <color name="th2_4">#A29587</color>
-    <color name="th2_5">#C3B19E</color>
-
-
-    <color name="th3_dbl">#0A1A27</color>
-    <color name="th3_bl">#5D989B</color>
-    <color name="th3_dg">#BDCEC8</color>
-    <color name="th3_lg">#DBE4D3</color>
-    <color name="th3_wh">#F8EED3</color>
-    <color name="foreground_material_light">#d61919</color>
-
-    <color name="bg">#000000</color>
-
-
+    <color name="yell">#FF5346</color>
+    <color name="lightRed">#8B5346</color>
+    <color name="lightGeen">#8EC7D2</color>
+    <color name="darkGreen">#1B2024</color>
 </resources>
