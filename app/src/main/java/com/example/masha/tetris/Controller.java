@@ -108,6 +108,7 @@ public class Controller {
     {
         for (int i = 0; i<dataMap.size(); i++)
         {
+            
             if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1, dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()-1,dataMap.get(i).getGridZ()))))
                 dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
             else {
