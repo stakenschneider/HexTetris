@@ -142,4 +142,8 @@ public class Controller {
         }
     }
 
+    public void deletRow(){  //обещала-написала
+
+    }
+
 }
