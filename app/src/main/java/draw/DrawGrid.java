@@ -73,11 +73,11 @@ public class DrawGrid {
                 break;
 
             case "COUNTER_CLCK":
-                controller.rotationCounterClockwise();
+                controller.rotationCounterClockwise(hexagonalGrid);
                 break;
 
             case "CLCK":
-                controller.rotationClockwise();
+                controller.rotationClockwise(hexagonalGrid);
                 break;
 
             case "DOWN_RIGHT":
