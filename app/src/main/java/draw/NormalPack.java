@@ -39,11 +39,12 @@ public class NormalPack {
         pack.add(figure3);
         pack.add(figure4);
     }
+
     public ArrayList<Hexagon> makeFirst()
     {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
-        ax1 = fromCoordinates(1, 2);
-        ax2 = fromCoordinates(1, 1);
+        ax1 = fromCoordinates(1, 1);
+        ax2 = fromCoordinates(1, 2);
         ax3 = fromCoordinates(1, 3);
         ax4 = fromCoordinates(1, 4);
         figure.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
@@ -66,6 +67,7 @@ public class NormalPack {
         figure.add(hexagonalGrid.getByAxialCoordinate(ax4).get());
         return figure;
     }
+
     public ArrayList<Hexagon> makeThird()
     {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
@@ -80,6 +82,7 @@ public class NormalPack {
 
         return figure;
     }
+
     public ArrayList<Hexagon> makeFourth()
     {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
