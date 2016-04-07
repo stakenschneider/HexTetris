@@ -1,6 +1,8 @@
 package internal.impl;
 
 
+import android.util.SparseArray;
+
 import api.AxialCoordinate;
 import api.CoordinateConverter;
 import api.Hexagon;
@@ -31,17 +33,24 @@ public class HexagonalGridImpl implements HexagonalGrid {
     private final GridData gridData;
     public ArrayList<AxialCoordinate>  hexagonStorage;
     private final Set<AxialCoordinate> coordinates;
-    private HashMap <AxialCoordinate,Integer> lockedHexagons = new HashMap<AxialCoordinate,Integer>();
+    private SparseArray <ArrayList> lockedHexagons = new SparseArray<ArrayList> ();
+    private int width ;
 
 
     public HexagonalGridImpl(final HexagonalGridBuilder builder) {
         this.gridData = builder.getGridData();
         this.hexagonStorage = builder.getCustomStorage();
         this.coordinates = builder.getGridLayoutStrategy().fetchGridCoordinates(builder);
+        this.width = builder.getGridWidth();
+        for ( int i = 0; i<15; i++)
+        {
+            ArrayList coordinates = new ArrayList();
+            lockedHexagons.put(i,coordinates);
+        }
     }
 
     @Override
-    public HashMap <AxialCoordinate,Integer> getLockedHexagons()
+    public SparseArray <ArrayList> getLockedHexagons()
     {
         return lockedHexagons;
     }
@@ -56,10 +65,15 @@ public class HexagonalGridImpl implements HexagonalGrid {
         return hexagonStorage;
     }
 
+    @Override
+    public int getWidth()
+    {
+        return width;
+    }
 
     @Override
     public Iterable<Hexagon> getHexagons() {
-        ArrayList <Hexagon> Hexagons = new  ArrayList();
+        ArrayList <Hexagon> Hexagons = new  ArrayList<Hexagon> ();
         Iterator<AxialCoordinate> iterator = coordinates.iterator();
         do {
             Hexagons.add(newHexagon(gridData,iterator.next(), hexagonStorage));
@@ -67,9 +81,10 @@ public class HexagonalGridImpl implements HexagonalGrid {
         return Hexagons;
     }
 
+
     @Override
     public Iterable<Hexagon> getHexagonsByAxialRange(final AxialCoordinate from, final AxialCoordinate to) {
-        ArrayList <Hexagon> Hexagons = new  ArrayList();
+        ArrayList <Hexagon> Hexagons = new  ArrayList<Hexagon> ();
         for (int x = from.getGridX(); x <= to.getGridX(); x++)
         {
             for (int z = from.getGridZ(); z <= to.getGridZ(); z++)
@@ -85,7 +100,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
 
     @Override
     public Iterable<Hexagon> getHexagonsByOffsetRange(final int gridXFrom, final int gridXTo, final int gridYFrom, final int gridYTo) {
-        ArrayList<Hexagon> Hexagons = new ArrayList();
+        ArrayList<Hexagon> Hexagons = new ArrayList<Hexagon> ();
         for (int x = gridXFrom; x <= gridXTo; x++) {
             for (int y = gridYFrom; y <= gridYTo; y++) {
                 final int axialX = CoordinateConverter.convertOffsetCoordinatesToAxialX(x, y);
@@ -96,8 +111,6 @@ public class HexagonalGridImpl implements HexagonalGrid {
                 }
             }
         }
-
-
         return Hexagons;
     }
 
@@ -119,8 +132,6 @@ public class HexagonalGridImpl implements HexagonalGrid {
         int estimatedGridZ = (int) (coordinateY / gridData.getHexagonHeight());
         estimatedGridX = CoordinateConverter.convertOffsetCoordinatesToAxialX(estimatedGridX, estimatedGridZ);
         estimatedGridZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(estimatedGridX, estimatedGridZ);
-        // it is possible that the estimated coordinates are off the grid so we
-        // create a virtual hexagon
         final AxialCoordinate estimatedCoordinate = fromCoordinates(estimatedGridX, estimatedGridZ);
         final Hexagon tempHex = newHexagon(gridData, estimatedCoordinate, hexagonStorage);
 

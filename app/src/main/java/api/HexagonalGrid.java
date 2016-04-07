@@ -1,5 +1,7 @@
 package api;
 
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,8 +30,11 @@ public interface HexagonalGrid {
 
     void setHexagonStorage (ArrayList<AxialCoordinate> storage);
 
-    HashMap<AxialCoordinate,Integer> getLockedHexagons();
+    SparseArray<ArrayList> getLockedHexagons();
 
     ArrayList<AxialCoordinate> getHexagonStorage ();
+
+
+    int getWidth();
 
 }

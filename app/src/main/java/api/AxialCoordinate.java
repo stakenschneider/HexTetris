@@ -9,12 +9,12 @@ public final class AxialCoordinate  {
     private int gridX;
     private int gridZ;
 
-    public AxialCoordinate(final int gridX, final int gridZ) {
+    public AxialCoordinate( int gridX, int gridZ) {
         this.gridX = gridX;
         this.gridZ = gridZ;
     }
 
-    public static AxialCoordinate fromKey(final String key) {
+    public static AxialCoordinate fromKey(String key) {
         AxialCoordinate result;
         try {
             final String[] coords = key.split(",");
@@ -41,7 +41,7 @@ public final class AxialCoordinate  {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + gridX;
         result = prime * result + gridZ;
@@ -56,21 +56,21 @@ public final class AxialCoordinate  {
     public int getGridZ() {return gridZ;}
 
 
-    public static AxialCoordinate fromCoordinates(final int gridX, final int gridZ) {
+    public static AxialCoordinate fromCoordinates( int gridX, int gridZ) {
         return new AxialCoordinate(gridX, gridZ);
     }
 
-    public void setGridX (final int x)
+    public void setGridX ( int x)
     {
         gridX = x;
     }
 
-    public void setGridZ (final int z)
+    public void setGridZ ( int z)
     {
         gridZ = z;
     }
 
-    public void setCoordinate(final int x, final int z)
+    public void setCoordinate( int x,  int z)
     {
         gridX = x;
         gridZ = z;

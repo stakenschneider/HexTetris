@@ -6,8 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.example.masha.tetris.Controller;
 import api.AxialCoordinate;
@@ -26,6 +26,7 @@ import static com.example.masha.tetris.Settings.width;
 import static com.example.masha.tetris.Settings.height;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
+import static api.AxialCoordinate.fromCoordinates;
 
 
 public class DrawGrid {
@@ -38,6 +39,7 @@ public class DrawGrid {
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
     private int gridWidth = width , gridHeight = height;
+    private int point = 0;
     double radius;
     NormalPack pack;
 
@@ -59,7 +61,7 @@ public class DrawGrid {
                     .setGridLayout(hexagonGridLayout);
             hexagonalGrid = builder.build();
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
-            controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons());
+            controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons(), point);
         } catch (HexagonalGridCreationException e) {}
         pack = new NormalPack(hexagonalGrid);
     }
@@ -70,6 +72,8 @@ public class DrawGrid {
         switch (movement) {
             case "START":
                 pack.getFigure(gridWidth);
+                hexagonalGrid.getHexagonStorage().clear();
+                hexagonalGrid.getHexagonStorage().trimToSize();
                 break;
 
             case "COUNTER_CLCK":
@@ -81,11 +85,11 @@ public class DrawGrid {
                 break;
 
             case "DOWN_RIGHT":
-                controller.moveDownRight(hexagonalGrid);
+                point = controller.moveDownRight(hexagonalGrid);
                 break;
 
             case "DOWN_LEFT":
-                controller.moveDownLeft(hexagonalGrid);
+                point = controller.moveDownLeft(hexagonalGrid);
                 break;
 
             case "RIGHT":
@@ -98,28 +102,36 @@ public class DrawGrid {
         }
 
         if (hexagonalGrid.getHexagonStorage().isEmpty())  // если фигура залочилась, достаем следующую
+        {
+            hexagonalGrid.getHexagonStorage().trimToSize();
             pack.getFigure(gridWidth);
+        }
 
 
         canvas.drawColor(Color.parseColor("#1B2024"));
-
+        int[] array = new int[12];
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) { //фигруа
-            int[] array = new int[12];
             drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
         }
 
-        Set <AxialCoordinate> coordinates = hexagonalGrid.getLockedHexagons().keySet();
-        for (AxialCoordinate coordinate: coordinates) //залоченные фигуры
+        for (int z = 0; z<hexagonalGrid.getLockedHexagons().size(); z++) //залоченные фигуры
         {
-            int[] array = new int[12];
-            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(coordinate).get().getPoints(), array),  "#FF5346", Style.FILL);
+            ArrayList <Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
+            if (coordinate.size()!=0)
+                for (int x: coordinate) {
+                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(x,z)).get().getPoints(), array), "#FF5346", Style.FILL);
+                }
         }
 
         for (Hexagon hexagon : hexagonalGrid.getHexagons()) { //сетка
-            int[] array = new int[12];
             drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
         }
-
+        Paint p = new Paint();
+        p.setColor(Color.parseColor("#81AA21"));
+        p.setStrokeWidth(1);
+        p.setStyle(Style.FILL_AND_STROKE);
+        p.setTextSize(40);
+        canvas.drawText("score: "   + point, 30 , (float)scrh-15, p);
     }
 
 
@@ -146,12 +158,6 @@ public class DrawGrid {
 
         polyPath.lineTo(array[0], array[1]);
         canvas.drawPath(polyPath, p);
-
-        p.setStrokeWidth(1);
-        p.setStyle(Style.FILL_AND_STROKE);
-        p.setTextSize(40);
-        canvas.drawText("score: "  /** + point*/, 30 , (float)scrh-15, p);
-
     }
 
 
