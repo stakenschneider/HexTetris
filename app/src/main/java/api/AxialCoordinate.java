@@ -53,10 +53,8 @@ public final class AxialCoordinate  {
         return gridX;
     }
 
-    public int getGridZ()
-    {
-        return gridZ;
-    }
+    public int getGridZ() {return gridZ;}
+
 
     public static AxialCoordinate fromCoordinates(final int gridX, final int gridZ) {
         return new AxialCoordinate(gridX, gridZ);
@@ -77,7 +75,6 @@ public final class AxialCoordinate  {
         gridX = x;
         gridZ = z;
     }
-
 
     public String toKey() {
         return gridX + "," + gridZ;

@@ -6,13 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 import com.example.masha.tetris.Controller;
-import com.example.masha.tetris.R;
-
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
 import api.Hexagon;
@@ -76,11 +73,11 @@ public class DrawGrid {
                 break;
 
             case "COUNTER_CLCK":
-                controller.rotationCounterClockwise();
+                controller.rotationCounterClockwise(hexagonalGrid);
                 break;
 
             case "CLCK":
-                controller.rotationClockwise();
+                controller.rotationClockwise(hexagonalGrid);
                 break;
 
             case "DOWN_RIGHT":
