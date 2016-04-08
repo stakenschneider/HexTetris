@@ -38,7 +38,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         scrw = screenSizeW();
 
         SharedPreferences sp = getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-        boolean hasVisited = sp.getBoolean("hasVisited", false);    // проверяем, первый ли раз открывается программа
+        boolean hasVisited = sp.getBoolean("hasVisited", false);
         if (!hasVisited) {
             intent = new Intent (this, Start.class);
             startActivity(intent);

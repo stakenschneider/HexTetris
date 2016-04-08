@@ -2,6 +2,8 @@ package com.example.masha.tetris;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 
 import api.AxialCoordinate;
 import api.HexagonalGrid;
@@ -34,17 +36,16 @@ public class Controller {
     public void moveDownRight(HexagonalGrid hexagonalGrid)
     {
         for (int i = 0; i<dataMap.size(); i++) {
-            if (!check(i, hexagonalGrid, 0))  // проверка на столкновение
-            {
+            if (!check(i, hexagonalGrid, 0)) {
                 for (int j = 0; j < i; j++) {
-                    dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);   // если было столкновение, то предыдущие хексы делают шаг назад
-                    lockedHexagons.put(dataMap.get(j),j);           // и сразу вносим их в список залоченных хексов
+                    dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
+                    lockedHexagons.put(dataMap.get(j), dataMap.get(j).getGridZ()  );
                 }
 
-                for ( int j = i; j < dataMap.size(); j++)         // заносим в список оставишиеся хексы, которым шаг назад не требовался
-                    lockedHexagons.put(dataMap.get(j),j);
+                for ( int j = i; j < dataMap.size(); j++)
+                    lockedHexagons.put(dataMap.get(j),dataMap.get(j).getGridZ());
 
-                dataMap.clear();                             // очищаем список активной фигуры, чтобы потом вызвать следующую
+                dataMap.clear();
                 break;
             }
             dataMap.get(i).setGridZ(dataMap.get(i).getGridZ() + 1);
@@ -55,16 +56,15 @@ public class Controller {
     public void moveDownLeft(HexagonalGrid hexagonalGrid)
     {
         for (int i = 0; i<dataMap.size(); i++){
-            if (!check(i, hexagonalGrid, 1))
-            {
-                for (int j = 0; j < i; j++)
-                {
+            if (!check(i, hexagonalGrid, 1)) {
+                for (int j = 0; j < i; j++) {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
                     dataMap.get(j).setGridX(dataMap.get(j).getGridX() + 1);
-                    lockedHexagons.put(dataMap.get(j), j);
+                    lockedHexagons.put(dataMap.get(j), dataMap.get(j).getGridZ());
                 }
+
                 for (int j = i ; j < dataMap.size(); j++)
-                    lockedHexagons.put(dataMap.get(j), j);
+                    lockedHexagons.put(dataMap.get(j), dataMap.get(j).getGridZ());
 
                 dataMap.clear();
                 break;
@@ -79,7 +79,7 @@ public class Controller {
     public void moveRight(HexagonalGrid hexagonalGrid)
     {
         for (int i = 0; i<dataMap.size(); i++)
-            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()+1,dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()+1, dataMap.get(i).getGridZ()))))
+            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()+1,dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX() + 1, dataMap.get(i).getGridZ()))))
                 dataMap.get(i).setGridX(dataMap.get(i).getGridX() + 1);
             else {
                 for (int j = 0; j < i; j++)
@@ -92,7 +92,6 @@ public class Controller {
     public void moveLeft(HexagonalGrid hexagonalGrid)
     {
         for (int i = 0; i<dataMap.size(); i++)
-
             if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1,dataMap.get(i).getGridZ())).isPresent() & (!lockedHexagons.containsKey(fromCoordinates(dataMap.get(i).getGridX()-1,dataMap.get(i).getGridZ()))))
                     dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
             else {
@@ -125,7 +124,6 @@ public class Controller {
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++)
-        //тут тоже контент не для детеишек
             if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,-(dataMap.get(i).getGridX() - x) + z)).isPresent()&!lockedHexagons.containsKey(fromCoordinates(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,-(dataMap.get(i).getGridX() - x) + z))))
                 b = false;
 
@@ -134,37 +132,28 @@ public class Controller {
             dataMap.get(i).setCoordinate(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x , -(dataMap.get(i).getGridX() - x) + z);
     }
 
-    public void deleteRow(){  //обещала-написала
 
-        int q = 0;
-        for (int i = 0 ; i < height; i++) //пробегаемся по всем строкам
+    public void deleteRow() {
+        int count = 0;
+
+        if (height < 15) height = 15;
+        if (width < 8) width = 8;
+
+        for (int i = 0; i < height; i++) //пробегаемся по все строчкам
         {
-            q=0;
-            for (int j = 0 ; j <width; j++) //пробегаемся по всем элементам в строке
-            //да еще и не от нуля а от - чего то там
-            {
-                if (0==0) //типо если залочена фигура (но ты долбаеб суешь в хэшмап в значения всякое говно дебил бл;;ь АААААА)
-                {
-                    q++; //ТИПА считает сколько в строчке совпадений
-                }
-            }
+            for (int value : lockedHexagons.values()) //а теперь и по всем строчкам залоченым гексам
+                if (value == i) //ищем совпадения
+                    count++;
 
-            if (q==width) //если в строчке залоченых гексов столько же сколько и вообще мощность строчки
-            {
-                //удаляем строчку и тебе по пальцу за гекс
-                //плюс сдвигаем все к чертям собачьим
-            }
+            if (count == width) //если количество гексов в строчке равно мощности строчки
+                for (int j = 0; j < width; j++) //то все гексы
+                    lockedHexagons.values().remove(i); //удаляем из этой строчки
+            count = 0;
         }
 
-        //отличная идея а не говно прописанное вверху
-        //засовываем в значения хэша залоченых гексов строку
-        //каждый раз когда фигура лочится вызываем этот метод
-        //проверяем строки залоченного только что говна на полную заполненность (в нормал паке максимум 4)
-
-        for (int value : lockedHexagons.values()) {
-//            Log.d("Value: " , Integer.toString(value));
-        }
     }
+
+
 
 
 }

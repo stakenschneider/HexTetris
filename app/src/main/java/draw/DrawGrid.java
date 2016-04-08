@@ -37,23 +37,22 @@ public class DrawGrid {
     private Controller controller;
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
-    private int gridWidth = width , gridHeight = height;
     double radius;
     NormalPack pack;
 
 
     public DrawGrid () {
 
-        if (gridHeight == 0) gridHeight = 15; //эти строчки надо удалить когда разберусь с preferen и переходами между activity
+        if (height < 15) height = 15; //эти строчки надо удалить когда разберусь с preferen и переходами между activity
         // (в жопу разбираться с preferen оставим так)
-        if (gridWidth == 0) gridWidth = 8;
+        if (width < 8) width = 8;
 
         radius = radGame();
 
         try {
             HexagonalGridBuilder builder = new HexagonalGridBuilder()
-                    .setGridWidth(gridWidth)
-                    .setGridHeight(gridHeight)
+                    .setGridWidth(width)
+                    .setGridHeight(height)
                     .setRadius(radius)
                     .setOrientation(orientation)
                     .setGridLayout(hexagonGridLayout);
@@ -69,36 +68,50 @@ public class DrawGrid {
 
         switch (movement) {
             case "START":
-                pack.getFigure(gridWidth);
+                pack.getFigure(width);
+                controller.deleteRow();
+
                 break;
 
             case "COUNTER_CLCK":
                 controller.rotationCounterClockwise(hexagonalGrid);
+                controller.deleteRow();
+
                 break;
 
             case "CLCK":
                 controller.rotationClockwise(hexagonalGrid);
+                controller.deleteRow();
+
                 break;
 
             case "DOWN_RIGHT":
                 controller.moveDownRight(hexagonalGrid);
+                controller.deleteRow();
+
                 break;
 
             case "DOWN_LEFT":
                 controller.moveDownLeft(hexagonalGrid);
+                controller.deleteRow();
+
+
                 break;
 
             case "RIGHT":
                 controller.moveRight(hexagonalGrid);
+                controller.deleteRow();
                 break;
 
             case "LEFT":
                 controller.moveLeft(hexagonalGrid);
+                controller.deleteRow();
+
                 break;
         }
 
-        if (hexagonalGrid.getHexagonStorage().isEmpty())  // если фигура залочилась, достаем следующую
-            pack.getFigure(gridWidth);
+        if (hexagonalGrid.getHexagonStorage().isEmpty())
+            pack.getFigure(width);
 
 
         canvas.drawColor(Color.parseColor("#1B2024"));
@@ -133,9 +146,9 @@ public class DrawGrid {
         p.setColor(Color.parseColor(color));
         p.setStyle(style);
 
-        if (gridWidth > 15)
+        if (width > 15)
             p.setStrokeWidth(2);
-        else if (gridWidth>30)p.setStrokeWidth(1);
+        else if (width>30)p.setStrokeWidth(1);
         else p.setStrokeWidth(5);
 
         Path polyPath = new Path();
@@ -168,12 +181,12 @@ public class DrawGrid {
 
     public double radGame()
     {
-        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
-        int dfkj = 50; //отступ для score или
-        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > (scrh-dfkj) && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
-            radius = (scrh-dfkj) / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
-        else if ((radius*( gridHeight + ((gridHeight+1) /2))) > (scrh-dfkj) && gridHeight % 2 != 0) //если больше и кол во нч
-            radius = (scrh-dfkj) / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
+        radius = 2*scrw/(Math.sqrt(3)*(2*width+1)); //расчитываем радиус по ширине
+        int dfkj = 50;
+        if ((radius*(height / 2 + height + (Math.sqrt(3) / 2 / 2))) > (scrh-dfkj) && height % 2 == 0)
+            radius = (scrh-dfkj) / ( height/ 2 + height + (Math.sqrt(3) / 2 / 2));
+        else if ((radius*( height + ((height+1) /2))) > (scrh-dfkj) && height % 2 != 0)
+            radius = (scrh-dfkj) / ( height + ((height+1) /2));
 
         return radius;
     }

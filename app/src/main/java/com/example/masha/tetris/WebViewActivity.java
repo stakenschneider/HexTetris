@@ -32,19 +32,15 @@ public class WebViewActivity extends Activity {
     class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            Uri uri = Uri.parse(url);
 
-//            if(url.contains(getResources().getString(R.string.twitter_callback))) {
-                Uri uri = Uri.parse(url);
+            String verifier = uri.getQueryParameter(getString(R.string.twitter_oauth_verifier));
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(getString(R.string.twitter_oauth_verifier), verifier);
+            setResult(RESULT_OK, resultIntent);
 
-                String verifier = uri.getQueryParameter(getString(R.string.twitter_oauth_verifier));
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra(getString(R.string.twitter_oauth_verifier), verifier);
-                setResult(RESULT_OK, resultIntent);
-
-                finish();
-                return true;
-//            }
-//            return false;
+            finish();
+            return true;
         }
     }
 }

@@ -24,11 +24,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public EditText eTw , eTh;
     public static int height = 0 , width = 0 ;
 
-    public static String MY_PREF = "MY_PREF"; //ресурс в виде хмл типо там у нас и хранятся эти значения
-
-    public static final String sWIDTH = "width"; //ключ для ширины и высоты соответственно
-    public static final String sHEIGHT = "height";
-    public static final String FLAG = "flag";
+    public static String MY_PREF = "MY_PREF";
+    public static final String sWIDTH = "width" ,
+            sHEIGHT = "height" ,
+            FLAG = "flag";
 
 
     @Override
@@ -64,16 +63,14 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         // ТУТ ИЛИ ГДЕ ТО В ЭТОМ КЛАССЕ НЕ ЗАБЫТЬ ПОСТАВИТЬ ШЕРЕДПРЕФЕРЕНСИС (НАВЕРНО, ЛУЧШЕ БЫ СДЕЛАТЬ ЧТО ТО БОЛЕЕ УДОБНОЕ
         // ДЛЯ ТОГО ЧТО БЫ РАБОТА С ГОВЯНЫМ ЧЕКБОКСОМ БЫЛА НОРМАЛЬНА
 
-        // ПРОБЛЕМА: ЕСЛИ ВЫКЛЮЧИТЬ МУЗЫКУ ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ ПОТОМ ЗАХОДИМ ОБРАТНО БУДЕТ ПРЕДЛОЖЕНО ЕЕ ОПЯТЬ ВЫКЛЮЧИТЬ
-        //ВКЛЮЧИТЬ ТОЛЬКО ПРИ ТРЕХКРАТНОМ НАЖАТИЕ ЧТО - ГОВНОКОД
 
-        if (checkBox.isChecked()) { //выключить музыку
+        if (checkBox.isChecked()) {
             flag = true;
             stopService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.muson));
         }
 
-        if (!checkBox.isChecked()) //включить
+        if (!checkBox.isChecked())
         {
             flag = false;
             startService(new Intent(this, MyService.class));

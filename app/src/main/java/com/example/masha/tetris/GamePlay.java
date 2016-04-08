@@ -39,7 +39,7 @@ public class GamePlay extends AppCompatActivity{
                 y = event.getY();
 
                 switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: // нажатие
+                    case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
                             movement = "DOWN_LEFT";
                             view.invalidate();
