@@ -13,8 +13,6 @@ public interface Hexagon {
 
     void setState();
 
-    AxialCoordinate getHexagonData();
-
     int getGridX();
 
     int getGridY();

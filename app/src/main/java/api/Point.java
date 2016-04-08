@@ -1,8 +1,5 @@
 package api;
 
-import static java.lang.Math.sqrt;
-
-
 public final class Point {
 
     private final double coordinateX;
@@ -13,14 +10,7 @@ public final class Point {
         this.coordinateY = coordinateY;
     }
 
-    public static Point fromPosition(final double coordinateX, final double coordinateY) {
-        return new Point(coordinateX, coordinateY);
-    }
-
-    public double distanceFrom(final Point point) {
-        return sqrt((this.coordinateX - point.coordinateX) * (this.coordinateX - point.coordinateX)
-                + (this.coordinateY - point.coordinateY) * (this.coordinateY - point.coordinateY));
-    }
+    public static Point fromPosition(final double coordinateX, final double coordinateY) {return new Point(coordinateX, coordinateY);}
     
     public double getCoordinateX()
     {
@@ -31,6 +21,5 @@ public final class Point {
     {
         return coordinateY;
     }
-    
-    
+
 }

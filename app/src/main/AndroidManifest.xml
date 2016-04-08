@@ -28,7 +28,8 @@
         <activity android:name=".Settings" />
         <activity android:name=".WebViewActivity" />
         <activity android:name=".Start" />
-        <activity android:name=".Social"></activity>
+        <activity android:name=".Social" />
+        <activity android:name=".EndGame"></activity>
     </application>
 
 </manifest>

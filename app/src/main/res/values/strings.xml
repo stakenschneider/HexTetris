@@ -35,5 +35,7 @@
 
     <string name="score">score: </string>
     <string name="back_to_menu">back to main menu</string>
+    <string name="game_over">game over</string>
+    <string name="retry">retry</string>
 
 </resources>

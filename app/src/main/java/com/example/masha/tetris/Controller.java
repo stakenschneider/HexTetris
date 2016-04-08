@@ -3,7 +3,6 @@ package com.example.masha.tetris;
 import android.util.SparseArray;
 import java.util.ArrayList;
 
-
 import api.AxialCoordinate;
 import api.HexagonalGrid;
 
@@ -16,36 +15,34 @@ public class Controller {
     private SparseArray<ArrayList> lockedHexagons; // залоченные хексы (адаптированный HashMap <Integer, Arraylist> под Андроид)
     private  int point;
 
-    public Controller( ArrayList<AxialCoordinate> dataMap, SparseArray <ArrayList> lockedHexagons, int point)
-    {
+    public Controller( ArrayList<AxialCoordinate> dataMap, SparseArray <ArrayList> lockedHexagons, int point) {
         this.dataMap = dataMap;
         this.lockedHexagons = lockedHexagons;
         this.point = point;
     }
 
-    private boolean check (int i, HexagonalGrid hexagonalGrid , int n )
-    {
+
+    private boolean check (int i, HexagonalGrid hexagonalGrid , int n ) {
         if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-n,
-                dataMap.get(i).getGridZ()+1)).isPresent() || (lockedHexagons.get(dataMap.get(i).getGridZ()+1).contains(dataMap.get(i).getGridX()-n)))
+                dataMap.get(i).getGridZ()+1)).isPresent() || (lockedHexagons.get(dataMap.get(i).getGridZ()+1).contains(dataMap.get(i).getGridX() - n)))
             return false;
         return true;
     }
 
 
-    public int moveDownRight(HexagonalGrid hexagonalGrid)
-    {
+    public int moveDownRight(HexagonalGrid hexagonalGrid) {
         for (int i = 0; i<dataMap.size(); i++) {
-            if (!check(i, hexagonalGrid, 0))  // проверка на столкновение
-            {
+            if (!check(i, hexagonalGrid, 0)){
                 for (int j = 0; j < i; j++) {
-                    dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);   // если было столкновение, то предыдущие хексы делают шаг
-                    lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX()); // и сразу вносим их в список залоченных хексов
+                    dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
+                    lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
                 }
-                for ( int j = i; j < dataMap.size(); j++) {
-                    lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX()); // заносим в список оставишиеся хексы, которым шаг назад не требовался
-                }
+
+                for ( int j = i; j < dataMap.size(); j++)
+                    lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
+
                 checkRow(hexagonalGrid);
-                dataMap.clear();                             // очищаем список активной фигуры, чтобы потом вызвать следующую
+                dataMap.clear();
                 break;
             }
             dataMap.get(i).setGridZ(dataMap.get(i).getGridZ() + 1);
@@ -53,48 +50,25 @@ public class Controller {
         return point;
     }
 
-    private void checkRow(HexagonalGrid hexagonalGrid) {
-        for (AxialCoordinate data : dataMap) {
-            if (lockedHexagons.get(data.getGridZ()).size() == hexagonalGrid.getWidth()) {
-                point= hexagonalGrid.getWidth()+point;
-                lockedHexagons.get(data.getGridZ()).clear();
-                lockedHexagons.get(data.getGridZ()).trimToSize();
-                for (int i = data.getGridZ(); i > 0; i--) {
-                    if ((i-1)%2==0) {
-                        ArrayList <Integer> coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
-                        for (int x : (ArrayList<Integer>)lockedHexagons.get(i-1)) coordinate.add(x);
-                        lockedHexagons.put(i, coordinate);
-                    }
-                    else {
-                        ArrayList <Integer> coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
-                        for (Integer x : (ArrayList<Integer>)lockedHexagons.get(i-1)) coordinate.add(x-1);
-                        lockedHexagons.put(i, coordinate);
-                    }
-                }
-            }
-        }
-    }
 
-
-    public int moveDownLeft(HexagonalGrid hexagonalGrid)
-    {
+    public int moveDownLeft(HexagonalGrid hexagonalGrid) {
         for (int i = 0; i<dataMap.size(); i++){
             if (!check(i, hexagonalGrid, 1))
             {
-                for (int j = 0; j < i; j++)
-                {
+                for (int j = 0; j < i; j++) {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
                     dataMap.get(j).setGridX(dataMap.get(j).getGridX() + 1);
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());     //а вот и он! С просонья наверн не увидел)
+                }
 
-                }
-                for (int j = i ; j < dataMap.size(); j++) {
+                for (int j = i ; j < dataMap.size(); j++)
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
-                }
+
                 checkRow(hexagonalGrid);
                 dataMap.clear();
                 break;
             }
+
             dataMap.get(i).setGridZ(dataMap.get(i).getGridZ() + 1);
             dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
         }
@@ -102,26 +76,20 @@ public class Controller {
     }
 
 
-    public void moveRight(HexagonalGrid hexagonalGrid)
-    {
+    public void moveRight(HexagonalGrid hexagonalGrid) {
         for (int i = 0; i<dataMap.size(); i++)
-        {
-            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()+1,dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.get(dataMap.get(i).getGridZ()).contains(dataMap.get(i).getGridX()+1)))
+            if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()+1,dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.get(dataMap.get(i).getGridZ()).contains(dataMap.get(i).getGridX() + 1)))
                 dataMap.get(i).setGridX(dataMap.get(i).getGridX() + 1);
             else {
                 for (int j = 0; j < i; j++)
                     dataMap.get(j).setGridX(dataMap.get(j).getGridX() - 1);
                 break;
             }
-
-        }
     }
 
 
-    public void moveLeft(HexagonalGrid hexagonalGrid)
-    {
-        for (int i = 0; i<dataMap.size(); i++)
-        {
+    public void moveLeft(HexagonalGrid hexagonalGrid) {
+        for (int i = 0; i<dataMap.size(); i++) {
             if (hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-1, dataMap.get(i).getGridZ())).isPresent()&(!lockedHexagons.get(dataMap.get(i).getGridZ()).contains(dataMap.get(i).getGridX()-1)))
                 dataMap.get(i).setGridX(dataMap.get(i).getGridX() - 1);
             else {
@@ -138,7 +106,6 @@ public class Controller {
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++)
-            //осторожно порнуха
             if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(dataMap.get(i).getGridZ() - z) + x,-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z)).isPresent() &!lockedHexagons.get(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z).contains(-(dataMap.get(i).getGridZ() - z) + x)))
                 b = false;
 
@@ -154,12 +121,33 @@ public class Controller {
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++)
-            //тут тоже контент не для детеишек
             if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,-(dataMap.get(i).getGridX() - x) + z)).isPresent()&!lockedHexagons.get(-(dataMap.get(i).getGridX() - x) + z).contains(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x)))
                 b = false;
 
         if (b==true)
             for (int i = 1; i<dataMap.size(); i++)
                 dataMap.get(i).setCoordinate(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x , -(dataMap.get(i).getGridX() - x) + z);
+    }
+
+
+    private void checkRow(HexagonalGrid hexagonalGrid) {
+        for (AxialCoordinate data : dataMap)
+            if (lockedHexagons.get(data.getGridZ()).size() == hexagonalGrid.getWidth()) {
+                point= hexagonalGrid.getWidth()+point;
+                lockedHexagons.get(data.getGridZ()).clear();
+                lockedHexagons.get(data.getGridZ()).trimToSize();
+
+                for (int i = data.getGridZ(); i > 0; i--)
+                    if ((i-1)%2==0) {
+                        ArrayList <Integer> coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
+                        for (int x : (ArrayList<Integer>)lockedHexagons.get(i-1)) coordinate.add(x);
+                        lockedHexagons.put(i, coordinate);
+                    }
+                    else {
+                        ArrayList <Integer> coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
+                        for (Integer x : (ArrayList<Integer>)lockedHexagons.get(i-1)) coordinate.add(x-1);
+                        lockedHexagons.put(i, coordinate);
+                    }
+            }
     }
 }

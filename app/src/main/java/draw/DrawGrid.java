@@ -38,7 +38,6 @@ public class DrawGrid {
     private Controller controller;
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
-    private int gridWidth = width , gridHeight = height;
     private int point = 0;
     double radius;
     NormalPack pack;
@@ -46,16 +45,14 @@ public class DrawGrid {
 
     public DrawGrid () {
 
-        if (gridHeight == 0) gridHeight = 15; //эти строчки надо удалить когда разберусь с preferen и переходами между activity
-        // (в жопу разбираться с preferen оставим так)
-        if (gridWidth == 0) gridWidth = 8;
-
+        if (height < 15) height = 15;  // (в жопу разбираться с preferen оставим так)
+        if (width < 8) width = 8;
         radius = radGame();
 
         try {
             HexagonalGridBuilder builder = new HexagonalGridBuilder()
-                    .setGridWidth(gridWidth)
-                    .setGridHeight(gridHeight)
+                    .setGridWidth(width)
+                    .setGridHeight(height)
                     .setRadius(radius)
                     .setOrientation(orientation)
                     .setGridLayout(hexagonGridLayout);
@@ -71,7 +68,7 @@ public class DrawGrid {
 
         switch (movement) {
             case "START":
-                pack.getFigure(gridWidth);
+                pack.getFigure(width);
                 hexagonalGrid.getHexagonStorage().clear();
                 hexagonalGrid.getHexagonStorage().trimToSize();
                 break;
@@ -101,10 +98,9 @@ public class DrawGrid {
                 break;
         }
 
-        if (hexagonalGrid.getHexagonStorage().isEmpty())  // если фигура залочилась, достаем следующую
-        {
+        if (hexagonalGrid.getHexagonStorage().isEmpty()) { // если фигура залочилась, достаем следующую
             hexagonalGrid.getHexagonStorage().trimToSize();
-            pack.getFigure(gridWidth);
+            pack.getFigure(width);
         }
 
 
@@ -114,18 +110,18 @@ public class DrawGrid {
             drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
         }
 
-        for (int z = 0; z<hexagonalGrid.getLockedHexagons().size(); z++) //залоченные фигуры
-        {
+        for (int z = 0; z<hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
             ArrayList <Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
             if (coordinate.size()!=0)
-                for (int x: coordinate) {
+                for (int x: coordinate)
                     drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(x,z)).get().getPoints(), array), "#FF5346", Style.FILL);
-                }
+
         }
 
         for (Hexagon hexagon : hexagonalGrid.getHexagons()) { //сетка
             drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
         }
+
         Paint p = new Paint();
         p.setColor(Color.parseColor("#81AA21"));
         p.setStrokeWidth(1);
@@ -145,9 +141,9 @@ public class DrawGrid {
         p.setColor(Color.parseColor(color));
         p.setStyle(style);
 
-        if (gridWidth > 15)
+        if (width > 15)
             p.setStrokeWidth(2);
-        else if (gridWidth>30)p.setStrokeWidth(1);
+        else if (width>30)p.setStrokeWidth(1);
         else p.setStrokeWidth(5);
 
         Path polyPath = new Path();
@@ -174,12 +170,13 @@ public class DrawGrid {
 
     public double radGame()
     {
-        radius = 2*scrw/(Math.sqrt(3)*(2*gridWidth+1)); //расчитываем радиус по ширине
-        int dfkj = 50; //отступ для score или
-        if ((radius*(gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2))) > (scrh-dfkj) && gridHeight % 2 == 0)  // если в итоге он больше а колво в высоту четное
-            radius = (scrh-dfkj) / (gridHeight / 2 + gridHeight + (Math.sqrt(3) / 2 / 2)); //выравнивание по высоте для четного
-        else if ((radius*( gridHeight + ((gridHeight+1) /2))) > (scrh-dfkj) && gridHeight % 2 != 0) //если больше и кол во нч
-            radius = (scrh-dfkj) / ( gridHeight + ((gridHeight+1) /2));  //выравнивание по высоте для нч
+        radius = 2*scrw/(Math.sqrt(3)*(2*width+1));
+        int dfkj = 50;
+
+        if ((radius*(height / 2 + height + (Math.sqrt(3) / 2 / 2))) > (scrh-dfkj) && height % 2 == 0)
+            radius = (scrh-dfkj) / (height / 2 + height + (Math.sqrt(3) / 2 / 2));
+        else if ((radius*( height + ((height+1) /2))) > (scrh-dfkj) && height % 2 != 0)
+            radius = (scrh-dfkj) / ( height + ((height+1) /2));
 
         return radius;
     }

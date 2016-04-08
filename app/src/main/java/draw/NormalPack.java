@@ -9,26 +9,19 @@ import java.util.Random;
 import api.AxialCoordinate;
 import api.Hexagon;
 import api.HexagonalGrid;
+
 import static api.AxialCoordinate.fromCoordinates;
 
 public class NormalPack {
 
-    private ArrayList<Hexagon> figure1;
-    private ArrayList<Hexagon> figure2;
-    private ArrayList<Hexagon> figure3;
-    private ArrayList<Hexagon> figure4;
+    private ArrayList<Hexagon> figure1 , figure2 , figure3 , figure4;
 
     ArrayList <ArrayList<Hexagon>> pack = new ArrayList<ArrayList<Hexagon>>();
-    private AxialCoordinate ax1;
-    private AxialCoordinate ax2;
-    private AxialCoordinate ax3;
-    private AxialCoordinate ax4;
-
+    private AxialCoordinate ax1 ,  ax2 , ax3 ,  ax4;
 
     private HexagonalGrid hexagonalGrid;
 
-    public NormalPack(HexagonalGrid hexagonalGrid)
-    {
+    public NormalPack(HexagonalGrid hexagonalGrid) {
         this.hexagonalGrid = hexagonalGrid;
         figure1 = makeFirst();
         figure2 = makeSecond();
@@ -39,8 +32,8 @@ public class NormalPack {
         pack.add(figure3);
         pack.add(figure4);
     }
-    public ArrayList<Hexagon> makeFirst()
-    {
+
+    public ArrayList<Hexagon> makeFirst() {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
         ax1 = fromCoordinates(1,1);
         ax2 = fromCoordinates(1,2);
@@ -53,8 +46,7 @@ public class NormalPack {
         return figure;
     }
 
-    public ArrayList<Hexagon> makeSecond()
-    {
+    public ArrayList<Hexagon> makeSecond() {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
         ax1 = fromCoordinates(1,1);
         ax2 = fromCoordinates(1,2);
@@ -66,8 +58,8 @@ public class NormalPack {
         figure.add(hexagonalGrid.getByAxialCoordinate(ax4).get());
         return figure;
     }
-    public ArrayList<Hexagon> makeThird()
-    {
+
+    public ArrayList<Hexagon> makeThird() {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
         ax1 = fromCoordinates(1,1);
         ax2 = fromCoordinates(1,2);
@@ -80,8 +72,8 @@ public class NormalPack {
 
         return figure;
     }
-    public ArrayList<Hexagon> makeFourth()
-    {
+
+    public ArrayList<Hexagon> makeFourth() {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
         ax1 = fromCoordinates(1,1);
         ax2 = fromCoordinates(2,1);
@@ -92,8 +84,7 @@ public class NormalPack {
         return figure;
     }
 
-    public void getFigure(int gridWidth)
-    {
+    public void getFigure(int gridWidth) {
         Random random = new Random();
         ArrayList <Hexagon> newFigure = pack.get(random.nextInt(4));
         Iterator<Hexagon> iterator = newFigure.iterator();
@@ -102,7 +93,7 @@ public class NormalPack {
         iterator.next();
         while (iterator.hasNext()){
             hexagonalGrid.getByAxialCoordinate(figureCoordinate.getNewCoordinate(iterator.next())).get().setState();
-        };
+        }
     }
 }
 

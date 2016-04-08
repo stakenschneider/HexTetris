@@ -14,10 +14,6 @@ public enum HexagonalGridLayout {
         this.gridLayoutStrategy = gridLayoutStrategy;
     }
 
-    boolean checkParameters(final int gridHeight, final int gridWidth) {
-        return getGridLayoutStrategy().checkParameters(gridHeight, gridWidth);
-    }
-
     public GridLayoutStrategy getGridLayoutStrategy() {
         return gridLayoutStrategy;
     }

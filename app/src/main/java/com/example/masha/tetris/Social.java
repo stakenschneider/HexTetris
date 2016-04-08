@@ -90,7 +90,6 @@ public class Social extends AppCompatActivity implements View.OnClickListener {
 
 
     private void saveTwitterInfo(AccessToken accessToken) {
-
         long userId = accessToken.getUserId();
         User user;
 
@@ -109,7 +108,6 @@ public class Social extends AppCompatActivity implements View.OnClickListener {
 
 
     private void loginToTwitter() {
-
         boolean isLoggedIn = sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
 
         if(!isLoggedIn) {
@@ -134,7 +132,6 @@ public class Social extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(resultCode == Activity.RESULT_OK) {
             String verifier = data.getExtras().getString(oAuthVerifier);
 
@@ -161,7 +158,6 @@ public class Social extends AppCompatActivity implements View.OnClickListener {
 
         @Override
         protected Void doInBackground(String... params) {
-
             String status = params[0];
 
             try {

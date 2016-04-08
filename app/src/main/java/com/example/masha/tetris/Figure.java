@@ -13,11 +13,9 @@ import static api.CoordinateConverter.convertOffsetCoordinatesToAxialX;
 
 public class Figure {
 
-    private class OffsetCoordinate
-    {
+    private class OffsetCoordinate {
         public int col , row;
-        public OffsetCoordinate(int x, int y)
-        {
+        public OffsetCoordinate(int x, int y) {
             col = x;
             row = y;
         }
@@ -26,8 +24,7 @@ public class Figure {
     int quantity , maxcol = -1, dx , dy;
     ArrayList <Hexagon> Hexagons;
 
-    public Figure(ArrayList <Hexagon> hex)
-    {
+    public Figure(ArrayList <Hexagon> hex) {
         Hexagons = hex;
         quantity = Hexagons.size();
     }
@@ -47,6 +44,7 @@ public class Figure {
         firstrow = Hexagons.get(0).getGridZ()- offsetCoordinate.row;
         firstcol = convertToCol(Hexagons.get(0).getGridX(), Hexagons.get(0).getGridZ())- dx;
         firstcol = convertOffsetCoordinatesToAxialX(firstcol,firstrow);
+
         AxialCoordinate coordinate = new AxialCoordinate(firstcol,firstrow);
         dy = offsetCoordinate.row;
 
@@ -58,15 +56,13 @@ public class Figure {
     {
         int row = hex.getGridZ()-dy , col;
 
-        if (row%2!=0)
-            col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx - 1;
-        else
-            col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx;
+        if (row%2!=0) col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx - 1;
+        else col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx;
 
         col = convertOffsetCoordinatesToAxialX(col,row);
         AxialCoordinate coordinate = new AxialCoordinate(col,row);
 
-        return coordinate;
+            return coordinate;
     }
 
 
@@ -96,10 +92,5 @@ public class Figure {
         OffsetCoordinate offsetCoordinate = new OffsetCoordinate( mincol , minrow );
 
         return offsetCoordinate;
-    }
-
-    public int getQuantity()
-    {
-        return quantity;
     }
 }
