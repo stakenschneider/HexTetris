@@ -17,6 +17,7 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
+
     Boolean flag = false;
     CheckBox checkBox;
     SharedPreferences sharedPreferences;
