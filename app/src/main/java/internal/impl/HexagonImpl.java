@@ -1,5 +1,7 @@
 package internal.impl;
 
+import android.util.SparseArray;
+
 import api.AxialCoordinate;
 import api.Hexagon;
 import api.Point;
@@ -14,21 +16,22 @@ import static api.HexagonOrientation.FLAT_TOP;
 import static api.Point.fromPosition;
 import static api.AxialCoordinate.fromCoordinates;
 
-
 public class HexagonImpl implements Hexagon {
 
     private final AxialCoordinate coordinate;
     private final transient GridData sharedData;
     private final transient ArrayList<AxialCoordinate> dataMap;
+    private final transient SparseArray<ArrayList> lockedHexagons;
 
-    private HexagonImpl(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap) {
+    private HexagonImpl(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap , SparseArray<ArrayList> lockedHexagons) {
         this.sharedData = gridData;
         this.coordinate = coordinate;
         this.dataMap = dataMap;
+        this.lockedHexagons = lockedHexagons;
     }
 
-    public static Hexagon newHexagon(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap) {
-        return new HexagonImpl(gridData, coordinate, dataMap);
+    public static Hexagon newHexagon(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap , SparseArray<ArrayList> lockedHexagons) {
+        return new HexagonImpl(gridData, coordinate, dataMap , lockedHexagons);
     }
 
     @Override
@@ -50,10 +53,9 @@ public class HexagonImpl implements Hexagon {
 
     @Override
     public void setState() {
-
         AxialCoordinate data = fromCoordinates(getAxialCoordinate().getGridX(), getAxialCoordinate().getGridZ());
-
         dataMap.add(data);
+
     }
 
     @Override

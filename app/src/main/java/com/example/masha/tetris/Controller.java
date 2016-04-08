@@ -5,15 +5,16 @@ import java.util.ArrayList;
 
 import api.AxialCoordinate;
 import api.HexagonalGrid;
+import backport.Optional;
 
 import static api.AxialCoordinate.fromCoordinates;
 
 
-public class Controller {
+public class   Controller {
 
-    private  ArrayList<AxialCoordinate> dataMap; //хексы активной фигуры
-    private SparseArray<ArrayList> lockedHexagons; // залоченные хексы (адаптированный HashMap <Integer, Arraylist> под Андроид)
-    private  int point;
+    private ArrayList<AxialCoordinate> dataMap;  //фигуры в движении
+    public SparseArray<ArrayList> lockedHexagons; // заблокированные шестиугольники
+    private int point; //очки
 
     public Controller( ArrayList<AxialCoordinate> dataMap, SparseArray <ArrayList> lockedHexagons, int point) {
         this.dataMap = dataMap;
@@ -106,7 +107,10 @@ public class Controller {
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++)
-            if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(dataMap.get(i).getGridZ() - z) + x,-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z)).isPresent() &!lockedHexagons.get(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z).contains(-(dataMap.get(i).getGridZ() - z) + x)))
+            if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(  -(dataMap.get(i).getGridZ() - z) + x ,  //NULL EXCEPTION
+                    -(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z)   ).isPresent() &
+                    (!lockedHexagons.get(Optional.ofNullable(-(-dataMap.get(i).getGridX() - dataMap.get(i).
+                    getGridZ() - y) + z).get()).contains(-(dataMap.get(i).getGridZ() - z) + x))))
                 b = false;
 
         if (b==true)
@@ -121,7 +125,9 @@ public class Controller {
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++)
-            if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,-(dataMap.get(i).getGridX() - x) + z)).isPresent()&!lockedHexagons.get(-(dataMap.get(i).getGridX() - x) + z).contains(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x)))
+            if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,
+                    -(dataMap.get(i).getGridX() - x) + z)).isPresent()
+                    &!lockedHexagons.get(-(dataMap.get(i).getGridX() - x) + z).contains(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x)))
                 b = false;
 
         if (b==true)

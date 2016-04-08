@@ -87,8 +87,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    public double screenSizeW()
-    {
+    public double screenSizeW() {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);
@@ -97,8 +96,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    public double screenSizeH()
-    {
+    public double screenSizeH() {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);

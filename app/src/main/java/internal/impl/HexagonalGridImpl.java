@@ -1,6 +1,5 @@
 package internal.impl;
 
-
 import android.util.SparseArray;
 
 import api.AxialCoordinate;
@@ -61,7 +60,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
     public Iterable<Hexagon> getHexagons() {
         ArrayList <Hexagon> Hexagons = new  ArrayList<Hexagon> ();
         Iterator<AxialCoordinate> iterator = coordinates.iterator();
-        do Hexagons.add(newHexagon(gridData,iterator.next(), hexagonStorage));
+        do Hexagons.add(newHexagon(gridData,iterator.next(), hexagonStorage , lockedHexagons));
          while(iterator.hasNext());
         return Hexagons;
     }
@@ -74,7 +73,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
     @Override
     public  Optional<Hexagon> getByAxialCoordinate(final AxialCoordinate coordinate) {
         return containsAxialCoordinate(coordinate)
-                ? Optional.of(newHexagon(gridData, coordinate, hexagonStorage))
+                ? Optional.of(newHexagon(gridData, coordinate, hexagonStorage, lockedHexagons))
                 : Optional.empty();
     }
 }

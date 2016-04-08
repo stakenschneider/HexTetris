@@ -12,7 +12,7 @@ import api.HexagonalGrid;
 
 import static api.AxialCoordinate.fromCoordinates;
 
-public class NormalPack {
+public class Pack_1 extends Pack {
 
     private ArrayList<Hexagon> figure1 , figure2 , figure3 , figure4;
 
@@ -21,8 +21,9 @@ public class NormalPack {
 
     private HexagonalGrid hexagonalGrid;
 
-    public NormalPack(HexagonalGrid hexagonalGrid) {
-        this.hexagonalGrid = hexagonalGrid;
+    public Pack_1(HexagonalGrid hexagonalGrid) {
+        super(hexagonalGrid);
+        this.hexagonalGrid=hexagonalGrid;
         figure1 = makeFirst();
         figure2 = makeSecond();
         figure3 = makeThird();

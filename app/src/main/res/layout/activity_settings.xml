@@ -91,10 +91,32 @@
         android:layout_height="wrap_content"
         android:text="@string/musoff"
         android:id="@+id/radioButton"
-        android:layout_below="@+id/bttnSentence"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="47dp"
         android:textColor="@color/yell"
-        android:checked="false" />
+        android:checked="false"
+        android:layout_below="@+id/bttnDialog"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="37dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bttnDialog"
+        android:layout_below="@+id/bttnSentence"
+        android:layout_toEndOf="@+id/radioButton"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/yell"
+        android:background="@color/darkGreen"
+        android:text="@string/pack" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_menu"
+        android:id="@+id/bttnMenu"
+        android:background="@color/darkGreen"
+        android:textColor="@color/yell"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/bttnDialog" />
+
 
 </RelativeLayout>

@@ -33,4 +33,7 @@
     <string name="muson">включить музыку</string>
     <string name="share_btn">отправить</string>
     <string name="back_to_menu">обратно в меню</string>
+    <string name="game_over">вы проиграли</string>
+    <string name="pack">выберите массив с фигурами (я не знаю как это на русский перевести)</string>
+    <string name="retry">сыграть снова</string>
 </resources>

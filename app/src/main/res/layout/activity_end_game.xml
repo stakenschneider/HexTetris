@@ -15,19 +15,24 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/game_over"
         android:id="@+id/textView6"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/yell" />
+        android:textColor="@color/yell"
+        android:foregroundGravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="176dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/score"
-        android:id="@+id/textView8"
+        android:id="@+id/textScore"
+        android:textColor="@color/yell"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="false"
+        android:foregroundGravity="center_horizontal"
         android:layout_below="@+id/textView6"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/yell" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="fill_parent"

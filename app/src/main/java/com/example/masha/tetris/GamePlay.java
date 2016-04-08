@@ -1,5 +1,6 @@
 package com.example.masha.tetris;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
@@ -16,13 +17,15 @@ import static com.example.masha.tetris.Main.scrw;
 import draw.DrawGrid;
 
 
-public class GamePlay extends AppCompatActivity{
+public class GamePlay extends AppCompatActivity {
 
 
     DrawGrid d;
     String movement = "START";
     CanvasView view;
     float x  , y;
+    Intent intent;
+    private boolean over = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,6 @@ public class GamePlay extends AppCompatActivity{
 
 
     class CanvasView extends View {
-
         public CanvasView(Context context) {
             super(context);
             d = new DrawGrid();
@@ -93,8 +95,19 @@ public class GamePlay extends AppCompatActivity{
 
         @Override
         protected void onDraw(Canvas canvas) {
-            d.useBuilder(canvas, movement);
+             over = d.useBuilder(canvas, movement);
+            if (over == true)
+                gameOver();
+
         }
+    }
+
+
+    private void gameOver()
+    {
+        finish();
+        intent = new Intent(this , EndGame.class);
+        startActivity(intent);
     }
 }
 

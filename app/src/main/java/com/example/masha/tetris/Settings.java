@@ -1,5 +1,7 @@
 package com.example.masha.tetris;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity;
@@ -17,53 +19,73 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-
     Boolean flag = false;
     CheckBox checkBox;
     SharedPreferences sharedPreferences;
+    AlertDialog.Builder ad;
+    public static String strpack;
 
     public EditText eTw , eTh;
     public static int height = 0 , width = 0 ;
 
     public static String MY_PREF = "MY_PREF";
     public static final String sWIDTH = "width" ,
-            sHEIGHT = "height" ,
-            FLAG = "flag";
+            sHEIGHT = "height";
 
+    final CharSequence myList[] = {"normal", "ne normal", "pack 3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        findViewById(R.id.bttnDialog).setOnClickListener(this);
+        findViewById(R.id.bttnSentence).setOnClickListener(this);
+        findViewById(R.id.bttnMenu).setOnClickListener(this);
+
         eTw = (EditText) findViewById(R.id.width);
         eTh = (EditText) findViewById(R.id.height);
-
-        findViewById(R.id.bttnSentence).setOnClickListener(this);
 
         checkBox = (CheckBox) findViewById(R.id.radioButton);
         checkBox.setOnClickListener(this);
 
-        if (flag) {
-//            checkBox.isChecked();
-            checkBox.setText(getResources().getString(R.string.muson));
-        }
+        ad = new AlertDialog.Builder(this);
+        ad.setTitle(getResources().getString(R.string.pack) + "?");
 
+        ad.setSingleChoiceItems(myList, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                strpack = myList[arg1].toString();
+            }
+        });
+
+        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+
+            }
+        });
     }
 
 
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttnSentence:
                 eTh.setText("" +(int)((2*(scrh-30)-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
                 break;
+
+            case R.id.bttnDialog:
+                ad.show();
+                break;
+
+            case R.id.bttnMenu:
+                finish();
+                break;
         }
 
         //ЧТО БЫ НЕ ЗАБЫТЬ!!!!!!!!!
-
-        // ТУТ ИЛИ ГДЕ ТО В ЭТОМ КЛАССЕ НЕ ЗАБЫТЬ ПОСТАВИТЬ ШЕРЕДПРЕФЕРЕНСИС (НАВЕРНО, ЛУЧШЕ БЫ СДЕЛАТЬ ЧТО ТО БОЛЕЕ УДОБНОЕ
-        // ДЛЯ ТОГО ЧТО БЫ РАБОТА С ГОВЯНЫМ ЧЕКБОКСОМ БЫЛА НОРМАЛЬНА
-
 
         if (checkBox.isChecked()) {
             flag = true;
@@ -87,7 +109,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
             Editor ed = sharedPreferences.edit();
 
-            ed.putBoolean(FLAG , flag);
             ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
             ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
 
@@ -99,7 +120,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     void loadText() {
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
 
-        flag = sharedPreferences.getBoolean(FLAG , true);
         width = sharedPreferences.getInt(sWIDTH , 8 );
         height = sharedPreferences.getInt(sHEIGHT, 16);
     }
