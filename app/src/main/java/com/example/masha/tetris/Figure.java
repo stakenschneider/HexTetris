@@ -21,7 +21,7 @@ public class Figure {
         }
     }
 
-    int quantity , maxcol = -1, dx , dy;
+    int quantity , maxCol = -1, dx , dy;
     ArrayList <Hexagon> Hexagons;
 
     public Figure(ArrayList <Hexagon> hex) {
@@ -36,10 +36,10 @@ public class Figure {
 
         OffsetCoordinate offsetCoordinate = placeFirst();
 
-        if ((maxcol-offsetCoordinate.col) % 2 == 0)
-            dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2)-1);
+        if ((maxCol-offsetCoordinate.col) % 2 == 0)
+            dx =offsetCoordinate.col-((width/2)-((maxCol-offsetCoordinate.col+1)/2)-1);
         else
-            dx =offsetCoordinate.col-((width/2)-((maxcol-offsetCoordinate.col+1)/2));
+            dx =offsetCoordinate.col-((width/2)-((maxCol-offsetCoordinate.col+1)/2));
 
         firstrow = Hexagons.get(0).getGridZ()- offsetCoordinate.row;
         firstcol = convertToCol(Hexagons.get(0).getGridX(), Hexagons.get(0).getGridZ())- dx;
@@ -62,7 +62,7 @@ public class Figure {
         col = convertOffsetCoordinatesToAxialX(col,row);
         AxialCoordinate coordinate = new AxialCoordinate(col,row);
 
-            return coordinate;
+        return coordinate;
     }
 
 
@@ -81,8 +81,8 @@ public class Figure {
             if (currentcol<mincol||mincol==-1)
                 mincol = currentcol;
 
-            if (currentcol>maxcol||mincol==-1)
-                maxcol = currentcol;
+            if (currentcol>maxCol||mincol==-1)
+                maxCol = currentcol;
 
             if (currentrow<minrow||minrow==-1)
                 minrow = currentrow;

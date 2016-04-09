@@ -72,7 +72,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttnSentence:
-                if (!eTw.getText().toString().equals("")) //
+                if (!eTw.getText().toString().equals(""))
                 eTh.setText("" +(int)((2*(scrh-30)-2*scrw/
                         (Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/
                         (3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));

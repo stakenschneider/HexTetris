@@ -54,7 +54,8 @@
         android:textColor="@color/yell"
         android:checked="false"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:button="@drawable/music_converted" />
 
     <Button
         android:layout_width="fill_parent"
