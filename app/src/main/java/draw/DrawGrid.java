@@ -20,6 +20,7 @@ import api.HexagonalGridBuilder;
 import api.HexagonalGridCalculator;
 import api.HexagonalGridLayout;
 import api.Point;
+import backport.Optional;
 
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
@@ -65,6 +66,9 @@ public class DrawGrid {
         } catch (HexagonalGridCreationException e) {}
 
 
+        try {
+            strpack = Optional.ofNullable(strpack).get();
+        } catch (Exception NoSuchElementException) {strpack = "normal";}
         switch (strpack) {
             case "normal":
                 pack = new Pack_1(hexagonalGrid);

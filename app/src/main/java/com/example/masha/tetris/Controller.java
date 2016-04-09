@@ -24,7 +24,7 @@ public class   Controller {
 
 
     private boolean check (int i, HexagonalGrid hexagonalGrid , int n ) {
-        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-n,
+                if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(dataMap.get(i).getGridX()-n,
                 dataMap.get(i).getGridZ()+1)).isPresent() || (lockedHexagons.get(dataMap.get(i).getGridZ()+1).contains(dataMap.get(i).getGridX() - n)))
             return false;
         return true;
@@ -107,30 +107,30 @@ public class   Controller {
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++)
-            if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(  -(dataMap.get(i).getGridZ() - z) + x ,  //NULL EXCEPTION
-                    -(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z)   ).isPresent() &
-                    (!lockedHexagons.get(Optional.ofNullable(-(-dataMap.get(i).getGridX() - dataMap.get(i).
-                    getGridZ() - y) + z).get()).contains(-(dataMap.get(i).getGridZ() - z) + x))))
-                b = false;
+            if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(  -(dataMap.get(i).getGridZ() - z) + x ,  //NULL EXCEPTION
+                    -(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z)   ).isPresent() ||
+                    (Optional.ofNullable(lockedHexagons.get((-(-dataMap.get(i).getGridX() - dataMap.get(i).
+                    getGridZ() - y) + z))).get().contains(-(dataMap.get(i).getGridZ() - z) + x))) {
+                b = false; break;
+                }
 
-        if (b==true)
+        if (b)
             for (int i = 1; i<dataMap.size(); i++)
                 dataMap.get(i).setCoordinate(-(dataMap.get(i).getGridZ() - z) + x, -(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z);
 
     }
-
 
     public void rotationCounterClockwise(HexagonalGrid hexagonalGrid) {
         int x = dataMap.get(0).getGridX() ,  z = dataMap.get(0).getGridZ() , y = - x - z;
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++)
-            if (!(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,
+            if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x,
                     -(dataMap.get(i).getGridX() - x) + z)).isPresent()
-                    &!lockedHexagons.get(-(dataMap.get(i).getGridX() - x) + z).contains(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x)))
-                b = false;
+                    ||Optional.ofNullable(lockedHexagons.get(-(dataMap.get(i).getGridX() - x) + z)).get().contains(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x)){
+                b = false; break;}
 
-        if (b==true)
+        if (b)
             for (int i = 1; i<dataMap.size(); i++)
                 dataMap.get(i).setCoordinate(-(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + x , -(dataMap.get(i).getGridX() - x) + z);
     }
@@ -145,13 +145,13 @@ public class   Controller {
 
                 for (int i = data.getGridZ(); i > 0; i--)
                     if ((i-1)%2==0) {
-                        ArrayList <Integer> coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
+                        ArrayList  coordinate = new ArrayList(lockedHexagons.get(i - 1).size());
                         for (int x : (ArrayList<Integer>)lockedHexagons.get(i-1)) coordinate.add(x);
                         lockedHexagons.put(i, coordinate);
                     }
                     else {
-                        ArrayList <Integer> coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
-                        for (Integer x : (ArrayList<Integer>)lockedHexagons.get(i-1)) coordinate.add(x-1);
+                        ArrayList  coordinate = new ArrayList(lockedHexagons.get(i - 1).size());
+                        for (int x : (ArrayList<Integer>)lockedHexagons.get(i-1)) coordinate.add(x-1);
                         lockedHexagons.put(i, coordinate);
                     }
             }
