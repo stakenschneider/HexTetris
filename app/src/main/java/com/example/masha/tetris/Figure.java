@@ -56,7 +56,7 @@ public class Figure {
     {
         int row = hex.getGridZ()-dy , col;
 
-        if (row%2!=0) col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx - 1;
+        if (row%2!=0&dy!=0) col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx - 1;
         else col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx;
 
         col = convertOffsetCoordinatesToAxialX(col,row);
