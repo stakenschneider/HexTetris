@@ -37,9 +37,9 @@ public class Pack_3 extends Pack {
     public ArrayList<Hexagon> makeFirst() {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
         ax1 = fromCoordinates(1,1);
-        ax2 = fromCoordinates(1,3);
-        ax3 = fromCoordinates(2,3);
-        ax4 = fromCoordinates(2,4);
+        ax2 = fromCoordinates(2,2);
+        ax3 = fromCoordinates(3,3);
+        ax4 = fromCoordinates(4,4);
         figure.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
         figure.add(hexagonalGrid.getByAxialCoordinate(ax2).get());
         figure.add(hexagonalGrid.getByAxialCoordinate(ax3).get());
@@ -50,9 +50,9 @@ public class Pack_3 extends Pack {
     public ArrayList<Hexagon> makeSecond() {
         ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
         ax1 = fromCoordinates(1,1);
-        ax2 = fromCoordinates(2,1);
-        ax3 = fromCoordinates(3,3);
-        ax4 = fromCoordinates(0,4);
+        ax2 = fromCoordinates(1,3);
+        ax3 = fromCoordinates(1,5);
+        ax4 = fromCoordinates(1,7);
         figure.add(hexagonalGrid.getByAxialCoordinate(ax1).get());
         figure.add(hexagonalGrid.getByAxialCoordinate(ax2).get());
         figure.add(hexagonalGrid.getByAxialCoordinate(ax3).get());

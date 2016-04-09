@@ -9,7 +9,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.widget.Toast;
-
 import service.MyService;
 
 
@@ -75,7 +74,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 intent = new Intent(this , Social.class);
                 startActivity(intent);
                 break;
-
         }
     }
 

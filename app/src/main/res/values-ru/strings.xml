@@ -36,4 +36,6 @@
     <string name="game_over">вы проиграли</string>
     <string name="pack">выберите массив с фигурами (я не знаю как это на русский перевести)</string>
     <string name="retry">сыграть снова</string>
+    <string name="bttnIDK">я не могу придумать название для этой кнопки</string>
+    <string name="bttnInStartActivity">ага ага</string>
 </resources>

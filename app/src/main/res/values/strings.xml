@@ -44,4 +44,6 @@
     <string name="pack_2" translatable="false">ne normal pack</string>
     <string name="pack_3" translatable="false">chiki freaky</string>
     <string name="pack_4" translatable="false">pack 4</string>
+    <string name="bttnInStartActivity">ok</string>
+    <string name="bttnIDK">calibrate</string>
 </resources>

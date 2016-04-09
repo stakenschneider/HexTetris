@@ -19,7 +19,6 @@ import static com.example.masha.tetris.Main.scrh;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-    Boolean flag = false;
     CheckBox checkBox;
     SharedPreferences sharedPreferences;
     AlertDialog.Builder ad;
@@ -32,7 +31,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public static final String sWIDTH = "width" ,
             sHEIGHT = "height";
 
-    final CharSequence myList[] = {"normal", "ne normal", "pack 3"};
+    final CharSequence myList[] = {"pack 1", "pack 2", "pack 3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttnSentence:
-                eTh.setText("" +(int)((2*(scrh-30)-2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/(3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
+                eTh.setText("" +(int)((2*(scrh-30)-2*scrw/
+                        (Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/
+                        (3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
                 break;
 
             case R.id.bttnDialog:
@@ -88,14 +89,12 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         //ЧТО БЫ НЕ ЗАБЫТЬ!!!!!!!!!
 
         if (checkBox.isChecked()) {
-            flag = true;
             stopService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.muson));
         }
 
         if (!checkBox.isChecked())
         {
-            flag = false;
             startService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.musoff));
         }
@@ -106,6 +105,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public void saveText()
     {
         if (!eTh.getText().toString().equals("") && !eTw.getText().toString().equals("")) {
+
             sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
             Editor ed = sharedPreferences.edit();
 
@@ -117,7 +117,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     }
 
 
-    void loadText() {
+   public void loadText() {
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
 
         width = sharedPreferences.getInt(sWIDTH , 8 );

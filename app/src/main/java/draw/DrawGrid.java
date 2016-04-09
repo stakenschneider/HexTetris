@@ -6,10 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
 
+import com.example.masha.tetris.Controller;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.masha.tetris.Controller;
 
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
@@ -20,6 +20,7 @@ import api.HexagonalGridBuilder;
 import api.HexagonalGridCalculator;
 import api.HexagonalGridLayout;
 import api.Point;
+
 import backport.Optional;
 
 import static api.HexagonOrientation.POINTY_TOP;
@@ -66,15 +67,15 @@ public class DrawGrid {
         } catch (HexagonalGridCreationException e) {}
 
 
-        try {
-            strpack = Optional.ofNullable(strpack).get();
-        } catch (Exception NoSuchElementException) {strpack = "normal";}
+        try {strpack = Optional.ofNullable(strpack).get();}
+        catch (Exception NoSuchElementException) {strpack = "normal";}
+
         switch (strpack) {
-            case "normal":
+            case "pack 1":
                 pack = new Pack_1(hexagonalGrid);
                 break;
 
-            case "ne normal":
+            case "pack 2":
                 pack = new Pack_2(hexagonalGrid);
                 break;
 
@@ -85,7 +86,6 @@ public class DrawGrid {
             default:
                 pack = new Pack_1(hexagonalGrid);
                 break;
-
         }
     }
 
