@@ -22,18 +22,24 @@ public class GamePlay extends AppCompatActivity {
 
     DrawGrid d;
     String movement = "START";
-    CanvasView view;
+    CanvasView view , view_2;
     float x  , y;
     Intent intent;
     private boolean over = false;
+    Canvas canvas_2 = new Canvas();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//обязательноперед канвасом с клилистенером
+        view_2 = new CanvasView(this);
+        setContentView(view_2);
+
         view = new CanvasView(this);
         setContentView(view);
+
 
         view.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -91,16 +97,20 @@ public class GamePlay extends AppCompatActivity {
         public CanvasView(Context context) {
             super(context);
             d = new DrawGrid();
+
+            //после этого , наверн, надо инвалидет вью2 !но нуль ексепшен)
+
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
-             over = d.useBuilder(canvas, movement);
+             over = d.useBuilder(canvas, movement , canvas_2);
             if (over == true)
                 gameOver();
 
         }
     }
+
 
 
     private void gameOver()

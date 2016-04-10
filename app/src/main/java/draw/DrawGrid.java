@@ -11,6 +11,7 @@ import com.example.masha.tetris.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
 import api.Hexagon;
@@ -43,9 +44,11 @@ public class DrawGrid {
     private Controller controller;
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
-    public static int point;
+    public static int point , pp = 0;
     double radius;
     Pack pack;
+
+
 
 
     public DrawGrid () {
@@ -90,13 +93,19 @@ public class DrawGrid {
     }
 
 
-    public boolean useBuilder(Canvas canvas, String movement) {
+    public boolean useBuilder(Canvas canvas, String movement , Canvas canvas_2) {
+        int[] array = new int[12];
 
         switch (movement) {
             case "START":
                 pack.getFigure(width);
                 hexagonalGrid.getHexagonStorage().clear();
                 hexagonalGrid.getHexagonStorage().trimToSize();
+
+
+                canvas_2.drawColor(Color.parseColor("#1B2024"));//канвас на котором будет сетка- отрисовывается один раз
+                for (Hexagon hexagon : hexagonalGrid.getHexagons())  //сетка
+                    drawPoly(canvas_2, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
                 break;
 
             case "COUNTER_CLCK":
@@ -134,8 +143,7 @@ public class DrawGrid {
         }
 
 
-        canvas.drawColor(Color.parseColor("#1B2024"));
-        int[] array = new int[12];
+        canvas.drawColor(Color.parseColor("#001B2024")); // полностью прозрачный канвас
 
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) { //фигруа
             drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
@@ -148,9 +156,6 @@ public class DrawGrid {
                     drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(x,z)).get().getPoints(), array), "#FF5346", Style.FILL);
 
         }
-
-        for (Hexagon hexagon : hexagonalGrid.getHexagons())  //сетка
-            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
 
         Paint p = new Paint();
         p.setColor(Color.parseColor("#81AA21"));
