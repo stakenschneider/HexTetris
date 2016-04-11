@@ -44,7 +44,7 @@ public class DrawGrid {
     private Controller controller;
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
-    public static int point , pp = 0;
+    public static int point ;
     double radius;
     Pack pack;
 
@@ -93,20 +93,16 @@ public class DrawGrid {
     }
 
 
-    public boolean useBuilder(Canvas canvas, String movement , Canvas canvas_2) {
+    public boolean useBuilder(Canvas canvas, String movement) {
         int[] array = new int[12];
 
         switch (movement) {
             case "START":
-                pack.getFigure(width);
                 hexagonalGrid.getHexagonStorage().clear();
                 hexagonalGrid.getHexagonStorage().trimToSize();
-
-
-                canvas_2.drawColor(Color.parseColor("#1B2024"));//канвас на котором будет сетка- отрисовывается один раз
                 for (Hexagon hexagon : hexagonalGrid.getHexagons())  //сетка
-                    drawPoly(canvas_2, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
-                break;
+                    drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
+                return false;
 
             case "COUNTER_CLCK":
                 controller.rotationCounterClockwise(hexagonalGrid);
@@ -130,6 +126,9 @@ public class DrawGrid {
 
             case "LEFT":
                 controller.moveLeft(hexagonalGrid);
+                break;
+
+            default:
                 break;
         }
 
