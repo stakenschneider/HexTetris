@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.widget.RelativeLayout;
+
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 
@@ -21,12 +23,10 @@ public class GamePlay extends AppCompatActivity {
 
 
     DrawGrid d;
-    String movement = "START";
     CanvasView view , view_2;
     float x  , y;
     Intent intent;
     private boolean over = false;
-    Canvas canvas_2 = new Canvas();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +34,16 @@ public class GamePlay extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //обязательноперед канвасом с клилистенером
-        view_2 = new CanvasView(this);
-        setContentView(view_2);
-
-        view = new CanvasView(this);
-        setContentView(view);
-
-
+        RelativeLayout relLayout = new RelativeLayout(this);
+        RelativeLayout.LayoutParams relLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        setContentView(relLayout, relLayoutParam);
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        view = new CanvasView(this, "GAME");
+        view_2 = new CanvasView(this, "START");
+        view.setLayoutParams(params);
+        view_2.setLayoutParams(params);
+        relLayout.addView(view_2);
+        relLayout.addView(view);
         view.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(final View v, final MotionEvent event) {
@@ -50,37 +53,38 @@ public class GamePlay extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
-                            movement = "DOWN_LEFT";
+                            view.setMovement("DOWN_LEFT");
                             view.invalidate();
                             return false;
                         }
 
                         if (y > (scrh / 1.5) && x > scrw / 2) {
-                            movement = "DOWN_RIGHT";
+                            view.setMovement("DOWN_RIGHT");
                             view.invalidate();
                             return false;
                         }
 
                         if (y < (scrh / 1.5) && y > (scrh / 5) && x < scrw / 2) {
-                            movement = "LEFT";
+                            view.setMovement("LEFT");
                             view.invalidate();
                             return false;
                         }
 
                         if (y < (scrh / 1.5) && y > (scrh / 5) && x > scrw / 2) {
-                            movement = "RIGHT";
+                            view.setMovement("RIGHT");
                             view.invalidate();
                             return false;
                         }
 
                         if (y < (scrh / 5) && x > scrw / 2) {
-                            movement = "CLCK";
+                            view.setMovement("CLCK");
                             view.invalidate();
                             return false;
                         }
 
                         if (y < (scrh / 5) && x < scrw / 2) {
-                            movement = "COUNTER_CLCK";
+
+                            view.setMovement("COUNTER_CLCK");
                             view.invalidate();
                             return false;
                         }
@@ -94,20 +98,24 @@ public class GamePlay extends AppCompatActivity {
 
 
     class CanvasView extends View {
-        public CanvasView(Context context) {
+        String movement;
+        public CanvasView(Context context, String movement) {
             super(context);
+            this.movement = movement;
             d = new DrawGrid();
-
-            //после этого , наверн, надо инвалидет вью2 !но нуль ексепшен)
-
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
-             over = d.useBuilder(canvas, movement , canvas_2);
+             over = d.useBuilder(canvas, movement);
             if (over == true)
                 gameOver();
 
+        }
+
+        public void setMovement (String movement)
+        {
+            this.movement = movement;
         }
     }
 
