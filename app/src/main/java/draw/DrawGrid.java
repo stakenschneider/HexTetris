@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.example.masha.tetris.Controller;
 
@@ -97,12 +98,6 @@ public class DrawGrid {
         int[] array = new int[12];
 
         switch (movement) {
-            case "START":
-                hexagonalGrid.getHexagonStorage().clear();
-                hexagonalGrid.getHexagonStorage().trimToSize();
-                for (Hexagon hexagon : hexagonalGrid.getHexagons())  //сетка
-                    drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
-                return false;
 
             case "COUNTER_CLCK":
                 controller.rotationCounterClockwise(hexagonalGrid);
@@ -128,8 +123,13 @@ public class DrawGrid {
                 controller.moveLeft(hexagonalGrid);
                 break;
 
-            default:
+            case "GAME":
                 break;
+
+            case "START":
+                for (Hexagon hexagon : hexagonalGrid.getHexagons())  //сетка
+                    drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
+                return false;
         }
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {

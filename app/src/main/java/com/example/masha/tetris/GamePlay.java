@@ -38,8 +38,8 @@ public class GamePlay extends AppCompatActivity {
         RelativeLayout.LayoutParams relLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        view = new CanvasView(this, "GAME");
         view_2 = new CanvasView(this, "START");
+        view = new CanvasView(this, "GAME");
         view.setLayoutParams(params);
         view_2.setLayoutParams(params);
         relLayout.addView(view_2);
