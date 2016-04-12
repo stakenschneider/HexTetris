@@ -33,17 +33,22 @@ public class GamePlay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//обязательноперед канвасом с клилистенером
+
         RelativeLayout relLayout = new RelativeLayout(this);
+
         RelativeLayout.LayoutParams relLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        view_2 = new CanvasView(this, "START"); //сначала старт рисуется дальше геймплей (-1)
         view = new CanvasView(this, "GAME");
-        view_2 = new CanvasView(this, "START");
+
         view.setLayoutParams(params);
         view_2.setLayoutParams(params);
+
         relLayout.addView(view_2);
         relLayout.addView(view);
+
         view.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(final View v, final MotionEvent event) {
@@ -107,7 +112,7 @@ public class GamePlay extends AppCompatActivity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-             over = d.useBuilder(canvas, movement);
+            over = d.useBuilder(canvas, movement);
             if (over == true)
                 gameOver();
 
@@ -128,9 +133,6 @@ public class GamePlay extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
-
-
 
 
 

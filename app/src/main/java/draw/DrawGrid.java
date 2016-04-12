@@ -93,16 +93,22 @@ public class DrawGrid {
     }
 
 
-    public boolean useBuilder(Canvas canvas, String movement) {
+    public boolean useBuilder(Canvas canvas, String movement) { //уже отрисовалась передало фолс, второй раз происходит перерисовка потому что вызывается эта функция уже с тру
         int[] array = new int[12];
 
         switch (movement) {
             case "START":
                 hexagonalGrid.getHexagonStorage().clear();
                 hexagonalGrid.getHexagonStorage().trimToSize();
+
                 for (Hexagon hexagon : hexagonalGrid.getHexagons())  //сетка
                     drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
                 return false;
+            //еще раз она перерисовывается при первом нажатии, потому что этот свитч он опять проходит
+            //после этого уже функция работает с 2 вью и пожтому сюда не заходит
+
+            //"решение" сделай это отдельным методом, и тогда у него своя истина/ложь
+
 
             case "COUNTER_CLCK":
                 controller.rotationCounterClockwise(hexagonalGrid);
