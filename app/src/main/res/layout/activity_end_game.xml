@@ -17,10 +17,10 @@
         android:id="@+id/textView6"
         android:textColor="@color/yell"
         android:foregroundGravity="center_horizontal"
+        android:layout_marginTop="134dp"
+        android:textSize="50dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="176dp"
-        android:textSize="50dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,9 +32,9 @@
         android:layout_alignParentStart="false"
         android:layout_alignParentEnd="false"
         android:foregroundGravity="center_horizontal"
+        android:textSize="50dp"
         android:layout_below="@+id/textView6"
-        android:layout_centerHorizontal="true"
-        android:textSize="50dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="fill_parent"

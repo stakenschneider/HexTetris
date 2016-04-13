@@ -37,5 +37,6 @@
     <string name="pack">wählen Pack?</string>
     <string name="bttnIDK">kalibrieren</string>
     <string name="bttnInStartActivity">ok</string>
+    <string name="records">Aufzeichnungen</string>
 
 </resources>

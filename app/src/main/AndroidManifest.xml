@@ -29,7 +29,8 @@
         <activity android:name=".WebViewActivity" />
         <activity android:name=".Start" />
         <activity android:name=".Social" />
-        <activity android:name=".EndGame"></activity>
+        <activity android:name=".EndGame" />
+        <activity android:name=".Records"></activity>
     </application>
 
 </manifest>

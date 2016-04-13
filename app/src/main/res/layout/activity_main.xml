@@ -66,6 +66,16 @@
             android:layout_below="@+id/bttnTutorial" />
 
         <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/records"
+            android:id="@+id/bttnRecords"
+            android:layout_below="@+id/login_layout"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/yell"
+            android:background="@color/darkGreen" />
+
+        <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,6 +86,7 @@
             android:layout_below="@+id/bttnFB"
             android:layout_centerHorizontal="true"
             android:visibility="visible" />
+
     </LinearLayout>
 
 

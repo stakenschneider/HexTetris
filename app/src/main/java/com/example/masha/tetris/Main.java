@@ -3,6 +3,8 @@ package com.example.masha.tetris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,6 +17,7 @@ import service.MyService;
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private Intent intent;
+    public static DBHelper dbHelper;
 
     public static double scrh = 0 , scrw = 0 ;
     private static final String MY_SETTINGS = "my_settings";
@@ -32,6 +35,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         findViewById(R.id.bttnSettings).setOnClickListener(this);
         findViewById(R.id.bttnTwitter).setOnClickListener(this);
         findViewById(R.id.bttnExit).setOnClickListener(this);
+        findViewById(R.id.bttnRecords).setOnClickListener(this);
+
+        dbHelper = new DBHelper(this);
 
         scrh = screenSizeH();
         scrw = screenSizeW();
@@ -74,6 +80,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 intent = new Intent(this , Social.class);
                 startActivity(intent);
                 break;
+
+            case R.id.bttnRecords:
+                intent = new Intent (this, Records.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -100,6 +111,26 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         display.getMetrics(metricsB);
 
         return metricsB.heightPixels;
+    }
+
+    class DBHelper extends SQLiteOpenHelper {
+        public DBHelper(Context context) {
+            super(context, "myDB", null, 1);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+
+            db.execSQL("create table mytable ("
+                    + "id integer primary key autoincrement,"
+                    + "point"
+                    + ");");
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
     }
 
 }
