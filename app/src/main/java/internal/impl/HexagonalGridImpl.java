@@ -61,16 +61,15 @@ public class HexagonalGridImpl implements HexagonalGrid {
 
     @Override
     public Observable<Hexagon> getHexagons() {
-        Observable<Hexagon> result = Observable.create(new OnSubscribe<Hexagon>() {
-            @Override
-            public void call(Subscriber<? super Hexagon> subscriber) {
-                final Iterator<AxialCoordinate> coordinateIterator = coordinates.iterator();
-                while (coordinateIterator.hasNext()) {
-                    subscriber.onNext(newHexagon(gridData, coordinateIterator.next(), hexagonStorage, lockedHexagons));
+        Observable<Hexagon> result = Observable.create(
+                (Subscriber<? super Hexagon> subscriber) -> {
+                    final Iterator<AxialCoordinate> coordinateIterator = coordinates.iterator();
+                    while (coordinateIterator.hasNext()) {
+                        subscriber.onNext(newHexagon(gridData, coordinateIterator.next(), hexagonStorage, lockedHexagons));
+                    }
+                    subscriber.onCompleted();
                 }
-                subscriber.onCompleted();
-            }
-        });
+        );
         return result;
     }
 

@@ -141,7 +141,7 @@ public class DrawGrid {
             pack.getFigure(width);
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
-            if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр
+            if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.gridZ).contains(axialCoordinate.gridX)) //условие выхода из игр
             return true;
         }
 

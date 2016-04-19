@@ -2,7 +2,7 @@ package api;
 
 public final class AxialCoordinate  {
 
-    private int gridX , gridZ;
+    public int gridX , gridZ;
 
     public AxialCoordinate( int gridX, int gridZ) {
         this.gridX = gridX;
@@ -32,9 +32,6 @@ public final class AxialCoordinate  {
         return result;
     }
 
-    public int getGridX() {return gridX;}
-
-    public int getGridZ() {return gridZ;}
 
     public static AxialCoordinate fromCoordinates( int gridX, int gridZ) {return new AxialCoordinate(gridX, gridZ);}
 
