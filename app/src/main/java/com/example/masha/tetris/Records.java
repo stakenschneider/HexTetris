@@ -38,7 +38,7 @@ public class Records extends AppCompatActivity {
 
             sortPoint = listPoint.toArray(new String[listPoint.size()]);
 
-            Arrays.sort(sortPoint); //не корректно но быстро, так что пока что так
+            Arrays.sort(sortPoint);
             String str = "";
 
             for (int z = 0; z<listPoint.size(); z++)
