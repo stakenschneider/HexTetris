@@ -75,8 +75,8 @@ public class Figure {
 
         do {
             coordinate = iterator.next().getAxialCoordinate();
-            int currentcol = convertToCol(coordinate.gridX,coordinate.gridZ),
-                    currentrow = convertToRow(coordinate.gridZ);
+            int currentcol = convertToCol(coordinate.getGridX(),coordinate.getGridZ()),
+                    currentrow = convertToRow(coordinate.getGridZ());
 
             if (currentcol<mincol||mincol==-1)
                 mincol = currentcol;

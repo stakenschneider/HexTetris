@@ -44,7 +44,7 @@ public class GamePlay extends AppCompatActivity {
         view_2.setLayoutParams(params);
         relLayout.addView(view_2);
         relLayout.addView(view);
-        view.setOnTouchListener((final View v, final MotionEvent event) -> {
+        view.setOnTouchListener( (final View v, final MotionEvent event) -> {
                 x = event.getX();
                 y = event.getY();
 
@@ -90,8 +90,7 @@ public class GamePlay extends AppCompatActivity {
                         break;
                 }
                 return true;
-            }
-        );
+            });
     }
 
 

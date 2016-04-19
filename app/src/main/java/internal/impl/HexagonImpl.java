@@ -53,7 +53,7 @@ public class HexagonImpl implements Hexagon {
 
     @Override
     public void setState() {
-        AxialCoordinate data = fromCoordinates(getAxialCoordinate().gridX, getAxialCoordinate().gridZ);
+        AxialCoordinate data = fromCoordinates(getAxialCoordinate().getGridX(), getAxialCoordinate().getGridZ());
         dataMap.add(data);
 
     }
@@ -65,25 +65,25 @@ public class HexagonImpl implements Hexagon {
 
     @Override
     public int getGridX() {
-        return coordinate.gridX;
+        return coordinate.getGridX();
     }
 
     @Override
     public final int getGridY() {
-        return -(coordinate.gridX + coordinate.gridZ);
+        return -(coordinate.getGridX() + coordinate.getGridZ());
     }
 
     @Override
     public int getGridZ() {
-        return coordinate.gridZ;
+        return coordinate.getGridZ();
     }
 
     @Override
     public final double getCenterX() {
         if (FLAT_TOP.equals(sharedData.getOrientation())) {
-            return coordinate.gridX * sharedData.getHexagonWidth() + sharedData.getRadius();
+            return coordinate.getGridX() * sharedData.getHexagonWidth() + sharedData.getRadius();
         } else {
-            return coordinate.gridX * sharedData.getHexagonWidth() + coordinate.gridZ
+            return coordinate.getGridX() * sharedData.getHexagonWidth() + coordinate.getGridZ()
                     * sharedData.getHexagonWidth() / 2 + sharedData.getHexagonWidth() / 2;
         }
     }
@@ -91,10 +91,10 @@ public class HexagonImpl implements Hexagon {
     @Override
     public final double getCenterY() {
         if (FLAT_TOP.equals(sharedData.getOrientation())) {
-            return coordinate.gridZ * sharedData.getHexagonHeight() + coordinate.gridX
+            return coordinate.getGridZ() * sharedData.getHexagonHeight() + coordinate.getGridX()
                     * sharedData.getHexagonHeight() / 2 + sharedData.getHexagonHeight() / 2;
         } else {
-            return coordinate.gridZ * sharedData.getHexagonHeight() + sharedData.getRadius();
+            return coordinate.getGridZ() * sharedData.getHexagonHeight() + sharedData.getRadius();
         }
     }
 }

@@ -24,9 +24,7 @@ import api.HexagonalGridLayout;
 import api.Point;
 
 import backport.Optional;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+
 
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
@@ -127,12 +125,8 @@ public class DrawGrid {
                 break;
 
             case "START":
-                hexagonalGrid.getHexagons().forEach(new Action1<Hexagon>() {
-                    @Override
-                    public void call(Hexagon hexagon) {
-                        drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
-                    }
-                });
+                hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
+                        drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
                 return false;
         }
 
@@ -141,7 +135,7 @@ public class DrawGrid {
             pack.getFigure(width);
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
-            if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.gridZ).contains(axialCoordinate.gridX)) //условие выхода из игр
+            if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр
             return true;
         }
 
