@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import backport.Optional;
 import java.util.Set;
+import rx.Observable;
+import rx.Observable.OnSubscribe;
+import rx.Subscriber;
 
 import static internal.impl.HexagonImpl.newHexagon;
 import static com.example.masha.tetris.Settings.height;
@@ -22,7 +25,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
     private final GridData gridData;
     public ArrayList<AxialCoordinate>  hexagonStorage;
     private final Set<AxialCoordinate> coordinates;
-    private SparseArray <ArrayList> lockedHexagons = new SparseArray<ArrayList> ();
+    private SparseArray <ArrayList<Integer>> lockedHexagons = new SparseArray<ArrayList<Integer>> ();
     private int width ;
 
 
@@ -40,7 +43,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
     }
 
     @Override
-    public SparseArray <ArrayList> getLockedHexagons()
+    public SparseArray <ArrayList<Integer>> getLockedHexagons()
     {
         return lockedHexagons;
     }
@@ -57,12 +60,18 @@ public class HexagonalGridImpl implements HexagonalGrid {
     }
 
     @Override
-    public Iterable<Hexagon> getHexagons() {
-        ArrayList <Hexagon> Hexagons = new  ArrayList<Hexagon> ();
-        Iterator<AxialCoordinate> iterator = coordinates.iterator();
-        do Hexagons.add(newHexagon(gridData,iterator.next(), hexagonStorage , lockedHexagons));
-         while(iterator.hasNext());
-        return Hexagons;
+    public Observable<Hexagon> getHexagons() {
+        Observable<Hexagon> result = Observable.create(new OnSubscribe<Hexagon>() {
+            @Override
+            public void call(Subscriber<? super Hexagon> subscriber) {
+                final Iterator<AxialCoordinate> coordinateIterator = coordinates.iterator();
+                while (coordinateIterator.hasNext()) {
+                    subscriber.onNext(newHexagon(gridData, coordinateIterator.next(), hexagonStorage, lockedHexagons));
+                }
+                subscriber.onCompleted();
+            }
+        });
+        return result;
     }
 
     @Override

@@ -24,6 +24,9 @@ import api.HexagonalGridLayout;
 import api.Point;
 
 import backport.Optional;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
@@ -69,11 +72,8 @@ public class DrawGrid {
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons(), point);
         } catch (HexagonalGridCreationException e) {}
-
-
-        try {strpack = Optional.ofNullable(strpack).get();}
-        catch (Exception NoSuchElementException) {strpack = "normal";}
-
+        if (!Optional.ofNullable(strpack).isPresent())
+            strpack = "pack 1";
         switch (strpack) {
             case "pack 1":
                 pack = new Pack_1(hexagonalGrid);
@@ -127,8 +127,12 @@ public class DrawGrid {
                 break;
 
             case "START":
-                for (Hexagon hexagon : hexagonalGrid.getHexagons())  //сетка
-                    drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
+                hexagonalGrid.getHexagons().forEach(new Action1<Hexagon>() {
+                    @Override
+                    public void call(Hexagon hexagon) {
+                        drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE);
+                    }
+                });
                 return false;
         }
 

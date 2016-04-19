@@ -5,17 +5,18 @@ import android.util.SparseArray;
 import java.util.ArrayList;
 
 import backport.Optional;
+import rx.Observable;
 
 
 public interface HexagonalGrid {
 
-    Iterable<Hexagon> getHexagons();
+    Observable<Hexagon> getHexagons();
 
     boolean containsAxialCoordinate(AxialCoordinate coordinate);
 
     Optional<Hexagon> getByAxialCoordinate(AxialCoordinate coordinate);
 
-    SparseArray<ArrayList> getLockedHexagons();
+    SparseArray<ArrayList<Integer>> getLockedHexagons();
 
     ArrayList<AxialCoordinate> getHexagonStorage ();
 
