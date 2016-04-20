@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import api.AxialCoordinate;
 import api.HexagonalGrid;
 import backport.Optional;
+import static com.example.masha.tetris.GamePlay.h;
 
 import static api.AxialCoordinate.fromCoordinates;
 
@@ -166,5 +167,7 @@ public class   Controller {
                         lockedHexagons.put(i, coordinate);
                     }
             }
+        Thread t = new Thread(() -> h.sendEmptyMessage(1));
+        t.start();
     }
 }

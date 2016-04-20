@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnTouchListener;
+import android.os.Handler;
 import android.widget.RelativeLayout;
 
 import static com.example.masha.tetris.Main.scrh;
@@ -22,10 +23,11 @@ import draw.DrawGrid;
 public class GamePlay extends AppCompatActivity {
 
 
-    DrawGrid d;
-    CanvasView view , view_2;
+    DrawGrid d = new DrawGrid();
+    CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
+    static Handler h;
     private boolean over = false;
 
     @Override
@@ -33,17 +35,25 @@ public class GamePlay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//обязательноперед канвасом с клилистенером
         RelativeLayout relLayout = new RelativeLayout(this);
         RelativeLayout.LayoutParams relLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
+        view_3 = new CanvasView(this, "LOCKED");
         view.setLayoutParams(params);
         view_2.setLayoutParams(params);
+        view_3.setLayoutParams(params);
         relLayout.addView(view_2);
+        relLayout.addView(view_3);
         relLayout.addView(view);
+        h = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                if (msg.what == 1) view_3.invalidate();
+                msg.what = 0;
+            };
+        };
         view.setOnTouchListener( (final View v, final MotionEvent event) -> {
                 x = event.getX();
                 y = event.getY();
@@ -99,7 +109,6 @@ public class GamePlay extends AppCompatActivity {
         public CanvasView(Context context, String movement) {
             super(context);
             this.movement = movement;
-            d = new DrawGrid();
         }
 
         @Override

@@ -127,7 +127,24 @@ public class DrawGrid {
             case "START":
                 hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
                         drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
+
                 return false;
+            case "LOCKED":
+                for (int z = 0; z<hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
+                    ArrayList <Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
+                    if (coordinate.size()!=0)
+                        for (int x: coordinate)
+                            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(x,z)).get().getPoints(), array), "#FF5346", Style.FILL);
+                }
+                Paint p = new Paint();
+                p.setColor(Color.parseColor("#81AA21"));
+                p.setStrokeWidth(1);
+                p.setStyle(Style.FILL_AND_STROKE);
+                p.setTextSize(40);
+                canvas.drawText("score: " + point, 30 , (float)scrh-15, p);
+                return false;
+
+
         }
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
@@ -145,22 +162,6 @@ public class DrawGrid {
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) { //фигруа
             drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
         }
-
-        for (int z = 0; z<hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
-            ArrayList <Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
-            if (coordinate.size()!=0)
-                for (int x: coordinate)
-                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(x,z)).get().getPoints(), array), "#FF5346", Style.FILL);
-
-        }
-
-        Paint p = new Paint();
-        p.setColor(Color.parseColor("#81AA21"));
-        p.setStrokeWidth(1);
-        p.setStyle(Style.FILL_AND_STROKE);
-        p.setTextSize(40);
-        canvas.drawText("score: " + point, 30 , (float)scrh-15, p);
-
         return false;
     }
 
