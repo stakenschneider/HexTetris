@@ -78,6 +78,15 @@ public final class Optional<T> {
         else throw exceptionSupplier.get();
     }
 
+    public T orElse(T other) {
+        return value != null ? value : other;
+    }
+
+    public T orElseGet(Supplier<? extends T> other) {
+        return value != null ? value : other.get();
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {return true;}
