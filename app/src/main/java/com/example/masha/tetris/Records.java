@@ -51,11 +51,7 @@ public class Records extends AppCompatActivity {
                 .withGetResolver(new StringGetResolver())
                 .prepare()
                 .asRxObservable()
-                /* rx.exceptions.OnErrorNotImplementedException: more items arrived than were requested
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                Как то с потоками не задалось
-                */
                 .map(points -> {
             String[] s = points.toArray(new String[points.size()]);
             Arrays.sort(s);

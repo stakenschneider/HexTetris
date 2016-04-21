@@ -24,9 +24,6 @@ import api.HexagonalGridLayout;
 import api.Point;
 
 import backport.Optional;
-import rx.Observable;
-import rx.schedulers.Schedulers;
-
 
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
@@ -139,11 +136,18 @@ public class DrawGrid {
                                 drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
                             }
                     }
-                /*
-                Почему нет?
-                Optional<String> stringOptional = Optional.of( "loooooooong string" );
-                int sizeOptional = stringOptional.map( String::length );
-                **/
+
+
+
+
+
+
+
+
+
+
+
+
                     Paint p = new Paint();
                     p.setColor(Color.parseColor("#81AA21"));
                     p.setStrokeWidth(1);
