@@ -13,7 +13,6 @@ import java.util.Iterator;
 import backport.Optional;
 import java.util.Set;
 import rx.Observable;
-import rx.Observable.OnSubscribe;
 import rx.Subscriber;
 
 import static internal.impl.HexagonImpl.newHexagon;

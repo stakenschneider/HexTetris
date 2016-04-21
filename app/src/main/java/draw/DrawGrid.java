@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.example.masha.tetris.Controller;
 
@@ -133,17 +132,23 @@ public class DrawGrid {
                 for (int z = 0; z<hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
                     ArrayList <Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
                     if (coordinate.size()!=0)
-                        for (int x: coordinate)
-                            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(x,z)).get().getPoints(), array), "#FF5346", Style.FILL);
+                        for (int x: coordinate) {
+                            Optional<Hexagon> hexagonOptional = hexagonalGrid.getByAxialCoordinate(fromCoordinates(x, z));
+                            drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
+                        }
                 }
+                /*
+                Почему нет?
+                Optional<String> stringOptional = Optional.of( "loooooooong string" );
+                int sizeOptional = stringOptional.map( String::length );
+                **/
                 Paint p = new Paint();
                 p.setColor(Color.parseColor("#81AA21"));
                 p.setStrokeWidth(1);
                 p.setStyle(Style.FILL_AND_STROKE);
                 p.setTextSize(40);
-                canvas.drawText("score: " + point, 30 , (float)scrh-15, p);
+                canvas.drawText("score: " + point, 30, (float) scrh - 15, p);
                 return false;
-
 
         }
 

@@ -51,20 +51,12 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         ad = new AlertDialog.Builder(this);
         ad.setTitle(getResources().getString(R.string.pack) + "?");
 
-        ad.setSingleChoiceItems(myList, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                strpack = myList[arg1].toString();
-            }
-        });
+        ad.setSingleChoiceItems(myList, -1, (DialogInterface arg0,int arg1) -> strpack = myList[arg1].toString());
 
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-
-            }
-        });
+        ad.setNegativeButton("Cancel", (DialogInterface dialog, int which) -> {
+                    // TODO Auto-generated method stub
+                }
+        );
     }
 
 

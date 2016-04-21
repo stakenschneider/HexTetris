@@ -1,55 +1,60 @@
 package com.example.masha.tetris;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
+import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
+import com.pushtorefresh.storio.sqlite.queries.Query;
+import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
+import com.pushtorefresh.storio.sqlite.queries.RawQuery;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.example.masha.tetris.Main.dbHelper;
 
 public class Records extends AppCompatActivity {
-
-    TextView textView;
     ArrayList<String> listPoint = new ArrayList<>();
     String[] sortPoint = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
-
-        textView = (TextView)findViewById(R.id.text4records);
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor c = db.query("mytable", null, null, null, null, null, null);
-
-
-        if (c.moveToFirst()) {
-            int pointColIndex = c.getColumnIndex("point");
-
-            do {
-                if(!c.getString(pointColIndex).equals("0"))
-                    listPoint.add(c.getString(pointColIndex));
-
-            } while (c.moveToNext());
-
-            sortPoint = listPoint.toArray(new String[listPoint.size()]);
-
-            Arrays.sort(sortPoint); //не корректно но быстро, так что пока что так
-            String str = "";
-
-            for (int z = 0; z<listPoint.size(); z++)
-                str = str +(z+1)+ ". " + sortPoint[z] +"\n";
-
-            textView.setText(str);
-
-        } else{
-            textView.setText("наиграй, а уже потом смотри рекорды");
-        }
-
-        c.close();
+        StorIOSQLite storIOSQLite = DefaultStorIOSQLite.builder()
+                .sqliteOpenHelper(dbHelper)
+                .addTypeMapping(String.class, ) //???
+                .build();
+        storIOSQLite
+                .get()
+                .listOfObjects(String.class)
+                .withQuery(Query.builder()
+                        .table("mytable")
+                        .build())
+                .prepare()
+                .asRxObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(points -> {
+                    String[] s = points.toArray(new String[points.size()]);
+                    Arrays.sort(s);
+                    return s;
+                })
+                        //.flatMap(s-> Observable.from(s))
+                .map((String[] str) -> {
+                    String finals = new String();
+                    for (int z = 0; z < str.length; z++)
+                        finals = finals + (z + 1) + ". " + str[z] + "\n";
+                    return finals;
+                }).subscribe( s -> {TextView textView = (TextView) findViewById(R.id.text4records); textView.setText(s);});
     }
 }
