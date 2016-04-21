@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
 import api.Hexagon;
@@ -23,6 +24,8 @@ import api.HexagonalGridLayout;
 import api.Point;
 
 import backport.Optional;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 
 import static api.HexagonOrientation.POINTY_TOP;
@@ -94,63 +97,62 @@ public class DrawGrid {
     public boolean useBuilder(Canvas canvas, String movement) {
         int[] array = new int[12];
 
-        switch (movement) {
+            switch (movement) {
 
-            case "COUNTER_CLCK":
-                controller.rotationCounterClockwise(hexagonalGrid);
-                break;
+                case "COUNTER_CLCK":
+                    controller.rotationCounterClockwise(hexagonalGrid);
+                    break;
 
-            case "CLCK":
-                controller.rotationClockwise(hexagonalGrid);
-                break;
+                case "CLCK":
+                    controller.rotationClockwise(hexagonalGrid);
+                    break;
 
-            case "DOWN_RIGHT":
-                point = controller.moveDownRight(hexagonalGrid);
-                break;
+                case "DOWN_RIGHT":
+                    point = controller.moveDownRight(hexagonalGrid);
+                    break;
 
-            case "DOWN_LEFT":
-                point = controller.moveDownLeft(hexagonalGrid);
-                break;
+                case "DOWN_LEFT":
+                    point = controller.moveDownLeft(hexagonalGrid);
+                    break;
 
-            case "RIGHT":
-                controller.moveRight(hexagonalGrid);
-                break;
+                case "RIGHT":
+                    controller.moveRight(hexagonalGrid);
+                    break;
 
-            case "LEFT":
-                controller.moveLeft(hexagonalGrid);
-                break;
+                case "LEFT":
+                    controller.moveLeft(hexagonalGrid);
+                    break;
 
-            case "GAME":
-                break;
+                case "GAME":
+                    break;
 
-            case "START":
-                hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
-                        drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
-
-                return false;
-            case "LOCKED":
-                for (int z = 0; z<hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
-                    ArrayList <Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
-                    if (coordinate.size()!=0)
-                        for (int x: coordinate) {
-                            Optional<Hexagon> hexagonOptional = hexagonalGrid.getByAxialCoordinate(fromCoordinates(x, z));
-                            drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
-                        }
-                }
+                case "START":
+                    hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
+                            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
+                    return false;
+                case "LOCKED":
+                    for (int z = 0; z < hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
+                        ArrayList<Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
+                        if (coordinate.size() != 0)
+                            for (int x : coordinate) {
+                                Optional<Hexagon> hexagonOptional = hexagonalGrid.getByAxialCoordinate(fromCoordinates(x, z));
+                                drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
+                            }
+                    }
                 /*
                 Почему нет?
                 Optional<String> stringOptional = Optional.of( "loooooooong string" );
                 int sizeOptional = stringOptional.map( String::length );
                 **/
-                Paint p = new Paint();
-                p.setColor(Color.parseColor("#81AA21"));
-                p.setStrokeWidth(1);
-                p.setStyle(Style.FILL_AND_STROKE);
-                p.setTextSize(40);
-                canvas.drawText("score: " + point, 30, (float) scrh - 15, p);
-                return false;
+                    Paint p = new Paint();
+                    p.setColor(Color.parseColor("#81AA21"));
+                    p.setStrokeWidth(1);
+                    p.setStyle(Style.FILL_AND_STROKE);
+                    p.setTextSize(40);
+                    canvas.drawText("score: " + point, 30, (float) scrh - 15, p);
+                    return false;
 
-        }
+            }
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
