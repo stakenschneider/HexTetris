@@ -21,16 +21,16 @@ public class HexagonImpl implements Hexagon {
     private final AxialCoordinate coordinate;
     private final transient GridData sharedData;
     private final transient ArrayList<AxialCoordinate> dataMap;
-    private final transient SparseArray<ArrayList> lockedHexagons;
+    private final transient SparseArray<ArrayList<Integer>> lockedHexagons;
 
-    private HexagonImpl(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap , SparseArray<ArrayList> lockedHexagons) {
+    private HexagonImpl(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap , SparseArray<ArrayList<Integer>> lockedHexagons) {
         this.sharedData = gridData;
         this.coordinate = coordinate;
         this.dataMap = dataMap;
         this.lockedHexagons = lockedHexagons;
     }
 
-    public static Hexagon newHexagon(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap , SparseArray<ArrayList> lockedHexagons) {
+    public static Hexagon newHexagon(final GridData gridData, final AxialCoordinate coordinate, ArrayList<AxialCoordinate> dataMap , SparseArray<ArrayList<Integer>> lockedHexagons) {
         return new HexagonImpl(gridData, coordinate, dataMap , lockedHexagons);
     }
 
