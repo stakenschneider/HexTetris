@@ -8,7 +8,7 @@ import backport.Optional;
 import rx.Observable;
 
 
-public interface HexagonalGrid {
+ public  interface  HexagonalGrid {
 
     Observable<Hexagon> getHexagons();
 

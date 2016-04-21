@@ -53,8 +53,6 @@ public class DrawGrid {
     Pack pack;
 
 
-
-
     public DrawGrid () {
         if (height < 15) height = 15;  // (в жопу разбираться с preferen оставим так)
         if (width < 8) width = 8;
@@ -130,6 +128,7 @@ public class DrawGrid {
                     hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
                             drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
                     return false;
+
                 case "LOCKED":
                     for (int z = 0; z < hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
                         ArrayList<Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);

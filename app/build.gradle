@@ -1,5 +1,4 @@
 buildscript {
-    ext.kotlin_version = '1.0.1-2'
     repositories {
         jcenter()
         mavenCentral()
@@ -10,13 +9,11 @@ buildscript {
 
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'checkstyle'
 
@@ -47,9 +44,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
 }
 
 
@@ -64,14 +58,11 @@ dependencies {
     compile 'io.reactivex:rxandroid:0.23.0'
     compile 'com.pushtorefresh.storio:sqlite:1.8.0'
     compile files('libs/swt.jar')
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile files('libs/json-20141113.jar')
 }
 
 
 retrolambda {
     javaVersion JavaVersion.VERSION_1_7
     defaultMethods true
-}
-repositories {
-    mavenCentral()
 }
