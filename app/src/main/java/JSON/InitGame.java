@@ -23,23 +23,23 @@ public class InitGame
     public int[] sourceSeeds;
     private CoordinateConverter converter;
     private Controller controller;
-    private static File file;
-    private static String sweeeee ="";
+    String textFromFile = "";
+
 
 
     public InitGame(String strJson)
     {
-        try {
-            sweeeee = read(strJson);
-        }catch (FileNotFoundException ex){
-        //постоянно вылетает вот сюда
-        }
+        //TODO: разобраться с демонами в путях
+//        try {
+//            textFromFile = read(strJson);
+//            Log.d("piska ",textFromFile);
+//        }catch (FileNotFoundException ex){          Log.d("piska ","ne rabochia");}
 
         try {
             JSONObject jsonRootObject = new JSONObject(strJson);
 
-            this.height = Integer.parseInt(jsonRootObject.optString("height"));
-            this.width = Integer.parseInt(jsonRootObject.optString("width"));
+            height = Integer.parseInt(jsonRootObject.optString("height"));
+            width = Integer.parseInt(jsonRootObject.optString("width"));
 
             JSONArray jsonArray = jsonRootObject.optJSONArray("sourceSeeds");
             this.sourceSeeds = new int[jsonArray.length()];
@@ -72,28 +72,47 @@ public class InitGame
             this.ID = Integer.parseInt(jsonRootObject.optString("id"));
             Log.d("ID ", Integer.toString(ID));
 
-            JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
-            this.filled = new Cell[jsonFilledArray.length()];
-
-            for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
-            {
-                JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
-                this.filled[fillIter] = new Cell();
-                this.filled[fillIter].xx = jsonFilledCell.getInt("x");
-                this.filled[fillIter].yy = jsonFilledCell.getInt("y");
-                controller.lockLock( jsonFilledCell.getInt("y"),
-                        converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
-
-            }
+//            JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
+//            this.filled = new Cell[jsonFilledArray.length()];
+//
+//            for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
+//            {
+//                JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
+//                this.filled[fillIter] = new Cell();
+//                this.filled[fillIter].xx = jsonFilledCell.getInt("x");
+//                this.filled[fillIter].yy = jsonFilledCell.getInt("y");
+//                controller.lockLock( jsonFilledCell.getInt("y"),
+//                        converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
+//            }
 
             this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
         } catch (JSONException e) {}
 
     }
 
-    public static String read(String fileName) throws FileNotFoundException {
+    public void fdlkn(String strJson) throws JSONException
+    {
+        JSONObject jsonRootObject = new JSONObject(strJson);
+        JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
+        this.filled = new Cell[jsonFilledArray.length()];
+
+        for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
+        {
+            JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
+            this.filled[fillIter] = new Cell();
+            this.filled[fillIter].xx = jsonFilledCell.getInt("x");
+            this.filled[fillIter].yy = jsonFilledCell.getInt("y");
+            controller.lockLock( jsonFilledCell.getInt("y"),
+                    converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
+
+        }
+    }
+
+
+    public  static String read(String fileName) throws FileNotFoundException {
 
         StringBuilder sb = new StringBuilder();
+        File file = new File(fileName+"/problem_0.txt");
         exists(fileName);
 
         try {
@@ -117,7 +136,7 @@ public class InitGame
     }
 
     private static void exists(String fileName) throws FileNotFoundException {
-        file = new File(fileName);
+        File file = new File(fileName+"/problem_0.txt");
         if (!file.exists()){
             throw new FileNotFoundException(file.getName());
         }

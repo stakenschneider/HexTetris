@@ -25,10 +25,10 @@ import backport.Optional;
 
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
-import static com.example.masha.tetris.Settings.width;
-import static com.example.masha.tetris.Settings.height;
+
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
+
 import static com.example.masha.tetris.Settings.strpack;
 
 import static api.AxialCoordinate.fromCoordinates;
@@ -47,11 +47,19 @@ public class DrawGrid {
     double radius;
 
 
-    public DrawGrid () {
+    public DrawGrid (int height , int width) {
         //TODO: конструууууууктор а не это ...
-        if (height < 15) height = 15;
-        if (width < 8) width = 8;
-        radius = radGame();
+        if (height<1) height = 15;
+        if (width<1) height = 8;
+
+
+        radius = 2*scrw/(Math.sqrt(3)*(2*width+1));
+        int parallax = 50;
+        if ((radius*(height / 2 + height + (Math.sqrt(3) / 2 / 2))) > (scrh-parallax) && height % 2 == 0)
+            radius = (scrh-parallax) / (height / 2 + height + (Math.sqrt(3) / 2 / 2));
+        else if ((radius*( height + ((height+1) /2))) > (scrh-parallax) && height % 2 != 0)
+            radius = (scrh-parallax) / ( height + ((height+1) /2));
+
         point = 0;
 
         try {
@@ -174,9 +182,7 @@ public class DrawGrid {
         p.setColor(Color.parseColor(color));
         p.setStyle(style);
 
-        if (width > 15) p.setStrokeWidth(2);
-        else if (width>30)p.setStrokeWidth(1);
-        else p.setStrokeWidth(5);
+        p.setStrokeWidth(2);
 
         Path polyPath = new Path();
         polyPath.moveTo(array[0], array[1]);
@@ -200,16 +206,7 @@ public class DrawGrid {
     }
 
 
-    public double radGame()   {
-        radius = 2*scrw/(Math.sqrt(3)*(2*width+1));
-        int parallax = 50;
-        if ((radius*(height / 2 + height + (Math.sqrt(3) / 2 / 2))) > (scrh-parallax) && height % 2 == 0)
-            radius = (scrh-parallax) / (height / 2 + height + (Math.sqrt(3) / 2 / 2));
-        else if ((radius*( height + ((height+1) /2))) > (scrh-parallax) && height % 2 != 0)
-            radius = (scrh-parallax) / ( height + ((height+1) /2));
 
-        return radius;
-    }
 
 
 }

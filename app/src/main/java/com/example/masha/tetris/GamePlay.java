@@ -12,6 +12,9 @@ import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
+import static com.example.masha.tetris.Settings.height;
+import static com.example.masha.tetris.Settings.width;
+
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 
@@ -20,7 +23,7 @@ import draw.DrawGrid;
 
 public class GamePlay extends AppCompatActivity {
 
-    DrawGrid d = new DrawGrid();
+    DrawGrid d = new DrawGrid(height,width);
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;

@@ -60,7 +60,7 @@ public class ChoiceOfProblems extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.button:
                 intent = new Intent (this, Mephistopheles.class);
-                intent.putExtra("JSON" , "/Users/Masha/Documents/Universitat/Tetris/app/src/main/java/problems/problem_0.json");
+                intent.putExtra("JSON" , strJson_0);
                 startActivity(intent);
 
                 finish();

@@ -1,29 +1,33 @@
 package com.example.masha.tetris;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
+import org.json.JSONException;
+
 import JSON.InitGame;
 import draw.DrawGrid;
 
 
+
 public class Mephistopheles extends AppCompatActivity {
 
-    DrawGrid d = new DrawGrid();
+    DrawGrid d ;
     CanvasView view , view_2, view_3;
     Intent intent;
     public static Handler h;
     private boolean over = false;
-    private static String fileName = "/Users/Masha/Documents/Universitat/Tetris/app/src/main/java/problems/problem_0.txt";
-
+//    public String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,13 @@ public class Mephistopheles extends AppCompatActivity {
 
         intent  = getIntent();
         String strJson = intent.getStringExtra("JSON");
-        InitGame g = new InitGame(fileName);
+        InitGame g = new InitGame(strJson);
+        d = new DrawGrid(g.height , g.width);
+//        try {
+//            g.fdlkn(strJson);
+//        }catch (JSONException ex){
+//            Log.d("piska ","не прорисовалось");}
+//        view_3.invalidate();
     }
 
     class CanvasView extends View {
@@ -69,14 +79,8 @@ public class Mephistopheles extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas) {
             over = d.useBuilder(canvas, movement);
-            if (over == true)
-                gameOver();
+
         }
     }
 
-    private void gameOver() {
-        finish();
-        intent = new Intent(this , EndGame.class);
-        startActivity(intent);
-    }
 }

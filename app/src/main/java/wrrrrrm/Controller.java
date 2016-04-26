@@ -172,7 +172,7 @@ public class   Controller {
     }
 
 
-    public void lockLock( int xx , int yy) {
-            lockedHexagons.get(yy).add(xx);
+    public void lockLock( int z , int x) {
+            lockedHexagons.get(z).add(x);
     }
 }

@@ -28,8 +28,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public static int height = 0 , width = 0 ;
 
     public static String MY_PREF = "MY_PREF";
-    public static final String sWIDTH = "width" ,
-            sHEIGHT = "height";
+    public static final String sWIDTH = "width" , sHEIGHT = "height";
 
     final CharSequence myList[] = {"pack 1", "pack 2", "pack 3"};
 
