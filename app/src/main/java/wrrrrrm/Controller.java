@@ -170,4 +170,9 @@ public class   Controller {
         Thread t = new Thread(() -> h.sendEmptyMessage(1));
         t.start();
     }
+
+
+    public void lockLock( int xx , int yy) {
+            lockedHexagons.get(yy).add(xx);
+    }
 }

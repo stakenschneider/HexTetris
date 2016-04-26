@@ -3,6 +3,15 @@ package JSON;
 import android.util.Log;
 import org.json.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import wrrrrrm.Controller;
+import api.CoordinateConverter;
+
 public class InitGame
 {
     public int ID;
@@ -12,10 +21,20 @@ public class InitGame
     public Cell[] filled;
     public int sourceLength;
     public int[] sourceSeeds;
+    private CoordinateConverter converter;
+    private Controller controller;
+    private static File file;
+    private static String sweeeee ="";
 
 
     public InitGame(String strJson)
     {
+        try {
+            sweeeee = read(strJson);
+        }catch (FileNotFoundException ex){
+        //постоянно вылетает вот сюда
+        }
+
         try {
             JSONObject jsonRootObject = new JSONObject(strJson);
 
@@ -62,10 +81,46 @@ public class InitGame
                 this.filled[fillIter] = new Cell();
                 this.filled[fillIter].xx = jsonFilledCell.getInt("x");
                 this.filled[fillIter].yy = jsonFilledCell.getInt("y");
+                controller.lockLock( jsonFilledCell.getInt("y"),
+                        converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
+
             }
 
             this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
         } catch (JSONException e) {}
 
     }
+
+    public static String read(String fileName) throws FileNotFoundException {
+
+        StringBuilder sb = new StringBuilder();
+        exists(fileName);
+
+        try {
+
+            BufferedReader in = new BufferedReader(new FileReader( file.getAbsoluteFile()));
+            try {
+
+                String s;
+                while ((s = in.readLine()) != null) {
+                    sb.append(s);
+                    sb.append("\n");
+                }
+            } finally {
+                in.close();
+            }
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return sb.toString();
+    }
+
+    private static void exists(String fileName) throws FileNotFoundException {
+        file = new File(fileName);
+        if (!file.exists()){
+            throw new FileNotFoundException(file.getName());
+        }
+    }
+
 }

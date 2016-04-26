@@ -21,4 +21,5 @@ public final class CoordinateConverter {
     public static int convertToRow(final int AxialZ) {
         return  AxialZ;
     }
+
 }

@@ -22,6 +22,7 @@ public class Mephistopheles extends AppCompatActivity {
     Intent intent;
     public static Handler h;
     private boolean over = false;
+    private static String fileName = "/Users/Masha/Documents/Universitat/Tetris/app/src/main/java/problems/problem_0.txt";
 
 
     @Override
@@ -55,7 +56,7 @@ public class Mephistopheles extends AppCompatActivity {
 
         intent  = getIntent();
         String strJson = intent.getStringExtra("JSON");
-        InitGame g = new InitGame(strJson);
+        InitGame g = new InitGame(fileName);
     }
 
     class CanvasView extends View {

@@ -11,8 +11,6 @@ import wrrrrrm.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
 import api.Hexagon;
