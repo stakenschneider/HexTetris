@@ -41,13 +41,18 @@ public class ChoiceOfProblems extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_of_problems);
 
-        //TODO: какой-нибудь РАБОТАЮЩИЙ scrrollPanel
         findViewById(R.id.button).setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         findViewById(R.id.button3).setOnClickListener(this);
         findViewById(R.id.button4).setOnClickListener(this);
         findViewById(R.id.button5).setOnClickListener(this);
         findViewById(R.id.button6).setOnClickListener(this);
+        findViewById(R.id.button7).setOnClickListener(this);
+        findViewById(R.id.button8).setOnClickListener(this);
+        findViewById(R.id.button9).setOnClickListener(this);
+        findViewById(R.id.button10).setOnClickListener(this);
+        findViewById(R.id.button11).setOnClickListener(this);
+        findViewById(R.id.button12).setOnClickListener(this);
     }
 
     @Override
@@ -92,6 +97,43 @@ public class ChoiceOfProblems extends AppCompatActivity implements View.OnClickL
             case R.id.button6:
                 intent = new Intent (this, Mephistopheles.class);
                 intent.putExtra("JSON" , strJson_5);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.button7:
+                intent = new Intent (this, Mephistopheles.class);
+                intent.putExtra("JSON" , strJson_6);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.button8:
+                intent = new Intent (this, Mephistopheles.class);
+                intent.putExtra("JSON" , strJson_7);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.button9:
+                intent = new Intent (this, Mephistopheles.class);
+                intent.putExtra("JSON" , strJson_8);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.button10:
+                intent = new Intent (this, Mephistopheles.class);
+                intent.putExtra("JSON" , strJson_9);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.button11:
+                intent = new Intent (this, Mephistopheles.class);
+                intent.putExtra("JSON" , strJson_10);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.button12:
+                intent = new Intent (this, Mephistopheles.class);
+                intent.putExtra("JSON" , strJson_11);
                 startActivity(intent);
                 finish();
                 break;
