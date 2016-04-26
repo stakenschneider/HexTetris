@@ -53,9 +53,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         ad.setSingleChoiceItems(myList, -1, (DialogInterface arg0,int arg1) -> strpack = myList[arg1].toString());
 
-        ad.setNegativeButton("Cancel", (DialogInterface dialog, int which) -> {
-                    // TODO Auto-generated method stub
-                }
+        ad.setNegativeButton("OK", (DialogInterface dialog, int which) -> {}
         );
     }
 
@@ -64,6 +62,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bttnSentence:
+                //TODO: сократить формулки
                 if (!eTw.getText().toString().equals(""))
                 eTh.setText("" +(int)((2*(scrh-30)-2*scrw/
                         (Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/
@@ -79,15 +78,13 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 break;
         }
 
-        //ЧТО БЫ НЕ ЗАБЫТЬ!!!!!!!!!
-
+        //TODO: уже и не знаю где искать помощь - моментальное срабатывание
         if (checkBox.isChecked()) {
             stopService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.muson));
         }
 
-        if (!checkBox.isChecked())
-        {
+        if (!checkBox.isChecked()) {
             startService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.musoff));
         }

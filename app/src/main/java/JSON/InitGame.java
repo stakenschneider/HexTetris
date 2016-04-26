@@ -1,100 +1,71 @@
 package JSON;
 
-/**
- * Created by Masha on 21.04.16.
- */
-
 import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.json.*;
 
 public class InitGame
 {
     public int ID;
     public Unit[] incoming;
-    public Cell[] filled;
     public int width;
     public int height;
+    public Cell[] filled;
     public int sourceLength;
     public int[] sourceSeeds;
 
 
-    public InitGame (File jsonFILE) throws JSONException
+    public InitGame(String strJson)
     {
-		//JSON file -> String -> JSONObj
-        BufferedReader br = null;
-
         try {
-            br = new BufferedReader(new FileReader(jsonFILE));
-        } catch (FileNotFoundException ex) {Log.d("piska" , "with Buff");}
+            JSONObject jsonRootObject = new JSONObject(strJson);
 
-        StringBuilder sb = new StringBuilder();
-        String line = "";
+            this.height = Integer.parseInt(jsonRootObject.optString("height"));
+            this.width = Integer.parseInt(jsonRootObject.optString("width"));
 
-        try {
-            while((line = br.readLine()) != null)
-            sb.append(line);
-        }
-        catch (IOException e) {e.printStackTrace();}
+            JSONArray jsonArray = jsonRootObject.optJSONArray("sourceSeeds");
+            this.sourceSeeds = new int[jsonArray.length()];
+            for(int i = 0 ; i <= jsonArray.length() - 1; i++)
+                this.sourceSeeds[i] = jsonArray.optInt(i);
 
-        JSONObject json = new JSONObject(sb.toString());
+            JSONArray jsonUnitArray = jsonRootObject.getJSONArray("units");
+            this.incoming = new Unit[jsonUnitArray.length()];
 
-		//JSONObject -> initGame obj
+            for(int j = 0; j < jsonUnitArray.length(); j++) {
+                JSONObject jsonUnit = jsonUnitArray.getJSONObject(j);
+                JSONArray jsonMemberArray = jsonUnit.getJSONArray("members");
+                JSONObject jsonPivot = jsonUnit.getJSONObject("pivot");
 
-        this.ID = json.getInt("id");
-        this.width = json.getInt("width");
-        this.height = json.getInt("height");
-        this.sourceLength = json.getInt("sourceLength");
+                this.incoming[j] = new Unit();
+                this.incoming[j].members = new Cell[jsonMemberArray.length()];
 
-		//-> JSONObject
+                for(int z = 0; z < jsonMemberArray.length(); z++)
+                {
+                    this.incoming[j].members[z] = new Cell();
+                    this.incoming[j].members[z].xx = jsonMemberArray.getJSONObject(z).getInt("x");
+                    this.incoming[j].members[z].yy = jsonMemberArray.getJSONObject(z).getInt("y");
+                }
 
-        JSONArray jsonUnitArray = json.getJSONArray("units");
-        this.incoming = new Unit[jsonUnitArray.length()];
-
-        for(int memberIter = 0; memberIter <= jsonUnitArray.length()-1; memberIter++)
-        {
-            JSONObject jsonUnit = jsonUnitArray.getJSONObject(memberIter);
-            JSONArray jsonMemberArray = jsonUnit.getJSONArray("members");
-            JSONObject jsonPivot = jsonUnit.getJSONObject("pivot");
-
-            this.incoming[memberIter] = new Unit();
-            this.incoming[memberIter].members = new Cell[jsonMemberArray.length()];
-
-            for(int cellIter = 0; cellIter <= jsonMemberArray.length()-1; cellIter++)
-            {
-                this.incoming[memberIter].members[cellIter] = new Cell();
-                this.incoming[memberIter].members[cellIter].xx = jsonMemberArray.getJSONObject(cellIter).getInt("x");
-                this.incoming[memberIter].members[cellIter].yy = jsonMemberArray.getJSONObject(cellIter).getInt("y");
+                this.incoming[j].pivot = new Cell();
+                this.incoming[j].pivot.xx = jsonPivot.getInt("x");
+                this.incoming[j].pivot.yy = jsonPivot.getInt("y");
             }
 
-            this.incoming[memberIter].pivot = new Cell();
-            this.incoming[memberIter].pivot.xx = jsonPivot.getInt("x");
-            this.incoming[memberIter].pivot.yy = jsonPivot.getInt("y");
-        }
+            this.ID = Integer.parseInt(jsonRootObject.optString("id"));
+            Log.d("ID ", Integer.toString(ID));
 
-		//FilledArray -> JSONArr -> filled arr
+            JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
+            this.filled = new Cell[jsonFilledArray.length()];
 
-        JSONArray jsonFilledArray = json.getJSONArray("filled");
-        this.filled = new Cell[jsonFilledArray.length()];
+            for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
+            {
+                JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
+                this.filled[fillIter] = new Cell();
+                this.filled[fillIter].xx = jsonFilledCell.getInt("x");
+                this.filled[fillIter].yy = jsonFilledCell.getInt("y");
+            }
 
-        for(int fillIter = 0; fillIter <= jsonFilledArray.length()-1; fillIter++)
-        {
-            JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
-            this.filled[fillIter].xx = jsonFilledCell.getInt("x");
-            this.filled[fillIter].yy = jsonFilledCell.getInt("y");
-        }
+            this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
+        } catch (JSONException e) {}
 
-        JSONArray jsonSourceSeeds = json.getJSONArray("sourceSeeds");
-        this.sourceSeeds = new int[jsonSourceSeeds.length()];
-
-        for(int sourceSeedsIter = 0; sourceSeedsIter <= jsonSourceSeeds.length()-1; sourceSeedsIter++) {
-            this.sourceSeeds[sourceSeedsIter] = jsonSourceSeeds.optInt(sourceSeedsIter);
-        }
     }
 }

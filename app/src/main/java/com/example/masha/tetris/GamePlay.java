@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
-
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -22,13 +20,13 @@ import draw.DrawGrid;
 
 public class GamePlay extends AppCompatActivity {
 
-
     DrawGrid d = new DrawGrid();
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
-    static Handler h;
+    public static Handler h;  //это не должно быть статик, Тимур
     private boolean over = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +37,26 @@ public class GamePlay extends AppCompatActivity {
         RelativeLayout.LayoutParams relLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
         view_3 = new CanvasView(this, "LOCKED");
+
         view.setLayoutParams(params);
         view_2.setLayoutParams(params);
         view_3.setLayoutParams(params);
+
         relLayout.addView(view_2);
         relLayout.addView(view_3);
         relLayout.addView(view);
+
         h = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == 1) view_3.invalidate();
                 msg.what = 0;
-            };
+            }
         };
+
         view.setOnTouchListener( (final View v, final MotionEvent event) -> {
                 x = event.getX();
                 y = event.getY();
@@ -96,7 +99,6 @@ public class GamePlay extends AppCompatActivity {
                             view.invalidate();
                             return false;
                         }
-
                         break;
                 }
                 return true;
@@ -114,7 +116,7 @@ public class GamePlay extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas) {
              over = d.useBuilder(canvas, movement);
-            if (over == true)
+            if (over)
                 gameOver();
 
         }
@@ -126,18 +128,9 @@ public class GamePlay extends AppCompatActivity {
     }
 
 
-
-    private void gameOver()
-    {
+    private void gameOver() {
         finish();
         intent = new Intent(this , EndGame.class);
         startActivity(intent);
     }
 }
-
-
-
-
-
-
-

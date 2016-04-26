@@ -1,14 +1,14 @@
-package com.example.masha.tetris;
+package wrrrrrm;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import api.Hexagon;
 import api.AxialCoordinate;
+import api.Hexagon;
 
+import static api.CoordinateConverter.convertOffsetCoordinatesToAxialX;
 import static api.CoordinateConverter.convertToCol;
 import static api.CoordinateConverter.convertToRow;
-import static api.CoordinateConverter.convertOffsetCoordinatesToAxialX;
 
 
 public class Figure {
@@ -24,7 +24,7 @@ public class Figure {
     int quantity , maxCol = -1, dx , dy;
     ArrayList <Hexagon> Hexagons;
 
-    public Figure(ArrayList <Hexagon> hex) {
+    public Figure(ArrayList<Hexagon> hex) {
         Hexagons = hex;
         quantity = Hexagons.size();
     }

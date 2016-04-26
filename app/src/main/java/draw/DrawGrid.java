@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
 
-import com.example.masha.tetris.Controller;
+import wrrrrrm.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +47,11 @@ public class DrawGrid {
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
     public static int point ;
     double radius;
-    Pack pack;
 
 
     public DrawGrid () {
-        if (height < 15) height = 15;  // (в жопу разбираться с preferen оставим так)
+        //TODO: конструууууууктор а не это ...
+        if (height < 15) height = 15;
         if (width < 8) width = 8;
         radius = radGame();
         point = 0;
@@ -67,23 +67,25 @@ public class DrawGrid {
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons(), point);
         } catch (HexagonalGridCreationException e) {}
+
         if (!Optional.ofNullable(strpack).isPresent())
             strpack = "pack 1";
+
         switch (strpack) {
             case "pack 1":
-                pack = new Pack_1(hexagonalGrid);
+
                 break;
 
             case "pack 2":
-                pack = new Pack_2(hexagonalGrid);
+
                 break;
 
             case "pack 3":
-                pack = new Pack_3(hexagonalGrid);
+
                 break;
 
             default:
-                pack = new Pack_1(hexagonalGrid);
+
                 break;
         }
     }
@@ -137,16 +139,6 @@ public class DrawGrid {
                     }
 
 
-
-
-
-
-
-
-
-
-
-
                     Paint p = new Paint();
                     p.setColor(Color.parseColor("#81AA21"));
                     p.setStrokeWidth(1);
@@ -159,16 +151,15 @@ public class DrawGrid {
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
-            pack.getFigure(width);
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
             if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр
             return true;
         }
 
-
         canvas.drawColor(Color.parseColor("#001B2024")); // полностью прозрачный канвас
 
+        //TODO: другим цветом рисовать т-ку поворота
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) { //фигруа
             drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
         }
@@ -213,11 +204,11 @@ public class DrawGrid {
 
     public double radGame()   {
         radius = 2*scrw/(Math.sqrt(3)*(2*width+1));
-        int dfkj = 50;
-        if ((radius*(height / 2 + height + (Math.sqrt(3) / 2 / 2))) > (scrh-dfkj) && height % 2 == 0)
-            radius = (scrh-dfkj) / (height / 2 + height + (Math.sqrt(3) / 2 / 2));
-        else if ((radius*( height + ((height+1) /2))) > (scrh-dfkj) && height % 2 != 0)
-            radius = (scrh-dfkj) / ( height + ((height+1) /2));
+        int parallax = 50;
+        if ((radius*(height / 2 + height + (Math.sqrt(3) / 2 / 2))) > (scrh-parallax) && height % 2 == 0)
+            radius = (scrh-parallax) / (height / 2 + height + (Math.sqrt(3) / 2 / 2));
+        else if ((radius*( height + ((height+1) /2))) > (scrh-parallax) && height % 2 != 0)
+            radius = (scrh-parallax) / ( height + ((height+1) /2));
 
         return radius;
     }

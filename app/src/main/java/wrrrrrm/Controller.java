@@ -1,4 +1,4 @@
-package com.example.masha.tetris;
+package wrrrrrm;
 
 import android.util.SparseArray;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import static com.example.masha.tetris.GamePlay.h;
 
 import static api.AxialCoordinate.fromCoordinates;
 
-
+//TODO: get -> flatMap?!
 public class   Controller {
 
     private ArrayList<AxialCoordinate> dataMap;  //фигуры в движении

@@ -13,10 +13,7 @@ public class Unit
     {
         return this.members[index].xx;
     }
-    public int getMemberY(int index)
-    {
-        return this.members[index].yy;
-    }
+    public int getMemberY(int index) {return this.members[index].yy;}
     public int getPivotX()
     {
         return this.pivot.xx;

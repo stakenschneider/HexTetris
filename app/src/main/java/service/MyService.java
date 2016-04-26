@@ -13,14 +13,14 @@ public class MyService extends Service {
     MediaPlayer player;
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
     public void onCreate() {
         player = MediaPlayer.create(this, R.raw.bg);
         player.setLooping(true); // зацикливание
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override

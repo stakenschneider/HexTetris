@@ -30,7 +30,9 @@
         <activity android:name=".Start" />
         <activity android:name=".Social" />
         <activity android:name=".EndGame" />
-        <activity android:name=".Records"></activity>
+        <activity android:name=".Records" />
+        <activity android:name=".ChoiceOfProblems" />
+        <activity android:name=".Mephistopheles"></activity>
     </application>
 
 </manifest>

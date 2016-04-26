@@ -20,8 +20,7 @@ public final class GridData {
     private final int gridHeight;
 
 
-    public GridData(final HexagonOrientation orientation, final HexagonalGridLayout gridLayout,
-                    final double radius, int gridWidth, int gridHeight) {
+    public GridData(final HexagonOrientation orientation, final HexagonalGridLayout gridLayout, final double radius, int gridWidth, int gridHeight) {
         this.orientation = orientation;
         this.gridLayout = gridLayout;
         this.radius = radius;

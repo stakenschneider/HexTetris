@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
-import android.widget.Toast;
 import service.MyService;
 
 
@@ -45,6 +44,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         SharedPreferences sp = getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
         boolean hasVisited = sp.getBoolean("hasVisited", false);
         if (!hasVisited) {
+            //TODO: описать игру
             intent = new Intent (this, Start.class);
             startActivity(intent);
 
@@ -64,7 +64,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.bttnTutorial:
-                Toast.makeText(this, "Может когда-нибудь потом", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, ChoiceOfProblems.class);
+                startActivity(intent);
                 break;
 
             case R.id.bttnSettings:
