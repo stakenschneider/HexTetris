@@ -1,31 +1,25 @@
 package wrrrrrm;
 
-/**
- * Created by Masha on 27.04.16.
- */
-
 import java.math.BigInteger;
 
 
 public class Lcg {
 
-    private final BigInteger a;  // Multiplier
-    private final BigInteger b;  // Increment
-    private final BigInteger m;  // Modulus
+    private final BigInteger a = BigInteger.valueOf(1103515245);  // Multiplier
+    private final BigInteger b = BigInteger.valueOf(12345);  // Increment
+    private final BigInteger m = BigInteger.ONE.shiftLeft(32);  // Modulus
     private final BigInteger aInv;
 
     private BigInteger x;
 
-    public Lcg(BigInteger a, BigInteger b, BigInteger m, BigInteger seed) {
+    public Lcg( BigInteger seed) {
         if (a == null || b == null || m == null || seed == null)
             throw new NullPointerException();
         if (a.signum() != 1 || b.signum() == -1 || m.signum() != 1 || seed.signum() == -1 || seed.compareTo(m) >= 0)
             throw new IllegalArgumentException("Arguments out of range");
 
-        this.a = a;
+
         this.aInv = a.modInverse(m);
-        this.b = b;
-        this.m = m;
         this.x = seed;
     }
 

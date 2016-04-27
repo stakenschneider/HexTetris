@@ -1,9 +1,5 @@
 package JSON;
 
-/**
- * Created by Masha on 21.04.16.
- */
-
 public class Unit
 {
     public Cell[] members;

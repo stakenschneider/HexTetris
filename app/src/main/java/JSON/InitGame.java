@@ -72,40 +72,22 @@ public class InitGame
             this.ID = Integer.parseInt(jsonRootObject.optString("id"));
             Log.d("ID ", Integer.toString(ID));
 
-//            JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
-//            this.filled = new Cell[jsonFilledArray.length()];
-//
-//            for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
-//            {
-//                JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
-//                this.filled[fillIter] = new Cell();
-//                this.filled[fillIter].xx = jsonFilledCell.getInt("x");
-//                this.filled[fillIter].yy = jsonFilledCell.getInt("y");
-//                controller.lockLock( jsonFilledCell.getInt("y"),
-//                        converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
-//            }
+            JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
+            this.filled = new Cell[jsonFilledArray.length()];
+
+            for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
+            {
+                JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
+                this.filled[fillIter] = new Cell();
+                this.filled[fillIter].xx = jsonFilledCell.getInt("x");
+                this.filled[fillIter].yy = jsonFilledCell.getInt("y");
+                controller.lockLock( jsonFilledCell.getInt("y"),
+                        converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
+            }
 
             this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
         } catch (JSONException e) {}
 
-    }
-
-    public void fdlkn(String strJson) throws JSONException
-    {
-        JSONObject jsonRootObject = new JSONObject(strJson);
-        JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
-        this.filled = new Cell[jsonFilledArray.length()];
-
-        for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
-        {
-            JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
-            this.filled[fillIter] = new Cell();
-            this.filled[fillIter].xx = jsonFilledCell.getInt("x");
-            this.filled[fillIter].yy = jsonFilledCell.getInt("y");
-            controller.lockLock( jsonFilledCell.getInt("y"),
-                    converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
-
-        }
     }
 
 
