@@ -22,7 +22,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     CheckBox checkBox;
     SharedPreferences sharedPreferences;
     AlertDialog.Builder ad;
-    public static String strpack;
+    public static String strpack = "{\"height\":15,\"width\":8,\"sourceSeeds\":[0],\"units\":[{\"members\":[{\"x\":0,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":2,\"y\":0},{\"x\":0,\"y\":1},{\"x\":2,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":2,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":2}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":2}}],\"id\":0,\"filled\":[],\"sourceLength\":100}";
+
 
     public EditText eTw , eTh;
     public static int height = 0 , width = 0 ;
@@ -50,7 +51,26 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         ad = new AlertDialog.Builder(this);
         ad.setTitle(getResources().getString(R.string.pack) + "?");
 
-        ad.setSingleChoiceItems(myList, -1, (DialogInterface arg0,int arg1) -> strpack = myList[arg1].toString());
+        //TODO: паки пока что одинаковые - поменять
+        ad.setSingleChoiceItems(myList, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                switch (myList[arg1].toString()){
+                    case "pack 1":
+                        strpack = "{\"height\":10,\"width\":10,\"sourceSeeds\":[0],\"units\":[{\"members\":[{\"x\":0,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":2,\"y\":0},{\"x\":0,\"y\":1},{\"x\":2,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":2,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":2}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":2}}],\"id\":0,\"filled\":[],\"sourceLength\":100}";
+                        break;
+                    case "pack 2":
+                        strpack = "{\"height\":10,\"width\":10,\"sourceSeeds\":[0],\"units\":[{\"members\":[{\"x\":0,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":2,\"y\":0},{\"x\":0,\"y\":1},{\"x\":2,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":2,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":2}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":2}}],\"id\":0,\"filled\":[],\"sourceLength\":100}";
+                        break;
+                    case "pack 3":
+                        strpack = "{\"height\":10,\"width\":10,\"sourceSeeds\":[0],\"units\":[{\"members\":[{\"x\":0,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":2,\"y\":0},{\"x\":0,\"y\":1},{\"x\":2,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":2,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":2}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":2}}],\"id\":0,\"filled\":[],\"sourceLength\":100}";
+                        break;
+                }
+
+            }
+        });
+
+
 
         ad.setNegativeButton("OK", (DialogInterface dialog, int which) -> {}
         );
@@ -87,7 +107,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             startService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.musoff));
         }
-
     }
 
 

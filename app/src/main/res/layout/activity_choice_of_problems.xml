@@ -121,18 +121,83 @@
                 android:background="@color/darkGreen" />
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="13"
-                android:id="@+id/button13" />
+                android:id="@+id/button13"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
 
-
-
-
-
-
-
-
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="14"
+                android:id="@+id/button14"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:id="@+id/button15"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="16"
+                android:id="@+id/button16"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="17"
+                android:id="@+id/button17"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="18"
+                android:id="@+id/button18"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="19"
+                android:id="@+id/button19"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:id="@+id/button20"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="21"
+                android:id="@+id/button21"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="22"
+                android:id="@+id/button22"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="23"
+                android:id="@+id/button23"
+                android:textColor="@color/yell"
+                android:background="@color/darkGreen" />
 
         </LinearLayout>
     </ScrollView>

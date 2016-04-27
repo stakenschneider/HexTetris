@@ -12,22 +12,20 @@ import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
-import static com.example.masha.tetris.Settings.height;
-import static com.example.masha.tetris.Settings.width;
-
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
+import static com.example.masha.tetris.Settings.strpack;
 
 import draw.DrawGrid;
 
 
 public class GamePlay extends AppCompatActivity {
 
-    DrawGrid d = new DrawGrid(height,width);
+    DrawGrid d = new DrawGrid(strpack , "GamePlay");
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
-    public static Handler h;  //это не должно быть статик, Тимур
+    public static Handler h;  //это не должно быть static, Тимур
     private boolean over = false;
 
 

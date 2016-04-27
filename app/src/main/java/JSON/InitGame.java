@@ -81,8 +81,6 @@ public class InitGame
                 this.filled[fillIter] = new Cell();
                 this.filled[fillIter].xx = jsonFilledCell.getInt("x");
                 this.filled[fillIter].yy = jsonFilledCell.getInt("y");
-                controller.lockLock( jsonFilledCell.getInt("y"),
-                        converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
             }
 
             this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));

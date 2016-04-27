@@ -60,8 +60,8 @@ public class Mephistopheles extends AppCompatActivity {
 
         intent  = getIntent();
         String strJson = intent.getStringExtra("JSON");
-        InitGame g = new InitGame(strJson);
-        d = new DrawGrid(g.height , g.width);
+
+        d = new DrawGrid(strJson , "Mephistopheles" );
 //        try {
 //            g.fdlkn(strJson);
 //        }catch (JSONException ex){
