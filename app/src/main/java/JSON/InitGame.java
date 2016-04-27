@@ -49,7 +49,7 @@ public class InitGame
             JSONArray jsonUnitArray = jsonRootObject.getJSONArray("units");
             this.incoming = new Unit[jsonUnitArray.length()];
 
-            for(int j = 0; j < jsonUnitArray.length(); j++) {
+            for(int j = 0; j < jsonUnitArray.length(); j++) { //все фигуры
                 JSONObject jsonUnit = jsonUnitArray.getJSONObject(j);
                 JSONArray jsonMemberArray = jsonUnit.getJSONArray("members");
                 JSONObject jsonPivot = jsonUnit.getJSONObject("pivot");
@@ -57,7 +57,7 @@ public class InitGame
                 this.incoming[j] = new Unit();
                 this.incoming[j].members = new Cell[jsonMemberArray.length()];
 
-                for(int z = 0; z < jsonMemberArray.length(); z++)
+                for(int z = 0; z < jsonMemberArray.length(); z++) //все гексы в фигуре
                 {
                     this.incoming[j].members[z] = new Cell();
                     this.incoming[j].members[z].xx = jsonMemberArray.getJSONObject(z).getInt("x");

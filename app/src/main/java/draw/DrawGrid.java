@@ -46,6 +46,7 @@ public class DrawGrid {
     public static int point ;
     double radius;
     HeapFigure heapFigure;
+    int uu = 0;
 
 
     public DrawGrid (String strJSON , String game) {
@@ -68,7 +69,6 @@ public class DrawGrid {
         radius = rad(gWidth ,gHeight);
         point = 0;
 
-
         try {
             HexagonalGridBuilder builder = new HexagonalGridBuilder()
                     .setGridWidth(gWidth)
@@ -80,7 +80,6 @@ public class DrawGrid {
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons(), point);
         } catch (HexagonalGridCreationException e) {}
-
 
         heapFigure = new HeapFigure(hexagonalGrid );
     }
@@ -146,7 +145,8 @@ public class DrawGrid {
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
-
+            heapFigure.getFigure(uu);
+            uu++;
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
             if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр
             return true;
