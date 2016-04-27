@@ -3,23 +3,26 @@ package api;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import backport.Optional;
 import rx.Observable;
 
 
- public  interface  HexagonalGrid {
+public interface HexagonalGrid {
 
-    Observable<Hexagon> getHexagons();
+   Observable<Hexagon> getHexagons();
 
-    boolean containsAxialCoordinate(AxialCoordinate coordinate);
+   boolean containsAxialCoordinate(AxialCoordinate coordinate);
 
-    Optional<Hexagon> getByAxialCoordinate(AxialCoordinate coordinate);
+   Optional<Hexagon> getByAxialCoordinate(AxialCoordinate coordinate);
 
-    SparseArray<ArrayList<Integer>> getLockedHexagons();
+   SparseArray<ArrayList<Integer>> getLockedHexagons();
 
-    ArrayList<AxialCoordinate> getHexagonStorage ();
+   ArrayList<AxialCoordinate> getHexagonStorage ();
 
-    int getWidth();
+   LinkedList<Hexagon> getNeighborsOf(Hexagon hexagon);
+
+   int getWidth();
 
 }

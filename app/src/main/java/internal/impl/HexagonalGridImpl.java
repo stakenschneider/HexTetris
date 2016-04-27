@@ -11,12 +11,16 @@ import internal.GridData;
 import java.util.ArrayList;
 import java.util.Iterator;
 import backport.Optional;
+
+import java.util.LinkedList;
+
 import java.util.Set;
 import rx.Observable;
 import rx.Subscriber;
 
 import static internal.impl.HexagonImpl.newHexagon;
 import static com.example.masha.tetris.Settings.height;
+import static api.AxialCoordinate.fromCoordinates;
 
 
 public class HexagonalGridImpl implements HexagonalGrid {
@@ -26,6 +30,10 @@ public class HexagonalGridImpl implements HexagonalGrid {
     private final Set<AxialCoordinate> coordinates;
     private SparseArray <ArrayList<Integer>> lockedHexagons = new SparseArray<ArrayList<Integer>> ();
     private int width ;
+
+    private static final int[][] NEIGHBORS = {{+1, 0}, {-1, 0}, {-1, +1}, {0, +1}};
+    private static final int NEIGHBOR_X_INDEX = 0;
+    private static final int NEIGHBOR_Z_INDEX = 1;
 
 
     public HexagonalGridImpl(final HexagonalGridBuilder builder) {
@@ -42,37 +50,44 @@ public class HexagonalGridImpl implements HexagonalGrid {
     }
 
     @Override
-    public SparseArray <ArrayList<Integer>> getLockedHexagons()
-    {
-        return lockedHexagons;
-    }
+    public SparseArray <ArrayList<Integer>> getLockedHexagons() {return lockedHexagons;}
 
-    public ArrayList<AxialCoordinate> getHexagonStorage ()
-    {
-        return hexagonStorage;
-    }
+    public ArrayList<AxialCoordinate> getHexagonStorage () {return hexagonStorage;}
 
     @Override
-    public int getWidth()
-    {
-        return width;
-    }
+    public int getWidth() {return width;}
 
     @Override
     public Observable<Hexagon> getHexagons() {
         Observable<Hexagon> result = Observable.create((Subscriber<? super Hexagon> subscriber) -> {
-                final Iterator<AxialCoordinate> coordinateIterator = coordinates.iterator();
-                while (coordinateIterator.hasNext()) {
-                    subscriber.onNext(newHexagon(gridData, coordinateIterator.next(), hexagonStorage, lockedHexagons));
-                }
-                subscriber.onCompleted();
-            });
+            final Iterator<AxialCoordinate> coordinateIterator = coordinates.iterator();
+            while (coordinateIterator.hasNext()) {
+                subscriber.onNext(newHexagon(gridData, coordinateIterator.next(), hexagonStorage, lockedHexagons));
+            }
+            subscriber.onCompleted();
+        });
         return result;
     }
 
     @Override
     public boolean containsAxialCoordinate(final AxialCoordinate coordinate) {
         return this.coordinates.contains(coordinate);
+    }
+
+    @Override
+    public LinkedList<Hexagon> getNeighborsOf(final Hexagon hexagon) {
+        final LinkedList<Hexagon> neighbors = new LinkedList<>();
+        for (final int[] neighbor : NEIGHBORS) {
+            Hexagon retHex;
+            final int neighborGridX = hexagon.getGridX() + neighbor[NEIGHBOR_X_INDEX];
+            final int neighborGridZ = hexagon.getGridZ() + neighbor[NEIGHBOR_Z_INDEX];
+            final AxialCoordinate neighborCoordinate = fromCoordinates(neighborGridX, neighborGridZ);
+            if (containsAxialCoordinate(neighborCoordinate)) {
+                retHex = getByAxialCoordinate(neighborCoordinate).get();
+                neighbors.addFirst(retHex);
+            }
+        }
+        return neighbors;
     }
 
     @Override
