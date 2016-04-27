@@ -64,7 +64,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.bttnTutorial:
-                Toast.makeText(this, "Может когда-нибудь потом", Toast.LENGTH_SHORT).show();
+                intent = new Intent (this, GamePlay.class);
+                startActivity(intent);
                 break;
 
             case R.id.bttnSettings:

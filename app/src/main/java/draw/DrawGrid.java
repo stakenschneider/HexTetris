@@ -41,7 +41,7 @@ public class DrawGrid {
     private static final HexagonOrientation DEFAULT_ORIENTATION = POINTY_TOP;
     private static final HexagonalGridLayout DEFAULT_GRID_LAYOUT = RECTANGULAR;
     public HexagonalGrid hexagonalGrid;
-    private HexagonalGridCalculator hexagonalGridCalculator;
+    public HexagonalGridCalculator hexagonalGridCalculator;
     private Controller controller;
     private HexagonOrientation orientation = DEFAULT_ORIENTATION;
     private HexagonalGridLayout hexagonGridLayout = DEFAULT_GRID_LAYOUT;
@@ -136,31 +136,20 @@ public class DrawGrid {
                                 drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
                             }
                     }
-
-
-
-
-
-
-
-
-
-
-
-
                     Paint p = new Paint();
                     p.setColor(Color.parseColor("#81AA21"));
                     p.setStrokeWidth(1);
                     p.setStyle(Style.FILL_AND_STROKE);
                     p.setTextSize(40);
                     canvas.drawText("score: " + point, 30, (float) scrh - 15, p);
+                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(2, 6)).get().getPoints(), array), "#FF5346", Style.FILL);
                     return false;
 
             }
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
-            pack.getFigure(width);
+            hexagonalGrid.getByAxialCoordinate(fromCoordinates(1,1)).get().setState();
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
             if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр

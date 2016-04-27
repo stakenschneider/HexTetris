@@ -3,6 +3,7 @@ package api;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import backport.Optional;
 import rx.Observable;
@@ -19,6 +20,8 @@ public interface HexagonalGrid {
     SparseArray<ArrayList<Integer>> getLockedHexagons();
 
     ArrayList<AxialCoordinate> getHexagonStorage ();
+
+    LinkedList<Hexagon> getNeighborsOf(Hexagon hexagon);
 
     int getWidth();
 
