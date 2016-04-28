@@ -93,7 +93,6 @@ public class DrawGrid {
 
     public boolean useBuilder(Canvas canvas, String movement) {
         int[] array = new int[12];
-
             switch (movement) {
 
                 case "COUNTER_CLCK":
@@ -142,7 +141,7 @@ public class DrawGrid {
                     p.setStyle(Style.FILL_AND_STROKE);
                     p.setTextSize(40);
                     canvas.drawText("score: " + point, 30, (float) scrh - 15, p);
-                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(2, 6)).get().getPoints(), array), "#FF5346", Style.FILL);
+                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 3)).get().getPoints(), array), "#A6AA66", Style.FILL);
                     return false;
 
             }

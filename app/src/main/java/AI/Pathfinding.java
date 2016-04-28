@@ -33,6 +33,7 @@ public class Pathfinding {
 
 
 
+
     private class Unit {
         Hexagon hexagon;      // рассматриваемый хекс
         public Unit mother;  // ссылка на предыдущую ячейку в кратчайшем пути из ячеек от стартовой к этой
@@ -82,7 +83,7 @@ public class Pathfinding {
 
     public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator)
     {
-        openList = new <Unit> PriorityQueue(20, fComparator);
+        openList = new PriorityQueue<Unit>(20, fComparator);
         closedList = new ArrayList<Unit>();
         path = new  LinkedList<String>();
         this.hexagonalGrid=hexagonalGrid;
@@ -102,74 +103,77 @@ public class Pathfinding {
     {
         Unit startUnit = new Unit(null, start);
         openList.add(startUnit);
-        boolean end = false;
-        while (end==false) end = checkUnit(openList.poll());
-        path = makePath();
+        path = checkUnit(openList.poll());
         return path;
     }
 
     // От ячейки назначения идем до стартовой по ссылкам и собираем команды для контроллера
-   private  LinkedList<String> makePath()
+   private  LinkedList<String> makePath(Unit unit)
     {
-        Unit unit = openList.peek();
         do {
             path.addFirst(unit.movement);
+            Log.d("23",unit.movement);
             unit = unit.mother;
         } while (unit.mother!=null);
         return path;
     }
 
     // Рассмотрение ячейки из открытого списка с наименьшим f и добавлением ее в закрытый список
-    private boolean checkUnit (Unit unit)
+    private LinkedList <String> checkUnit (Unit unit)
     {
         LinkedList<Hexagon> neighborHex = hexagonalGrid.getNeighborsOf(unit.hexagon);
         for (int i = 0; i<neighborHex.size(); i++)  // Берем 4 соседей ячейки (верхние вроде как не нужны)
 
             // Если сосед не в закрытом списке и не в препятствиях (надо потом залоченные хексы добавить сразу в закрытый список)
-            if (!hexagonalGrid.getLockedHexagons().valueAt(neighborHex.get(i).getAxialCoordinate().getGridZ()).contains(neighborHex.get(i).getAxialCoordinate().getGridX())) {
+            if (!hexagonalGrid.getLockedHexagons().valueAt(neighborHex.get(i).getAxialCoordinate().getGridZ()).contains(neighborHex.get(i).getAxialCoordinate().getGridX())&&!closedList.contains(neighborHex)) {
                 Unit childUnit = new Unit(unit, neighborHex.get(i));
-
-                // Команды как пройти к этому хексу от материнского
-                switch (i) {
-                    case 0:
-                        childUnit.movement = "DOWN_RIGHT";
-                        break;
-
-                    case 1:
-                        childUnit.movement = "DOWN_LEFT";
-                        break;
-
-                    case 2:
-                        childUnit.movement = "LEFT";
-                        break;
-
-                    case 3:
-                        childUnit.movement = "RIGHT";
-                        break;
-                }
-
                 // если сосед еще не в открытом списке, то просто добавляем его в список
+                childUnit = makeCommand(childUnit,i);
                 if (!openList.contains(childUnit)) {
                     openList.add(childUnit);
                     // Условие нахождения конечной ячейкм
-                    if (childUnit.h==0) return true;}
+                    if (childUnit.h==0) return makePath(childUnit); }
 
                 // если сосед уже в открытом списке, то проверяем не нужно ли поменять материскую клетку
                 else {
                     // Вот здесь бы доступ к элементу по значению, а не перебор... (стоит позаимствовать чью нибудь структурку данных и заменить PriorityQueue)
                     for (Unit childUnit1 : openList)
                     {
-                        if (childUnit.equals(childUnit1)) {childUnit.g = childUnit1.g; break;}
-                    }
-                    if (unit.g <= childUnit.mother.g){
-                        openList.remove(childUnit);
-                        openList.add(new Unit(unit, neighborHex.get(i)));
+                        if (childUnit.equals(childUnit1)) {
+                            if (unit.g < childUnit1.mother.g)
+                                childUnit1.mother = unit;
+                            break;
+                        }
                     }
                 }
             }
         // после рассмотрения кладем ячейку в закрытый список
         closedList.add(unit);
-        return false;
+        return checkUnit(openList.poll());
     }
+
+    private Unit makeCommand (Unit childUnit, int i)
+    {
+        switch (i) {
+            case 0:
+                childUnit.movement = "DOWN_RIGHT";
+                break;
+
+            case 1:
+                childUnit.movement = "DOWN_LEFT";
+                break;
+
+            case 2:
+                childUnit.movement = "LEFT";
+                break;
+
+            case 3:
+                childUnit.movement = "RIGHT";
+                break;
+        }
+        return childUnit;
+    }
+
+
 
 }

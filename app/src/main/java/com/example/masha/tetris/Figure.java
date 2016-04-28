@@ -1,5 +1,7 @@
 package com.example.masha.tetris;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -72,6 +74,7 @@ public class Figure {
         int mincol = -1 , minrow = -1;
 
         Iterator<Hexagon> iterator = Hexagons.iterator();
+        Log.d("fd",Integer.toString(Hexagons.size()));
 
         do {
             coordinate = iterator.next().getAxialCoordinate();

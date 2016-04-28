@@ -54,10 +54,9 @@ public class GamePlay extends AppCompatActivity {
         relLayout.addView(view_3);
         relLayout.addView(view);
         Pathfinding ai = new Pathfinding(d.hexagonalGrid,d.hexagonalGridCalculator);
-        ai.setConditions(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(2, 6)).get(), d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 1)).get());
+        ai.setConditions(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 3)).get(), d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 1)).get());
         LinkedList<String> path = ai.findPath();
-        for (String s : path)
-        Log.d("U", s);
+
 
 
         h = new Handler() {
