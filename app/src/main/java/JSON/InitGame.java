@@ -8,24 +8,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import wrrrrrm.Controller;
 import api.CoordinateConverter;
 
 public class InitGame
 {
-    public int ID;
-    public Unit[] incoming;
-    public int width;
-    public int height;
-    public Cell[] filled;
+    public int ID , width ,  height,
+            quantityFilled, //количество нач-зап клеток
+            quantityUnit; //количество фигур
+
+    public int[]  pivotCoordinates ,  //массив с коорднатами точек поворота
+            sourceSeeds,
+            filled,  //массив с начально-заполненными фигурами
+            quantityHexOfUnit; //массив с количеством гексов в фигуре
+    public ArrayList<Integer> coordinatesOfUnit = new ArrayList<>(); //список со всеми координатами фигур
     public int sourceLength;
-    public int[] sourceSeeds;
-    private CoordinateConverter converter;
-    private Controller controller;
-    String textFromFile = "";
-
-
 
     public InitGame(String strJson)
     {
@@ -46,41 +45,39 @@ public class InitGame
             for(int i = 0 ; i <= jsonArray.length() - 1; i++)
                 this.sourceSeeds[i] = jsonArray.optInt(i);
 
-            JSONArray jsonUnitArray = jsonRootObject.getJSONArray("units");
-            this.incoming = new Unit[jsonUnitArray.length()];
+            this.ID = Integer.parseInt(jsonRootObject.optString("id"));
 
-            for(int j = 0; j < jsonUnitArray.length(); j++) { //все фигуры
+            JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
+            quantityFilled = jsonFilledArray.length();
+            filled = new int[quantityFilled];
+
+            JSONArray jsonUnitArray = jsonRootObject.getJSONArray("units");
+            quantityUnit = jsonUnitArray.length(); //количество фигур
+            quantityHexOfUnit = new int[quantityUnit]; //количество гексов в фигуре
+            pivotCoordinates = new int[quantityUnit*2];
+
+            for(int j = 0; j < quantityUnit; j++) {       //проходимся по всем фигурам
                 JSONObject jsonUnit = jsonUnitArray.getJSONObject(j);
                 JSONArray jsonMemberArray = jsonUnit.getJSONArray("members");
                 JSONObject jsonPivot = jsonUnit.getJSONObject("pivot");
 
-                this.incoming[j] = new Unit();
-                this.incoming[j].members = new Cell[jsonMemberArray.length()];
+                pivotCoordinates[j] = jsonPivot.getInt("x");
+                pivotCoordinates[j+1] = jsonPivot.getInt("y");
+
+                quantityHexOfUnit[j] = jsonMemberArray.length()*2;
 
                 for(int z = 0; z < jsonMemberArray.length(); z++) //все гексы в фигуре
                 {
-                    this.incoming[j].members[z] = new Cell();
-                    this.incoming[j].members[z].xx = jsonMemberArray.getJSONObject(z).getInt("x");
-                    this.incoming[j].members[z].yy = jsonMemberArray.getJSONObject(z).getInt("y");
+                    coordinatesOfUnit.add(jsonMemberArray.getJSONObject(z).getInt("x"));
+                    coordinatesOfUnit.add(jsonMemberArray.getJSONObject(z).getInt("y"));
                 }
-
-                this.incoming[j].pivot = new Cell();
-                this.incoming[j].pivot.xx = jsonPivot.getInt("x");
-                this.incoming[j].pivot.yy = jsonPivot.getInt("y");
             }
 
-            this.ID = Integer.parseInt(jsonRootObject.optString("id"));
-            Log.d("ID ", Integer.toString(ID));
-
-            JSONArray jsonFilledArray = jsonRootObject.getJSONArray("filled");
-            this.filled = new Cell[jsonFilledArray.length()];
-
-            for(int fillIter = 0; fillIter < jsonFilledArray.length() ; fillIter++)
+            for(int fillIter = 0; fillIter < quantityFilled; fillIter+=2)
             {
                 JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
-                this.filled[fillIter] = new Cell();
-                this.filled[fillIter].xx = jsonFilledCell.getInt("x");
-                this.filled[fillIter].yy = jsonFilledCell.getInt("y");
+                filled[fillIter] = jsonFilledCell.getInt("x");
+                filled[fillIter+1] = jsonFilledCell.getInt("y");
             }
 
             this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
