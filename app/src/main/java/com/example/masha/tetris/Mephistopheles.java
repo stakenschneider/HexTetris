@@ -1,21 +1,16 @@
 package com.example.masha.tetris;
 
 import android.content.Intent;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
-import org.json.JSONException;
-
-import JSON.InitGame;
 import draw.DrawGrid;
 
 
@@ -62,6 +57,7 @@ public class Mephistopheles extends AppCompatActivity {
         String strJson = intent.getStringExtra("JSON");
 
         d = new DrawGrid(strJson , "Mephistopheles" );
+
 //        try {
 //            g.fdlkn(strJson);
 //        }catch (JSONException ex){

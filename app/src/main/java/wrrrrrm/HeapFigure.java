@@ -1,7 +1,13 @@
 package wrrrrrm;
 
+import android.util.Log;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
+import JSON.InitGame;
 import api.AxialCoordinate;
 import api.Hexagon;
 import api.HexagonalGrid;
@@ -10,33 +16,32 @@ import static api.AxialCoordinate.fromCoordinates;
 
 public class HeapFigure {
 
-    private ArrayList<Hexagon> figure;                                         //фигура
-    ArrayList <ArrayList<Hexagon>> pack = new ArrayList<ArrayList<Hexagon>>(); //лист фигур
+//    private ArrayList<Hexagon> figure;                                         //фигура
+    ArrayList <ArrayList<Hexagon>> pack = new ArrayList<>(); //лист фигур
     ArrayList<BigInteger> pseudoRandSeq = new ArrayList<>();
     private AxialCoordinate ax;
     private HexagonalGrid hexagonalGrid;
+    InitGame initGame;
+    int step = 0;
 
-    //это создает пак
-    public HeapFigure(HexagonalGrid hexagonalGrid) {
+
+    public HeapFigure(HexagonalGrid hexagonalGrid , int amountUnits , String str) {
         this.hexagonalGrid = hexagonalGrid;
-        int amountUnits = 0;
+        initGame = new InitGame(str);
         for (int i = 0; i < amountUnits; i++)
         {
-//            figure = makeFigure();
-            //TODO: здесь запихиваем все фигуры в "ПАК"
+            pack.add(makeFigure(initGame.quantityHexOfUnit[i] , step));
+            step = step+initGame.quantityHexOfUnit[i];
         }
     }
 
-    public ArrayList<Hexagon> makeFigure(int memberLength) {
-        ArrayList<Hexagon> figure = new ArrayList<Hexagon>();
-
-        for (int i = 0; i < memberLength; i++)
+    public ArrayList<Hexagon> makeFigure(int amountCell , int uu) {
+        ArrayList<Hexagon> figure = new ArrayList<>();
+        for (int i = uu ; i < amountCell + uu; i+=2)
         {
-            ax = fromCoordinates(1, 1);
+            ax = fromCoordinates(initGame.coordinatesOfUnit.get(i), initGame.coordinatesOfUnit.get(i+1));
             figure.add(hexagonalGrid.getByAxialCoordinate(ax).get());
         }
-
-        //TODO: тут будет создание фигуры
         return figure;
     }
 
@@ -45,7 +50,6 @@ public class HeapFigure {
     public ArrayList<BigInteger> makePRS(int sourceLength , int sourceSeeds , int amountUnits) {
         Lcg randSlow = new Lcg(BigInteger.valueOf(sourceSeeds));
         //TODO: sequence starting mod amountUnits
-
         for (int i = 0; i < sourceLength; i++){ //sequence starting
             pseudoRandSeq.add(randSlow.getState());
             randSlow.next();
@@ -53,17 +57,18 @@ public class HeapFigure {
         return pseudoRandSeq;
     }
 
-    public ArrayList <ArrayList<Hexagon>> getFigureSeq(int sourceLength) {
-        //TODO: создать лист с запиханными в него фигурами по последовательности makePRS
-        return pack;
-    }
-
-    //int num - аргумент pseudoRandSeq
-    public ArrayList<Hexagon> getFigure(int num)
+    public void getFigure(int gridW)
     {
-        //TODO: метод должен возвращать по одной фигуре из pack
-
-        return figure;
+        Random random = new Random();
+        //TODO: вместо рандома lcg
+        ArrayList <Hexagon> newFigure = pack.get(random.nextInt(initGame.quantityUnit));
+        Iterator<Hexagon> iterator = newFigure.iterator();
+        Figure figureCoordinate = new Figure(newFigure);
+        hexagonalGrid.getByAxialCoordinate(figureCoordinate.convertToGrid(gridW)).get().setState();
+        iterator.next();
+        while (iterator.hasNext()){
+            hexagonalGrid.getByAxialCoordinate(figureCoordinate.getNewCoordinate(iterator.next())).get().setState();
+        }
     }
 
 }

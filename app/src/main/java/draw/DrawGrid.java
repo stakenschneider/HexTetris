@@ -5,8 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
-
-import com.example.masha.tetris.Settings;
+import android.util.Log;
 
 import JSON.InitGame;
 import wrrrrrm.Controller;
@@ -24,6 +23,7 @@ import api.Point;
 import backport.Optional;
 import wrrrrrm.HeapFigure;
 
+import static android.content.Context.LAUNCHER_APPS_SERVICE;
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
 import static com.example.masha.tetris.Main.scrw;
@@ -46,12 +46,10 @@ public class DrawGrid {
     public static int point ;
     double radius;
     HeapFigure heapFigure;
-    int uu = 0;
-
+    int gWidth = 0 , gHeight = 0;
 
     public DrawGrid (String strJSON , String game) {
 
-        int gWidth = 0 , gHeight = 0;
         InitGame initGame = new InitGame(strJSON);
 
         //убого конечно но время экономит
@@ -66,7 +64,7 @@ public class DrawGrid {
             if (width < 8) gWidth = initGame.width;
         }
 
-        radius = rad(gWidth ,gHeight);
+        radius = rad(gWidth, gHeight);
         point = 0;
 
         try {
@@ -81,7 +79,8 @@ public class DrawGrid {
             controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons(), point);
         } catch (HexagonalGridCreationException e) {}
 
-        heapFigure = new HeapFigure(hexagonalGrid );
+        heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityUnit , strJSON);
+
     }
 
 
@@ -145,8 +144,8 @@ public class DrawGrid {
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
-            heapFigure.getFigure(uu);
-            uu++;
+            heapFigure.getFigure(gWidth);
+
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
             if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр
             return true;

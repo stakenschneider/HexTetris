@@ -1,6 +1,5 @@
 package JSON;
 
-import android.util.Log;
 import org.json.*;
 
 import java.io.BufferedReader;
@@ -10,21 +9,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import wrrrrrm.Controller;
 import api.CoordinateConverter;
 
 public class InitGame
 {
-    public int ID , width ,  height,
-            quantityFilled, //количество нач-зап клеток
-            quantityUnit; //количество фигур
-
-    public int[]  pivotCoordinates ,  //массив с коорднатами точек поворота
-            sourceSeeds,
-            filled,  //массив с начально-заполненными фигурами
-            quantityHexOfUnit; //массив с количеством гексов в фигуре
-    public ArrayList<Integer> coordinatesOfUnit = new ArrayList<>(); //список со всеми координатами фигур
+    public int ID , width , height , quantityFilled , quantityUnit;
+    public int[]  pivotCoordinates , sourceSeeds , filled , quantityHexOfUnit;
+    public ArrayList<Integer> coordinatesOfUnit = new ArrayList<>();
     public int sourceLength;
+    CoordinateConverter converter;
 
     public InitGame(String strJson)
     {
@@ -68,7 +61,7 @@ public class InitGame
 
                 for(int z = 0; z < jsonMemberArray.length(); z++) //все гексы в фигуре
                 {
-                    coordinatesOfUnit.add(jsonMemberArray.getJSONObject(z).getInt("x"));
+                    coordinatesOfUnit.add(converter.convertOffsetCoordinatesToAxialX(jsonMemberArray.getJSONObject(z).getInt("x"), jsonMemberArray.getJSONObject(z).getInt("y")));
                     coordinatesOfUnit.add(jsonMemberArray.getJSONObject(z).getInt("y"));
                 }
             }

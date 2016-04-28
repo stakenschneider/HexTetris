@@ -25,7 +25,7 @@ public class GamePlay extends AppCompatActivity {
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
-    public static Handler h;  //это не должно быть static, Тимур
+    public static Handler h;  //ЭТО НЕ ДОЛЖНО БЫТЬ static ТИМУУУР
     private boolean over = false;
 
 
@@ -121,7 +121,6 @@ public class GamePlay extends AppCompatActivity {
                 gameOver();
 
         }
-
         public void setMovement (String movement)
         {
             this.movement = movement;
