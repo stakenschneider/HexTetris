@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.graphics.Canvas;
 import android.content.Context;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -28,9 +27,9 @@ import AI.Pathfinding;
 public class GamePlay extends AppCompatActivity {
 
 
-    DrawGrid d = new DrawGrid();
-    CanvasView view , view_2, view_3;
-    float x  , y;
+    private DrawGrid d = new DrawGrid();
+    private CanvasView view , view_2, view_3;
+    private float x  , y;
     Intent intent;
     static Handler h;
     private boolean over = false;
@@ -53,10 +52,8 @@ public class GamePlay extends AppCompatActivity {
         relLayout.addView(view_2);
         relLayout.addView(view_3);
         relLayout.addView(view);
-        Pathfinding ai = new Pathfinding(d.hexagonalGrid,d.hexagonalGridCalculator);
-        ai.setConditions(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 3)).get(), d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 1)).get());
+        Pathfinding ai = new Pathfinding(d.hexagonalGrid,d.hexagonalGridCalculator, d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 1)).get(),d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 3)).get());
         LinkedList<String> path = ai.findPath();
-
 
 
         h = new Handler() {
@@ -135,8 +132,6 @@ public class GamePlay extends AppCompatActivity {
             this.movement = movement;
         }
     }
-
-
 
     private void gameOver()
     {

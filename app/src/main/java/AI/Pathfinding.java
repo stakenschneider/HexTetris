@@ -1,46 +1,44 @@
 package AI;
 
 
-import android.util.Log;
 
 import java.util.ArrayList;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import api.Hexagon;
 import api.HexagonalGrid;
 import api.HexagonalGridCalculator;
 import java.util.Comparator;
+import java.util.Queue;
 
 public class Pathfinding {
 
 
     private final HexagonalGrid hexagonalGrid;
-    private Hexagon destination;                         // Цель
-    private Hexagon start;                               // Начальное положение
+    private final Hexagon destination;                         // Цель
+    private final Hexagon start;                               // Начальное положение
     private LinkedList<String> path;                     // Список команд для контроллера (его алгоритм и должен вернуть)
     private final HexagonalGridCalculator calculator;
-    private PriorityQueue<Unit>  openList;               // Список необработанных хексов (тут не все хексы сетки, а только соседние с обработанными хексами)
+    private Queue<Unit> openList;               // Список необработанных хексов (тут не все хексы сетки, а только соседние с обработанными хексами)
 
     // Comparator для открытого списка, чтобы расположить ячейки в порядке возрастания их f
     private Comparator<Unit> fComparator = (Unit unit1, Unit unit2) -> (unit1.f -unit2.f);
 
-
-
-    private ArrayList<Unit> closedList;                  // Список обработанных хексов, еще здесь хранятся залоченные хексы с сетки
-                                                         // (быть может не стоит их сюда добавлять, а сразу спрашивать у hexagonal grid - пустой это хекс или нет)
+    private List<Unit> closedList;                  // Список обработанных хексов
 
 
 
 
-    private class Unit {
-        Hexagon hexagon;      // рассматриваемый хекс
-        public Unit mother;  // ссылка на предыдущую ячейку в кратчайшем пути из ячеек от стартовой к этой
-        public String movement = ""; // Указание для контроллера как добраться из материнской ячейки к этой через его команду
-        public final int h;         // Цена пути от этой ячейки к целевой (путь берется как прямая)
-        public int g;              // Цена пути от стартовой ячейки к этой
-        public int f;                // Общая цена ячейки
+    private  class Unit {
+        final Hexagon hexagon;      // рассматриваемый хекс
+        Unit mother;  // ссылка на предыдущую ячейку в кратчайшем пути из ячеек от стартовой к этой
+        String movement = ""; // Указание для контроллера как добраться из материнской ячейки к этой через его команду
+        final int h;         // Цена пути от этой ячейки к целевой (путь берется как прямая)
+        int g;              // Цена пути от стартовой ячейки к этой
+        int f;                // Общая цена ячейки
 
         public Unit(Unit mother, Hexagon hexagon)
         {
@@ -78,25 +76,30 @@ public class Pathfinding {
             return true;
         }
 
+        @Override
+        public int hashCode() {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + hexagon.getAxialCoordinate().getGridX();
+            result = prime * result + hexagon.getAxialCoordinate().getGridZ();
+            return result;
+        }
+
+
     }
 
 
-    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator)
+    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, Hexagon start, Hexagon destination)
     {
         openList = new PriorityQueue<Unit>(20, fComparator);
         closedList = new ArrayList<Unit>();
         path = new  LinkedList<String>();
         this.hexagonalGrid=hexagonalGrid;
         this.calculator=calculator;
-    }
-
-
-    // Установка начальных условий
-    public void setConditions(Hexagon destination, Hexagon start)
-    {
         this.destination=destination;
         this.start = start;
     }
+
 
     // Сам цикл поиска
     public  LinkedList<String> findPath()
@@ -112,7 +115,6 @@ public class Pathfinding {
     {
         do {
             path.addFirst(unit.movement);
-            Log.d("23",unit.movement);
             unit = unit.mother;
         } while (unit.mother!=null);
         return path;
