@@ -36,13 +36,19 @@ public class   Controller {
     public int moveDownRight(HexagonalGrid hexagonalGrid) {
         for (int i = 0; i<dataMap.size(); i++) {
             if (!check(i, hexagonalGrid, 0)){
-                for (int j = 0; j < i; j++) {
+                for (int j = 1; j < i; j++) {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
                 }
 
-                for ( int j = i; j < dataMap.size(); j++)
+                //TODO: работа не для сегодня , точка поворота теперь не записывается в залоченные гексы но и тут и чекдаунВЛЕВО лочится фигура если точка поворота столкнулась с чем то
+                //хотя можно отговорится что мы не правильно прочитали условия конкурса
+                if (i==0)
+                for ( int j = 1; j < dataMap.size(); j++)
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
+                else
+                    for ( int j = i; j < dataMap.size(); j++)
+                        lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
 
                 checkRow(hexagonalGrid);
                 dataMap.clear();
@@ -58,14 +64,19 @@ public class   Controller {
         for (int i = 0; i<dataMap.size(); i++){
             if (!check(i, hexagonalGrid, 1))
             {
-                for (int j = 0; j < i; j++) {
+                for (int j = 1; j < i; j++) {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
                     dataMap.get(j).setGridX(dataMap.get(j).getGridX() + 1);
-                    lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());     //а вот и он! С просонья наверн не увидел)
+                    lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
                 }
 
-                for (int j = i ; j < dataMap.size(); j++)
+                if (i==0)
+                for (int j = 1 ; j < dataMap.size(); j++)
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
+                else
+                    for (int j = i ; j < dataMap.size(); j++)
+                        lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
+
 
                 checkRow(hexagonalGrid);
                 dataMap.clear();
@@ -157,12 +168,12 @@ public class   Controller {
 
                 for (int i = data.getGridZ(); i > 0; i--)
                     if ((i-1)%2==0) {
-                        ArrayList<Integer> coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
+                        ArrayList<Integer> coordinate = new ArrayList<>(lockedHexagons.get(i - 1).size());
                         for (Integer x : lockedHexagons.get(i-1)) coordinate.add(x);
                         lockedHexagons.put(i, coordinate);
                     }
                     else {
-                        ArrayList<Integer>  coordinate = new ArrayList<Integer>(lockedHexagons.get(i - 1).size());
+                        ArrayList<Integer>  coordinate = new ArrayList<>(lockedHexagons.get(i - 1).size());
                         for (Integer x : lockedHexagons.get(i-1)) coordinate.add(x-1);
                         lockedHexagons.put(i, coordinate);
                     }

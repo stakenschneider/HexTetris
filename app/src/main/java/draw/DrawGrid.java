@@ -153,10 +153,15 @@ public class DrawGrid {
 
         canvas.drawColor(Color.parseColor("#001B2024")); // полностью прозрачный канвас
 
+        int jjj = 0;
         //TODO: другим цветом рисовать т-ку поворота
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) { //фигруа
-            //флажочек и если первый то строк остальные фил
-            drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
+            if (jjj==0) {
+                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#F0F0F0", Style.STROKE);
+                jjj = 1; // гений простоты и фэйспал для кода
+            }
+            else  drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
+
         }
         return false;
     }

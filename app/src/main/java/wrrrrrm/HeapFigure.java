@@ -1,7 +1,5 @@
 package wrrrrrm;
 
-import android.util.Log;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,7 +14,6 @@ import static api.AxialCoordinate.fromCoordinates;
 
 public class HeapFigure {
 
-//    private ArrayList<Hexagon> figure;                                         //фигура
     ArrayList <ArrayList<Hexagon>> pack = new ArrayList<>(); //лист фигур
     ArrayList<BigInteger> pseudoRandSeq = new ArrayList<>();
     private AxialCoordinate ax;
@@ -30,13 +27,17 @@ public class HeapFigure {
         initGame = new InitGame(str);
         for (int i = 0; i < amountUnits; i++)
         {
-            pack.add(makeFigure(initGame.quantityHexOfUnit[i] , step));
+            pack.add(makeFigure(initGame.quantityHexOfUnit[i] , step, i+1));
             step = step+initGame.quantityHexOfUnit[i];
         }
     }
 
-    public ArrayList<Hexagon> makeFigure(int amountCell , int uu) {
+
+    public ArrayList<Hexagon> makeFigure(int amountCell , int uu ,  int am) {
         ArrayList<Hexagon> figure = new ArrayList<>();
+        ax = fromCoordinates(initGame.pivotCoordinates[am*2-2], initGame.pivotCoordinates[am]);
+        figure.add(hexagonalGrid.getByAxialCoordinate(ax).get());
+
         for (int i = uu ; i < amountCell + uu; i+=2)
         {
             ax = fromCoordinates(initGame.coordinatesOfUnit.get(i), initGame.coordinatesOfUnit.get(i+1));
@@ -56,6 +57,7 @@ public class HeapFigure {
         }
         return pseudoRandSeq;
     }
+
 
     public void getFigure(int gridW)
     {

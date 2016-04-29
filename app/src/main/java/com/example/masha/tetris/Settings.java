@@ -51,7 +51,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         ad = new AlertDialog.Builder(this);
         ad.setTitle(getResources().getString(R.string.pack) + "?");
 
-        //TODO: паки пока что одинаковые - поменять
         ad.setSingleChoiceItems(myList, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
