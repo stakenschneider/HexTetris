@@ -10,12 +10,12 @@ import static com.example.masha.tetris.GamePlay.h;
 
 import static api.AxialCoordinate.fromCoordinates;
 
-//TODO: get -> flatMap?!
+//TODO: get -> flatMap?!  && не проверять координату поворота при движениях влево/вправо + ловить нульпоинтерэкспшен + координата поворота за рамки сетки?!
 public class   Controller {
 
-    private ArrayList<AxialCoordinate> dataMap;  //фигуры в движении
-    public SparseArray<ArrayList<Integer>> lockedHexagons; // заблокированные шестиугольники
-    private int point; //очки
+    private ArrayList<AxialCoordinate> dataMap;
+    public SparseArray<ArrayList<Integer>> lockedHexagons;
+    private int point;
 
     public Controller( ArrayList<AxialCoordinate> dataMap, SparseArray <ArrayList<Integer>> lockedHexagons, int point) {
         this.dataMap = dataMap;
@@ -35,14 +35,12 @@ public class   Controller {
 
     public int moveDownRight(HexagonalGrid hexagonalGrid) {
         for (int i = 0; i<dataMap.size(); i++) {
-            if (!check(i, hexagonalGrid, 0)){
+            if (i!=0 && !check(i, hexagonalGrid, 0)){
                 for (int j = 1; j < i; j++) {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
                 }
 
-                //TODO: работа не для сегодня , точка поворота теперь не записывается в залоченные гексы но и тут и чекдаунВЛЕВО лочится фигура если точка поворота столкнулась с чем то
-                //хотя можно отговорится что мы не правильно прочитали условия конкурса
                 if (i==0)
                 for ( int j = 1; j < dataMap.size(); j++)
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
@@ -62,7 +60,7 @@ public class   Controller {
 
     public int moveDownLeft(HexagonalGrid hexagonalGrid) {
         for (int i = 0; i<dataMap.size(); i++){
-            if (!check(i, hexagonalGrid, 1))
+            if (i!=0 && !check(i, hexagonalGrid, 1))
             {
                 for (int j = 1; j < i; j++) {
                     dataMap.get(j).setGridZ(dataMap.get(j).getGridZ() - 1);
