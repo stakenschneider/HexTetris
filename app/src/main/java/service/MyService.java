@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-
 import com.example.masha.tetris.R;
 
 
@@ -29,7 +28,7 @@ public class MyService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startid) {
+    public void onStart(Intent intent, int startId) {
         player.start();
     }
 }

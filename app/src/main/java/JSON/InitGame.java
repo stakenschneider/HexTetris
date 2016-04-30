@@ -13,7 +13,8 @@ import api.CoordinateConverter;
 
 public class InitGame
 {
-    public int ID , width , height , quantityFilled , quantityUnit;
+    protected int quantityFilled, quantityUnit;
+    public int ID , width , height;
     public int[]  pivotCoordinates , sourceSeeds , filled , quantityHexOfUnit;
     public ArrayList<Integer> coordinatesOfUnit = new ArrayList<>();
     public int sourceLength;
@@ -79,7 +80,7 @@ public class InitGame
     }
 
 
-    public  static String read(String fileName) throws FileNotFoundException {
+    public static String read(String fileName) throws FileNotFoundException {
 
         StringBuilder sb = new StringBuilder();
         File file = new File(fileName+"/problem_0.txt");

@@ -16,7 +16,7 @@ public class HeapFigure {
 
     ArrayList <ArrayList<Hexagon>> pack = new ArrayList<>(); //лист фигур
     ArrayList<BigInteger> pseudoRandSeq = new ArrayList<>();
-    private AxialCoordinate ax;
+    protected AxialCoordinate ax;
     private HexagonalGrid hexagonalGrid;
     InitGame initGame;
     int step = 0;
@@ -25,8 +25,7 @@ public class HeapFigure {
     public HeapFigure(HexagonalGrid hexagonalGrid , int amountUnits , String str) {
         this.hexagonalGrid = hexagonalGrid;
         initGame = new InitGame(str);
-        for (int i = 0; i < amountUnits; i++)
-        {
+        for (int i = 0; i < amountUnits; i++) {
             pack.add(makeFigure(initGame.quantityHexOfUnit[i] , step, i+1));
             step = step+initGame.quantityHexOfUnit[i];
         }
@@ -38,8 +37,7 @@ public class HeapFigure {
         ax = fromCoordinates(initGame.pivotCoordinates[am*2-2], initGame.pivotCoordinates[am]);
         figure.add(hexagonalGrid.getByAxialCoordinate(ax).get());
 
-        for (int i = uu ; i < amountCell + uu; i+=2)
-        {
+        for (int i = uu ; i < amountCell + uu; i+=2) {
             ax = fromCoordinates(initGame.coordinatesOfUnit.get(i), initGame.coordinatesOfUnit.get(i+1));
             figure.add(hexagonalGrid.getByAxialCoordinate(ax).get());
         }
@@ -59,11 +57,10 @@ public class HeapFigure {
     }
 
 
-    public void getFigure(int gridW)
-    {
+    public void getFigure(int gridW) {
         Random random = new Random();
         //TODO: вместо рандома lcg
-        ArrayList <Hexagon> newFigure = pack.get(random.nextInt(initGame.quantityUnit));
+        ArrayList <Hexagon> newFigure = pack.get(random.nextInt(initGame.quantityHexOfUnit.length));
         Iterator<Hexagon> iterator = newFigure.iterator();
         Figure figureCoordinate = new Figure(newFigure);
         hexagonalGrid.getByAxialCoordinate(figureCoordinate.convertToGrid(gridW)).get().setState();

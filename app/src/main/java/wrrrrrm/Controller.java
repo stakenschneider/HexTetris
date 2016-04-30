@@ -11,7 +11,7 @@ import static com.example.masha.tetris.GamePlay.h;
 import static api.AxialCoordinate.fromCoordinates;
 
 //TODO: get -> flatMap?!  && не проверять координату поворота при движениях влево/вправо + ловить нульпоинтерэкспшен + координата поворота за рамки сетки?!
-public class   Controller {
+public class Controller {
 
     private ArrayList<AxialCoordinate> dataMap;
     public SparseArray<ArrayList<Integer>> lockedHexagons;
@@ -27,7 +27,7 @@ public class   Controller {
     private boolean check (int i, HexagonalGrid hexagonalGrid , int n ) {
         final int GridZ = dataMap.get(i).getGridZ();
         final int GridX = dataMap.get(i).getGridX();
-                if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(GridX -n, GridZ+1)).isPresent() || lockedHexagons.get(GridZ+1).contains(GridX  - n))
+        if (!hexagonalGrid.getByAxialCoordinate(fromCoordinates(GridX -n, GridZ+1)).isPresent() || lockedHexagons.get(GridZ+1).contains(GridX  - n))
             return false;
         return true;
     }
@@ -41,7 +41,7 @@ public class   Controller {
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
                 }
 
-                if (i==0)
+                if (i == 0)
                 for ( int j = 1; j < dataMap.size(); j++)
                     lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
                 else
@@ -74,7 +74,6 @@ public class   Controller {
                 else
                     for (int j = i ; j < dataMap.size(); j++)
                         lockedHexagons.get(dataMap.get(j).getGridZ()).add(dataMap.get(j).getGridX());
-
 
                 checkRow(hexagonalGrid);
                 dataMap.clear();
@@ -122,7 +121,6 @@ public class   Controller {
         int x = dataMap.get(0).getGridX() , z = dataMap.get(0).getGridZ() , y = - x - z;
         boolean b = true;
 
-
         for (int i = 1; i<dataMap.size(); i++) {
             final int GridZ = dataMap.get(i).getGridZ();
             final int GridX = dataMap.get(i).getGridX();
@@ -136,6 +134,7 @@ public class   Controller {
                 dataMap.get(i).setCoordinate(-(dataMap.get(i).getGridZ() - z) + x, -(-dataMap.get(i).getGridX() - dataMap.get(i).getGridZ() - y) + z);
 
     }
+
 
     public void rotationCounterClockwise(HexagonalGrid hexagonalGrid) {
         int x = dataMap.get(0).getGridX() ,  z = dataMap.get(0).getGridZ() , y = - x - z;
@@ -179,9 +178,4 @@ public class   Controller {
         Thread t = new Thread(() -> h.sendEmptyMessage(1));
         t.start();
     }
-
-
-//    public void lockLock( int z , int x) {
-//            lockedHexagons.get(z).add(x);
-//    }
 }
