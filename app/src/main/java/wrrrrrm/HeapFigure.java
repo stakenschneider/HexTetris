@@ -3,7 +3,6 @@ package wrrrrrm;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 import JSON.InitGame;
 import api.AxialCoordinate;
@@ -14,12 +13,13 @@ import static api.AxialCoordinate.fromCoordinates;
 
 public class HeapFigure {
 
-    ArrayList <ArrayList<Hexagon>> pack = new ArrayList<>(); //лист фигур
-    ArrayList<BigInteger> pseudoRandSeq = new ArrayList<>();
+    private ArrayList <ArrayList<Hexagon>> pack = new ArrayList<>(); //лист фигур
+    private final ArrayList<BigInteger> pseudoRandSeq = new ArrayList<>();
     protected AxialCoordinate ax;
     private HexagonalGrid hexagonalGrid;
-    InitGame initGame;
+    private InitGame initGame;
     int step = 0;
+    private int ii;
 
 
     public HeapFigure(HexagonalGrid hexagonalGrid , int amountUnits , String str) {
@@ -45,22 +45,20 @@ public class HeapFigure {
     }
 
 
-    //тут создается лист длинной sourceLength который будет хранить очередность фигур
-    public ArrayList<BigInteger> makePRS(int sourceLength , int sourceSeeds , int amountUnits) {
+    public ArrayList<BigInteger> makePRS(int sourceLength , int sourceSeeds , BigInteger amountUnits) {
         Lcg randSlow = new Lcg(BigInteger.valueOf(sourceSeeds));
-        //TODO: sequence starting mod amountUnits
-        for (int i = 0; i < sourceLength; i++){ //sequence starting
-            pseudoRandSeq.add(randSlow.getState());
+        for (int i = 0; i < sourceLength; i++){
+            pseudoRandSeq.add(randSlow.getState().mod(amountUnits));
             randSlow.next();
         }
         return pseudoRandSeq;
     }
 
 
-    public void getFigure(int gridW) {
-        Random random = new Random();
-        //TODO: вместо рандома lcg
-        ArrayList <Hexagon> newFigure = pack.get(random.nextInt(initGame.quantityHexOfUnit.length));
+    public void getFigure(int gridW , int sourceQ) {
+        ii++;
+        makePRS(initGame.sourceLength , initGame.sourceSeeds[sourceQ] , BigInteger.valueOf(initGame.quantityHexOfUnit.length));
+        ArrayList <Hexagon> newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
         Iterator<Hexagon> iterator = newFigure.iterator();
         Figure figureCoordinate = new Figure(newFigure);
         hexagonalGrid.getByAxialCoordinate(figureCoordinate.convertToGrid(gridW)).get().setState();

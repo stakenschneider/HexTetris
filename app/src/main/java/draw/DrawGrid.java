@@ -8,6 +8,8 @@ import android.graphics.Color;
 
 import JSON.InitGame;
 import wrrrrrm.Controller;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import api.AxialCoordinate;
@@ -73,6 +75,7 @@ public class DrawGrid {
         } catch (HexagonalGridCreationException e) {}
 
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
+        heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
 
     }
 
@@ -139,14 +142,12 @@ public class DrawGrid {
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
-            heapFigure.getFigure(gWidth);
+            //TODO: в этом месте второй параметр должен менятся в случае если игра закончилась И есть еще переметры сиды
+            heapFigure.getFigure(gWidth , 0);
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
             if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр
             return true;
         }
-
-
-//        canvas.drawColor(Color.parseColor("#501B2024")); // полностью прозрачный канвас
 
         int first = 0;
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) //фигруа
