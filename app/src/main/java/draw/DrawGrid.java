@@ -48,10 +48,10 @@ public class DrawGrid {
 
         InitGame initGame = new InitGame(strJSON);
 
-        if (game.equals("Mephistopheles")){
+        if (game.equals("UserParameters")){
             gHeight = initGame.height;
             gWidth = initGame.width;
-        } else if (game.equals("GamePlay"))
+        } else if (game.equals("AiParameters"))
         {
             gHeight = height;
             gWidth = width;

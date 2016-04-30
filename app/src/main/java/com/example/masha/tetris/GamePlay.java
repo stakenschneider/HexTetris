@@ -21,7 +21,7 @@ import draw.DrawGrid;
 
 public class GamePlay extends AppCompatActivity {
 
-    DrawGrid d = new DrawGrid(strpack , "GamePlay");
+    DrawGrid d;
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
@@ -38,7 +38,13 @@ public class GamePlay extends AppCompatActivity {
         RelativeLayout.LayoutParams relLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        intent = getIntent();
+        if (intent.getStringExtra("Player").equals("User"))
+        d = new DrawGrid(strpack , "UserParameters");
+        else {
+            String strJson = intent.getStringExtra("JSON");
+            d = new DrawGrid(strJson, "AiParameters");
+        }
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
         view_3 = new CanvasView(this, "LOCKED");
@@ -58,6 +64,8 @@ public class GamePlay extends AppCompatActivity {
             }
         };
 
+
+        if (intent.getStringExtra("Player").equals("User"))
         view.setOnTouchListener( (final View v, final MotionEvent event) -> {
                 x = event.getX();
                 y = event.getY();

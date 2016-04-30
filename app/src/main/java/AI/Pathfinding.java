@@ -121,13 +121,11 @@ public class Pathfinding {
                 else {
                     // Вот здесь бы доступ к элементу по значению, а не перебор... (стоит позаимствовать чью нибудь структурку данных и заменить PriorityQueue)
                     for (Unit childUnit1 : openList)
-                    {
-                        if (childUnit.equals(childUnit1)) {
-                            if (unit.g < childUnit1.mother.g)
-                                childUnit1.mother = unit;
+                        if (childUnit.equals(childUnit1)&&(unit.g < childUnit1.mother.g)) {
+                            childUnit1.mother = unit;
+                            childUnit1.g = unit.g+1;
                             break;
                         }
-                    }
                 }
             }
         closedList.add(unit);        // после рассмотрения кладем ячейку в закрытый список
