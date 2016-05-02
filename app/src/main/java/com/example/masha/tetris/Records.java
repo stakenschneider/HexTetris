@@ -38,7 +38,7 @@ public class Records extends AppCompatActivity {
         StorIOSQLite storIOSQLite = DefaultStorIOSQLite.builder()
                 .sqliteOpenHelper(dbHelper)
                 .build();
-        
+
         // Что тебе здесь не так?
         storIOSQLite
                 .get()

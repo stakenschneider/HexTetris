@@ -10,7 +10,7 @@ public final class CoordinateConverter {
         return  offsetX - offsetY / 2;
     }
 
-    public static int convertOffsetCoordinatesToAxialZ(final int offsetX, final int offsetY) {
+    public static int convertOffsetCoordinatesToAxialZ(final int offsetY) {
         return  offsetY;
     }
 

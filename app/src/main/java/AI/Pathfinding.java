@@ -1,16 +1,25 @@
 package AI;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import api.AxialCoordinate;
 import api.Hexagon;
 import api.HexagonalGrid;
 import api.HexagonalGridCalculator;
 import java.util.Comparator;
 import java.util.Queue;
+
+import static api.CoordinateConverter.convertOffsetCoordinatesToAxialX;
+import static api.CoordinateConverter.convertOffsetCoordinatesToAxialZ;
+import static api.CoordinateConverter.convertToCol;
+import static api.CoordinateConverter.convertToRow;
+import static api.AxialCoordinate.fromCoordinates;
 
 public class Pathfinding {
 
@@ -21,6 +30,8 @@ public class Pathfinding {
     private Queue<Unit> openList;               // Список необработанных хексов (тут не все хексы сетки, а только соседние с обработанными хексами)
     protected Comparator<Unit> fComparator = (Unit unit1, Unit unit2) -> (unit1.f -unit2.f);
     private List<Unit> closedList;                  // Список обработанных хексов
+    private int dxpivot;
+    private int dypivot;
 
     private  class Unit {
         final Hexagon hexagon;      // рассматриваемый хекс
@@ -72,7 +83,7 @@ public class Pathfinding {
     }
 
 
-    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, Hexagon start, Hexagon destination)
+    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, Hexagon start, Hexagon destination, Hexagon pivot)
     {
         openList = new PriorityQueue<>(20, fComparator);
         closedList = new ArrayList<>();
@@ -81,6 +92,8 @@ public class Pathfinding {
         this.calculator=calculator;
         this.destination=destination;
         this.start = start;
+        this.dxpivot = convertToCol(start.getGridX(),start.getGridZ())-convertToCol(pivot.getGridX(), pivot.getGridZ());
+        this.dypivot = convertToRow(start.getGridZ())-convertToRow(pivot.getGridZ());
     }
 
 
@@ -105,15 +118,39 @@ public class Pathfinding {
 
     private LinkedList <String> checkUnit (Unit unit)    // Рассмотрение ячейки из открытого списка с наименьшим f и добавлением ее в закрытый список
     {
+        final int col, row;
         LinkedList<Hexagon> neighborHex = hexagonalGrid.getNeighborsOf(unit.hexagon);
-        for (int i = 0; i<neighborHex.size(); i++)  // Берем 4 соседей ячейки (верхние вроде как не нужны)
+
+        row = convertToRow(unit.hexagon.getGridZ())-dypivot;
+        if (row%2 != 0 & dypivot != 0) col = convertToCol( unit.hexagon.getGridX(), unit.hexagon.getGridZ()) - dxpivot - 1;
+        else col = convertToCol(unit.hexagon.getGridX(), unit.hexagon.getGridZ()) - dxpivot;
+        AxialCoordinate pivotCoordinate = fromCoordinates(convertOffsetCoordinatesToAxialX(col, row), convertOffsetCoordinatesToAxialZ(row));
+        final int x = pivotCoordinate.getGridX();
+        final int z = pivotCoordinate.getGridZ();
+        final int y =  - x - z;
+        AxialCoordinate  counterClockwisePosition =  fromCoordinates(-(-unit.hexagon.getGridX() - unit.hexagon.getGridZ() - y) + x,-(unit.hexagon.getGridX() - x) + z);
+        AxialCoordinate clockwisePosition = fromCoordinates(-(unit.hexagon.getGridZ() - z) + x, -(-unit.hexagon.getGridX() - unit.hexagon.getGridZ() - y) + z);
+        if (hexagonalGrid.containsAxialCoordinate(clockwisePosition)) {
+            neighborHex.add(hexagonalGrid.getByAxialCoordinate(clockwisePosition).get());
+        }
+        else {
+            neighborHex.add(null);
+        }
+        if (hexagonalGrid.containsAxialCoordinate(counterClockwisePosition)){
+            neighborHex.add(hexagonalGrid.getByAxialCoordinate(counterClockwisePosition).get());
+        }
+        else{
+            neighborHex.add(null);
+        }
+
+        for (int i = 0; i<neighborHex.size(); i++)  // Берем 4 соседей ячейки (верхние вроде как не нужны) + 2 позиции после поворота
 
             // Если сосед не в закрытом списке и не в препятствиях (надо потом залоченные хексы добавить сразу в закрытый список)
-            if (!hexagonalGrid.getLockedHexagons().valueAt(neighborHex.get(i).getAxialCoordinate().getGridZ()).contains(neighborHex.get(i).getAxialCoordinate().getGridX())
+            if (neighborHex.get(i)!=null && !hexagonalGrid.getLockedHexagons().valueAt(neighborHex.get(i).getAxialCoordinate().getGridZ()).contains(neighborHex.get(i).getAxialCoordinate().getGridX())
                     &&!closedList.contains(neighborHex)) {
                 Unit childUnit = new Unit(unit, neighborHex.get(i));
-                childUnit = makeCommand(childUnit,i);                 // если сосед еще не в открытом списке, то просто добавляем его в список
-                if (!openList.contains(childUnit)) {
+                childUnit = makeCommand(childUnit,i);
+                if (!openList.contains(childUnit)) {   // если сосед еще не в открытом списке, то просто добавляем его в список
                     openList.add(childUnit);
                     if (childUnit.h==0) return makePath(childUnit); }     // Условие нахождения конечной ячейкм
 
@@ -124,6 +161,7 @@ public class Pathfinding {
                         if (childUnit.equals(childUnit1)&&(unit.g < childUnit1.mother.g)) {
                             childUnit1.mother = unit;
                             childUnit1.g = unit.g+1;
+                            childUnit1.movement = childUnit.movement;
                             break;
                         }
                 }
@@ -150,6 +188,12 @@ public class Pathfinding {
 
             case 3:
                 childUnit.movement = "RIGHT";
+                break;
+            case 4:
+                childUnit.movement = "CLCK";
+                break;
+            case 5:
+                childUnit.movement = "COUNTER_CLCK";
                 break;
         }
         return childUnit;

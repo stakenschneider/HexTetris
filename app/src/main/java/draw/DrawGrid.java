@@ -35,7 +35,7 @@ import static com.example.masha.tetris.Settings.width;
 
 public class DrawGrid {
 
-    private HexagonalGridCalculator hexagonalGridCalculator;
+    public HexagonalGridCalculator hexagonalGridCalculator;
     public HexagonalGrid hexagonalGrid;
     private Controller controller;
     protected HexagonOrientation orientation = POINTY_TOP;
@@ -76,12 +76,21 @@ public class DrawGrid {
 
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
         heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
+        // Мои любимые константы :{
+        /*
+        hexagonalGrid.getHexagonStorage().add(fromCoordinates(1, 2));
+        hexagonalGrid.getHexagonStorage().add(fromCoordinates(3, 1));
+        hexagonalGrid.getLockedHexagons().valueAt(4).add(2);
+        hexagonalGrid.getLockedHexagons().valueAt(3).add(3);
+        hexagonalGrid.getLockedHexagons().valueAt(2).add(4);
+        */
 
     }
 
 
     public boolean useBuilder(Canvas canvas, String movement) {
         int[] array = new int[12];
+        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(3, 0)).get().getPoints(), array), "#A6AA66", Style.FILL);
 
             switch (movement) {
 
@@ -155,7 +164,9 @@ public class DrawGrid {
                 drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#F0F0F0", Style.STROKE);
                 first = 1; // гений простоты и фэйспал для кода
             }
-            else  drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
+            else
+             if (hexagonalGrid.containsAxialCoordinate(axialCoordinate))
+                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
         return false;
     }
 

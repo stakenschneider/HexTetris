@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -12,11 +13,15 @@ import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
+import java.util.LinkedList;
+
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Settings.strpack;
 
+import AI.Pathfinding;
 import draw.DrawGrid;
+import static api.AxialCoordinate.fromCoordinates;
 
 
 public class GamePlay extends AppCompatActivity {
@@ -27,6 +32,7 @@ public class GamePlay extends AppCompatActivity {
     Intent intent;
     public static Handler h;  //ЭТО НЕ ДОЛЖНО БЫТЬ static ТИМУУУР
     private boolean over = false;
+    LinkedList<String> path;
 
 
     @Override
@@ -44,6 +50,13 @@ public class GamePlay extends AppCompatActivity {
         else {
             String strJson = intent.getStringExtra("JSON");
             d = new DrawGrid(strJson, "AiParameters");
+            Pathfinding ai = new Pathfinding(d.hexagonalGrid,
+                    d.hexagonalGridCalculator,
+                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(3, 1)).get(),
+                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(3, 0)).get(),
+                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 2)).get());
+            path = ai.findPath();
+            for (String s : path) Log.d("a",s);
         }
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
@@ -65,7 +78,8 @@ public class GamePlay extends AppCompatActivity {
         };
 
 
-        if (intent.getStringExtra("Player").equals("User"))
+        // Потом листнер стоит оставить только для игры с пользователем
+        // if (intent.getStringExtra("Player").equals("User"))
         view.setOnTouchListener( (final View v, final MotionEvent event) -> {
                 x = event.getX();
                 y = event.getY();
@@ -73,6 +87,8 @@ public class GamePlay extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
+                            // Здесь теперь движение ИИ
+                            // view.setMovement(path.pollFirst());
                             view.setMovement("DOWN_LEFT");
                             view.invalidate();
                             return false;
