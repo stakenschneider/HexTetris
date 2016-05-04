@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static com.example.masha.tetris.Main.scrh;
@@ -20,6 +21,7 @@ import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Settings.strpack;
 
 import AI.Pathfinding;
+import api.Hexagon;
 import draw.DrawGrid;
 import static api.AxialCoordinate.fromCoordinates;
 
@@ -50,11 +52,23 @@ public class GamePlay extends AppCompatActivity {
         else {
             String strJson = intent.getStringExtra("JSON");
             d = new DrawGrid(strJson, "AiParameters");
+            ArrayList <Hexagon> start = new ArrayList<Hexagon>();
+            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(2, 0)).get());
+            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(3, 0)).get());
+            ArrayList <Hexagon> destination = new ArrayList<Hexagon>();
+            if (intent.getStringExtra("Problem").equals("1")) {
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 0)).get());
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(6, 0)).get());
+            }
+            if (intent.getStringExtra("Problem").equals("3")) {
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-1, 7)).get());
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(0, 7)).get());
+            }
             Pathfinding ai = new Pathfinding(d.hexagonalGrid,
                     d.hexagonalGridCalculator,
-                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(3, 1)).get(),
-                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(3, 0)).get(),
-                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 2)).get());
+                    start,
+                    destination,
+                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 0)).get());
             path = ai.findPath();
             for (String s : path) Log.d("a",s);
         }
@@ -87,9 +101,7 @@ public class GamePlay extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
-                            // Здесь теперь движение ИИ
-                            // view.setMovement(path.pollFirst());
-                            view.setMovement("DOWN_LEFT");
+                            view.setMovement(path.pollFirst());
                             view.invalidate();
                             return false;
                         }
