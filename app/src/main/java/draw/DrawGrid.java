@@ -122,15 +122,15 @@ public class DrawGrid {
                 case "START":
                     canvas.drawColor(Color.parseColor("#1B2024"));
 
-                    hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
-                            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
+                    hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->   //grid
+                            drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#778899", Style.Fill));
                     return false;
 
                 case "LOCKED":
                     for (int z = 0; z < hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
                         ArrayList<Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
                         if (coordinate.size() != 0)
-                            for (int x : coordinate) {
+                            for (int x : coordinate) { //locked
                                 Optional<Hexagon> hexagonOptional = hexagonalGrid.getByAxialCoordinate(fromCoordinates(x, z));
                                 drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
                             }
@@ -163,7 +163,7 @@ public class DrawGrid {
                 first = 1; // гений простоты и фэйспал для кода // Ето великалепно!!!!
             }
             else
-                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
+                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL); 
         return false;
     }
 
