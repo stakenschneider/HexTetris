@@ -77,9 +77,9 @@ public class DrawGrid {
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
         heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
         // Мои любимые константы :{
+        hexagonalGrid.getHexagonStorage().add(fromCoordinates(0, 0));
         hexagonalGrid.getHexagonStorage().add(fromCoordinates(1, 0));
         hexagonalGrid.getHexagonStorage().add(fromCoordinates(2, 0));
-        hexagonalGrid.getHexagonStorage().add(fromCoordinates(3, 0));
 
     }
 
@@ -88,8 +88,8 @@ public class DrawGrid {
         int[] array = new int[12];
         drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 0)).get().getPoints(), array), "#FF5346", Style.FILL);
         drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(6, 0)).get().getPoints(), array), "#FF5346", Style.FILL);
-        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(0, 7)).get().getPoints(), array), "#FF5346", Style.FILL);
-        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-1, 7)).get().getPoints(), array), "#FF5346", Style.FILL);
+        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 8)).get().getPoints(), array), "#FF5346", Style.FILL);
+        drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 9)).get().getPoints(), array), "#FF5346", Style.FILL);
             switch (movement) {
 
                 case "COUNTER_CLCK":
@@ -158,12 +158,15 @@ public class DrawGrid {
 
         int first = 0;
         for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage()) //фигруа
-            if (first == 0&&hexagonalGrid.containsAxialCoordinate(axialCoordinate)) {
-                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#F0F0F0", Style.STROKE);
-                first = 1; // гений простоты и фэйспал для кода // Ето великалепно!!!!
+            if (hexagonalGrid.containsAxialCoordinate(axialCoordinate)) {
+                if (first == 0) {
+                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#F0F0F0", Style.STROKE);
+                    first = 1; // гений простоты и фэйспал для кода // Ето великалепно!!!!
+                }
+                else  drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
             }
-            else
-                drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
+        else first = 1;
+
         return false;
     }
 

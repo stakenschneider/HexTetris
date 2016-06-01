@@ -1,24 +1,16 @@
 package AI;
 import android.util.Log;
-
 import java.util.ArrayList;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-
 import api.AxialCoordinate;
 import api.Hexagon;
 import api.HexagonalGrid;
 import api.HexagonalGridCalculator;
-
 import java.util.Comparator;
 import java.util.Queue;
 
-import static api.CoordinateConverter.convertOffsetCoordinatesToAxialX;
-import static api.CoordinateConverter.convertOffsetCoordinatesToAxialZ;
-import static api.CoordinateConverter.convertToCol;
-import static api.CoordinateConverter.convertToRow;
 import static api.AxialCoordinate.fromCoordinates;
 
 public class Pathfinding {
@@ -31,11 +23,9 @@ public class Pathfinding {
     private Queue<ComplexFigure> openList;               // Список необработанных хексов (тут не все хексы сетки, а только соседние с обработанными хексами)
     protected Comparator<ComplexFigure> fComparator = (ComplexFigure figure1, ComplexFigure figure2) -> (figure1.f - figure2.f);
     private List<ComplexFigure> closedList;                  // Список обработанных хексов
-    private int dxpivot ;
-    private int dypivot;
+    private AxialCoordinate pivot;
 
-
-    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<Hexagon> start, ArrayList<Hexagon> destination, Hexagon pivot) {
+    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<Hexagon> start, ArrayList<Hexagon> destination, AxialCoordinate pivot) {
         this.start = start;
         this.destination =  destination;
         openList = new PriorityQueue<>(20, fComparator);
@@ -43,8 +33,7 @@ public class Pathfinding {
         path = new LinkedList<>();
         this.hexagonalGrid = hexagonalGrid;
         this.calculator = calculator;
-        dxpivot= convertToCol(start.get(0).getGridX(), start.get(0).getGridZ()) - convertToCol(pivot.getGridX(), pivot.getGridZ());
-        dypivot= convertToRow(start.get(0).getGridZ()) - convertToRow(pivot.getGridZ());
+        this.pivot = pivot;
     }
 
     private class Unit {
@@ -52,7 +41,6 @@ public class Pathfinding {
         Unit mother;  // ссылка на предыдущую ячейку в кратчайшем пути из ячеек от стартовой к этой
         String movement = ""; // Указание для контроллера как добраться из материнской ячейки к этой через его команду
         final int h;         // Цена пути от этой ячейки к целевой (путь берется как прямая)
-        int g, f;            // Цена пути от стартовой ячейки к этой , Общая цена ячейки
         int number;           // Номер юнита в фигуре
 
 
@@ -61,19 +49,12 @@ public class Pathfinding {
             this.mother = mother;
             this.number = number;
             h = hFunc();
-            g = gFunc();
-            f = h + g;
 
         }
 
         private int hFunc() { // вычисление h
             return calculator.calculateDistanceBetween(hexagon, destination.get(number));
         }
-
-        private int gFunc() { // вычисление g
-            return mother != null ? mother.g + 1 : 1;
-        }
-
 
         @Override
         public boolean equals(Object obj) {        //Ячейки равны если только равны координаты их хексов
@@ -100,12 +81,13 @@ public class Pathfinding {
 
     private class ComplexFigure {
         List<Unit> units;
+        AxialCoordinate pivot;
         ComplexFigure mother;
-        String movement = ""; // Указание для контроллера как добраться из материнской ячейки к этой через его команду
-        int h;         // Цена пути от этой ячейки к целевой (путь берется как прямая)
-        int g, f;            // Цена пути от стартовой ячейки к этой , Общая цена ячейки
+        String movement = "";
+        int h;
+        int g, f;
 
-        public ComplexFigure(List<Unit> units, ComplexFigure mother) {
+        public ComplexFigure(List<Unit> units, ComplexFigure mother, AxialCoordinate pivot) {
             h = 0;
             this.units = units;
             this.mother = mother;
@@ -115,6 +97,7 @@ public class Pathfinding {
                 else  g=1;
             }
             f = h + g;
+            this.pivot = pivot;
         }
 
         @Override
@@ -154,7 +137,7 @@ public class Pathfinding {
             Unit unit = new Unit(null, start.get(i), i);
             startUnits.add(unit);
         }
-        ComplexFigure startFigure = new ComplexFigure(startUnits, null);
+        ComplexFigure startFigure = new ComplexFigure(startUnits, null, pivot);
         openList.add(startFigure);
         path = checkFigure(openList.poll());
         return path;
@@ -179,9 +162,8 @@ public class Pathfinding {
         ComplexFigure figureDownLeft = moveDownLeft(figure);
         ComplexFigure figureRight = moveRight(figure);
         ComplexFigure figureLeft = moveLeft(figure);
-        AxialCoordinate pivot = newPivot(figure);
-        ComplexFigure figureClockwise = clockwise(figure, pivot);
-        ComplexFigure figureCounterClockwise = counterClockwise(figure,pivot);
+        ComplexFigure figureClockwise = clockwise(figure);
+        ComplexFigure figureCounterClockwise = counterClockwise(figure);
         neighborFigures.add(figureDownRight);
         neighborFigures.add(figureDownLeft);
         neighborFigures.add(figureLeft);
@@ -189,18 +171,17 @@ public class Pathfinding {
         neighborFigures.add(figureClockwise);
         neighborFigures.add(figureCounterClockwise);
 
-        for (int i = 0; i < neighborFigures.size(); i++)  // Берем 4 соседей ячейки (верхние вроде как не нужны) + 2 позиции после поворота
+        for (int i = 0; i < neighborFigures.size(); i++)
             if (neighborFigures.get(i) != null && checkUnits(neighborFigures.get(i).units))
             {
-                ComplexFigure childFigure = new  ComplexFigure(neighborFigures.get(i).units,figure);
+                ComplexFigure childFigure = new  ComplexFigure(neighborFigures.get(i).units,figure,neighborFigures.get(i).pivot);
                 childFigure = makeCommand(childFigure, i);
-                if (!openList.contains( childFigure)) {   // если сосед еще не в открытом списке, то просто добавляем его в список
+                if (!openList.contains( childFigure)) {
                     openList.add(childFigure);
                     if ( childFigure.h == 0) return makePath(childFigure);
-                }     // Условие нахождения конечной ячейкм
-                // если сосед уже в открытом списке, то проверяем не нужно ли поменять материскую клетку
+                }
+
                 else {
-                    // Вот здесь бы доступ к элементу по значению, а не перебор... (стоит позаимствовать чью нибудь структурку данных и заменить PriorityQueue)
                     for (ComplexFigure childFigure1 : openList)
                         if (childFigure.equals(childFigure1) && (figure.g < childFigure1.mother.g)) {
                             childFigure1.mother = figure;
@@ -210,7 +191,7 @@ public class Pathfinding {
                         }
                 }
             }
-        closedList.add(figure);        // после рассмотрения кладем ячейку в закрытый список
+        closedList.add(figure);
         return checkFigure(openList.poll());
     }
 
@@ -236,45 +217,36 @@ public class Pathfinding {
                 return null;
             units.add(new Unit(unit, hexagonalGrid.getByAxialCoordinate(fromCoordinates(unit.hexagon.getGridX(), unit.hexagon.getGridZ() + 1)).get(), unit.number));
         }
-        ComplexFigure newFigure = new ComplexFigure(units,figure);
+
+        ComplexFigure newFigure = new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX(),figure.pivot.getGridZ()+1));
         return newFigure;
     }
 
-    private AxialCoordinate newPivot (ComplexFigure figure)
-    {
-        final int col, row;
-        row = convertToRow(figure.units.get(0).hexagon.getGridZ())-dypivot;
-        if (row % 2 != 0 & dypivot != 0)
-            col = convertToCol(figure.units.get(0).hexagon.getGridX(), figure.units.get(0).hexagon.getGridZ()) - dxpivot - 1;
-        else col = convertToCol(figure.units.get(0).hexagon.getGridX(), figure.units.get(0).hexagon.getGridZ()) - dxpivot;
-        AxialCoordinate pivotCoordinate = fromCoordinates(convertOffsetCoordinatesToAxialX(col, row), convertOffsetCoordinatesToAxialZ(row));
-        return pivotCoordinate;
-    }
 
-    private ComplexFigure clockwise(ComplexFigure figure, AxialCoordinate pivot)
+    private ComplexFigure clockwise(ComplexFigure figure)
     {
         final int x,y,z;
-        x = pivot.getGridX();
-        z = pivot.getGridZ();
+        x = figure.pivot.getGridX();
+        z = figure.pivot.getGridZ();
         y = - x - z;
         List<Unit> units = new ArrayList<Unit>();
         for (Unit unit:figure.units) {
             AxialCoordinate clockwisePosition = fromCoordinates(-(unit.hexagon.getGridZ() - z) + x, -(-unit.hexagon.getGridX() - unit.hexagon.getGridZ() - y) + z);
             if(!hexagonalGrid.containsAxialCoordinate(clockwisePosition))
                 return null;
-            if ( hexagonalGrid.getLockedHexagons().valueAt(clockwisePosition.getGridZ()).contains(clockwisePosition.getGridX()))
+            if (hexagonalGrid.getLockedHexagons().valueAt(clockwisePosition.getGridZ())!=null && hexagonalGrid.getLockedHexagons().valueAt(clockwisePosition.getGridZ()).contains(clockwisePosition.getGridX()))
                 return null;
             units.add(new Unit(unit, hexagonalGrid.getByAxialCoordinate(clockwisePosition).get(), unit.number));
         }
-        ComplexFigure newFigure = new ComplexFigure(units,figure);
+        ComplexFigure newFigure = new ComplexFigure(units,figure,fromCoordinates(figure.pivot.getGridX(),figure.pivot.getGridZ()));
         return newFigure;
     }
 
-    private ComplexFigure counterClockwise(ComplexFigure figure, AxialCoordinate pivot)
+    private ComplexFigure counterClockwise(ComplexFigure figure)
     {
         final int x,y,z;
-        x = pivot.getGridX();
-        z = pivot.getGridZ();
+        x = figure.pivot.getGridX();
+        z = figure.pivot.getGridZ();
         y = - x - z;
         List<Unit> units = new ArrayList<Unit>();
         for (Unit unit:figure.units) {
@@ -285,7 +257,7 @@ public class Pathfinding {
                 return null;
             units.add(new Unit(unit, hexagonalGrid.getByAxialCoordinate(counterClockwisePosition).get(), unit.number));
         }
-        ComplexFigure newFigure = new ComplexFigure(units,figure);
+        ComplexFigure newFigure = new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX(),figure.pivot.getGridZ()));
         return newFigure;
     }
 
@@ -298,7 +270,7 @@ public class Pathfinding {
                 return null;
             units.add(new Unit(unit, hexagonalGrid.getByAxialCoordinate(fromCoordinates(unit.hexagon.getGridX()-1, unit.hexagon.getGridZ() + 1)).get(), unit.number));
         }
-        ComplexFigure newFigure = new ComplexFigure(units,figure);
+        ComplexFigure newFigure = new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()-1,figure.pivot.getGridZ()+1));
         return newFigure;
     }
     private ComplexFigure moveLeft(ComplexFigure figure) {
@@ -310,7 +282,7 @@ public class Pathfinding {
                 return null;
             units.add(new Unit(unit, hexagonalGrid.getByAxialCoordinate(fromCoordinates(unit.hexagon.getGridX()-1, unit.hexagon.getGridZ())).get(), unit.number));
         }
-        ComplexFigure newFigure = new ComplexFigure(units,figure);
+        ComplexFigure newFigure = new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()-1,figure.pivot.getGridZ()));
         return newFigure;
     }
     private ComplexFigure moveRight(ComplexFigure figure) {
@@ -322,7 +294,7 @@ public class Pathfinding {
                 return null;
             units.add(new Unit(unit, hexagonalGrid.getByAxialCoordinate(fromCoordinates(unit.hexagon.getGridX()+1, unit.hexagon.getGridZ())).get(), unit.number));
         }
-        ComplexFigure newFigure = new ComplexFigure(units,figure);
+        ComplexFigure newFigure = new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()-1,figure.pivot.getGridZ()+1));
         return newFigure;
     }
 

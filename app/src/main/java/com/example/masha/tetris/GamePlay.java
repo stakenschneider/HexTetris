@@ -53,22 +53,22 @@ public class GamePlay extends AppCompatActivity {
             String strJson = intent.getStringExtra("JSON");
             d = new DrawGrid(strJson, "AiParameters");
             ArrayList <Hexagon> start = new ArrayList<Hexagon>();
+            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 0)).get());
             start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(2, 0)).get());
-            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(3, 0)).get());
             ArrayList <Hexagon> destination = new ArrayList<Hexagon>();
             if (intent.getStringExtra("Problem").equals("1")) {
                 destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 0)).get());
                 destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(6, 0)).get());
             }
             if (intent.getStringExtra("Problem").equals("3")) {
-                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-1, 7)).get());
-                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(0, 7)).get());
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 9)).get());
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 10)).get());
             }
             Pathfinding ai = new Pathfinding(d.hexagonalGrid,
                     d.hexagonalGridCalculator,
                     start,
                     destination,
-                    d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 0)).get());
+                   fromCoordinates(0, 0));
             path = ai.findPath();
             for (String s : path) Log.d("a",s);
         }
