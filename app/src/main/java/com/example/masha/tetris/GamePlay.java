@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -12,21 +13,28 @@ import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Settings.strpack;
 
+import AI.Pathfinding;
+import api.Hexagon;
 import draw.DrawGrid;
+import static api.AxialCoordinate.fromCoordinates;
 
 
 public class GamePlay extends AppCompatActivity {
 
-    DrawGrid d = new DrawGrid(strpack , "GamePlay");
+    DrawGrid d;
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
     public static Handler h;  //ЭТО НЕ ДОЛЖНО БЫТЬ static ТИМУУУР
     private boolean over = false;
+    LinkedList<String> path;
 
 
     @Override
@@ -38,7 +46,32 @@ public class GamePlay extends AppCompatActivity {
         RelativeLayout.LayoutParams relLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        intent = getIntent();
+        if (intent.getStringExtra("Player").equals("User"))
+        d = new DrawGrid(strpack , "UserParameters");
+        else {
+            String strJson = intent.getStringExtra("JSON");
+            d = new DrawGrid(strJson, "AiParameters");
+            ArrayList <Hexagon> start = new ArrayList<Hexagon>();
+            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 0)).get());
+            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(2, 0)).get());
+            ArrayList <Hexagon> destination = new ArrayList<Hexagon>();
+            if (intent.getStringExtra("Problem").equals("1")) {
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 0)).get());
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(6, 0)).get());
+            }
+            if (intent.getStringExtra("Problem").equals("3")) {
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 9)).get());
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 10)).get());
+            }
+            Pathfinding ai = new Pathfinding(d.hexagonalGrid,
+                    d.hexagonalGridCalculator,
+                    start,
+                    destination,
+                   fromCoordinates(0, 0));
+            path = ai.findPath();
+            for (String s : path) Log.d("a",s);
+        }
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
         view_3 = new CanvasView(this, "LOCKED");
@@ -58,6 +91,9 @@ public class GamePlay extends AppCompatActivity {
             }
         };
 
+
+        // Потом листнер стоит оставить только для игры с пользователем
+        // if (intent.getStringExtra("Player").equals("User"))
         view.setOnTouchListener( (final View v, final MotionEvent event) -> {
                 x = event.getX();
                 y = event.getY();
@@ -65,7 +101,7 @@ public class GamePlay extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
-                            view.setMovement("DOWN_LEFT");
+                            view.setMovement(path.pollFirst());
                             view.invalidate();
                             return false;
                         }

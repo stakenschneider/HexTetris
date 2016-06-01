@@ -19,7 +19,7 @@ public final class RectangularGridLayoutStrategy implements GridLayoutStrategy {
         for (int y = 0; y < builder.getGridHeight(); y++) {
             for (int x = 0; x < builder.getGridWidth(); x++) {
                 final int gridX = CoordinateConverter.convertOffsetCoordinatesToAxialX(x, y);
-                final int gridZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(x, y);
+                final int gridZ = CoordinateConverter.convertOffsetCoordinatesToAxialZ(y);
                 coordinates.add(fromCoordinates(gridX, gridZ));
             }
         }

@@ -60,6 +60,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.bttnPlay:
                 intent = new Intent (this, GamePlay.class);
+                intent.putExtra("Player", "User");
                 startActivity(intent);
                 break;
 

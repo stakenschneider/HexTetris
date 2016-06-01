@@ -16,8 +16,8 @@ public class HeapFigure {
     private ArrayList <ArrayList<Hexagon>> pack = new ArrayList<>(); //лист фигур
     private final ArrayList<BigInteger> pseudoRandSeq = new ArrayList<>();
     protected AxialCoordinate ax;
-    private HexagonalGrid hexagonalGrid;
-    private InitGame initGame;
+    private final HexagonalGrid hexagonalGrid;
+    private final InitGame initGame;
     int step = 0;
     private int ii;
 

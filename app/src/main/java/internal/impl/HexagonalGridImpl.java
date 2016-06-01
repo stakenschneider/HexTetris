@@ -19,7 +19,6 @@ import rx.Observable;
 import rx.Subscriber;
 
 import static internal.impl.HexagonImpl.newHexagon;
-import static com.example.masha.tetris.Settings.height;
 import static api.AxialCoordinate.fromCoordinates;
 
 
@@ -30,6 +29,8 @@ public class HexagonalGridImpl implements HexagonalGrid {
     private final Set<AxialCoordinate> coordinates;
     private SparseArray <ArrayList<Integer>> lockedHexagons = new SparseArray<ArrayList<Integer>> ();
     private int width ;
+    private int height;
+
 
     private static final int[][] NEIGHBORS = {{+1, 0}, {-1, 0}, {-1, +1}, {0, +1}};
     private static final int NEIGHBOR_X_INDEX = 0;
@@ -41,6 +42,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
         this.hexagonStorage = builder.getCustomStorage();
         this.coordinates = builder.getGridLayoutStrategy().fetchGridCoordinates(builder);
         this.width = builder.getGridWidth();
+        this.height = builder.getGridHeight();
 
         if (height<15) height = 15;
         for ( int i = 0; i<height; i++) {
