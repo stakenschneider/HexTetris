@@ -136,7 +136,6 @@ public class DrawGrid {
                             }
                     }
 
-
                     Paint p = new Paint();
                     p.setColor(Color.parseColor("#81AA21"));
                     p.setStrokeWidth(1);
@@ -201,8 +200,7 @@ public class DrawGrid {
     }
 
 
-    private double rad(int gWidth, int gHeight)
-    {
+    private double rad(int gWidth, int gHeight) {
         Double radius = 2*scrw/(Math.sqrt(3)*(2*gWidth+1));
         int parallax = 50;
         if ((radius*(gHeight / 2 + gHeight + (Math.sqrt(3) / 2 / 2))) > (scrh-parallax) && gHeight % 2 == 0)

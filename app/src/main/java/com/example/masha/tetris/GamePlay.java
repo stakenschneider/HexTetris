@@ -61,8 +61,8 @@ public class GamePlay extends AppCompatActivity {
                 destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(6, 0)).get());
             }
             if (intent.getStringExtra("Problem").equals("3")) {
+                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 8)).get());
                 destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 9)).get());
-                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 10)).get());
             }
             Pathfinding ai = new Pathfinding(d.hexagonalGrid,
                     d.hexagonalGridCalculator,

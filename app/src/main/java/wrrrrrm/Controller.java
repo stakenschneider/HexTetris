@@ -10,7 +10,8 @@ import static com.example.masha.tetris.GamePlay.h;
 
 import static api.AxialCoordinate.fromCoordinates;
 
-//TODO: get -> flatMap?!  && не проверять координату поворота при движениях влево/вправо + ловить нульпоинтерэкспшен + координата поворота за рамки сетки?!
+//TODO: get -> flatMap?!
+
 public class Controller {
 
     private ArrayList<AxialCoordinate> dataMap;
