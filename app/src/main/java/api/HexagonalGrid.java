@@ -23,6 +23,8 @@ public interface HexagonalGrid {
 
    LinkedList<Hexagon> getNeighborsOf(Hexagon hexagon);
 
+   int getHeight();
+
    int getWidth();
 
 }

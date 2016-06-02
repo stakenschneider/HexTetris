@@ -60,6 +60,9 @@ public class HexagonalGridImpl implements HexagonalGrid {
     public int getWidth() {return width;}
 
     @Override
+    public int getHeight() {return height;}
+
+    @Override
     public Observable<Hexagon> getHexagons() {
         Observable<Hexagon> result = Observable.create((Subscriber<? super Hexagon> subscriber) -> {
             final Iterator<AxialCoordinate> coordinateIterator = coordinates.iterator();

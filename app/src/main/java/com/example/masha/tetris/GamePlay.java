@@ -47,31 +47,7 @@ public class GamePlay extends AppCompatActivity {
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         intent = getIntent();
-        if (intent.getStringExtra("Player").equals("User"))
         d = new DrawGrid(strpack , "UserParameters");
-        else {
-            String strJson = intent.getStringExtra("JSON");
-            d = new DrawGrid(strJson, "AiParameters");
-            ArrayList <Hexagon> start = new ArrayList<Hexagon>();
-            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(1, 0)).get());
-            start.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(2, 0)).get());
-            ArrayList <Hexagon> destination = new ArrayList<Hexagon>();
-            if (intent.getStringExtra("Problem").equals("1")) {
-                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(5, 0)).get());
-                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(6, 0)).get());
-            }
-            if (intent.getStringExtra("Problem").equals("3")) {
-                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 8)).get());
-                destination.add(d.hexagonalGrid.getByAxialCoordinate(fromCoordinates(-2, 9)).get());
-            }
-            Pathfinding ai = new Pathfinding(d.hexagonalGrid,
-                    d.hexagonalGridCalculator,
-                    start,
-                    destination,
-                   fromCoordinates(0, 0));
-            path = ai.findPath();
-            for (String s : path) Log.d("a",s);
-        }
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
         view_3 = new CanvasView(this, "LOCKED");
@@ -101,7 +77,7 @@ public class GamePlay extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
-                            view.setMovement(path.pollFirst());
+                            view.setMovement("DOWN_LEFT");
                             view.invalidate();
                             return false;
                         }
