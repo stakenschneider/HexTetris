@@ -20,7 +20,9 @@ import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Settings.strpack;
 
+import AI.Mephistopheles;
 import AI.Pathfinding;
+import api.AxialCoordinate;
 import api.Hexagon;
 import draw.DrawGrid;
 import static api.AxialCoordinate.fromCoordinates;
@@ -47,7 +49,16 @@ public class GamePlay extends AppCompatActivity {
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         intent = getIntent();
-        d = new DrawGrid(strpack , "UserParameters");
+        if (intent.getStringExtra("Player").equals("User"))
+            d = new DrawGrid(strpack , "UserParameters");
+        String strJson = intent.getStringExtra("JSON");
+        d = new DrawGrid(strJson, "AiParameters");
+        ArrayList <AxialCoordinate> start = new ArrayList<AxialCoordinate>();
+        start.add(fromCoordinates(1, 0));
+        start.add(fromCoordinates(2, 0));
+        Mephistopheles ai = new Mephistopheles(d.hexagonalGrid, d.hexagonalGridCalculator);
+        path = ai.startSearch(start);
+        for (String s : path) Log.d("a",s);
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
         view_3 = new CanvasView(this, "LOCKED");
@@ -77,7 +88,7 @@ public class GamePlay extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
-                            view.setMovement("DOWN_LEFT");
+                            view.setMovement(path.pollFirst());
                             view.invalidate();
                             return false;
                         }

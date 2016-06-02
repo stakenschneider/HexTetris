@@ -25,10 +25,8 @@ public class Pathfinding {
     private List<ComplexFigure> closedList;                  // Список обработанных хексов
     private AxialCoordinate pivot;
     private int max = 50;
-    private ComplexFigure child;
 
     public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<AxialCoordinate> start, ArrayList<AxialCoordinate> destination, AxialCoordinate pivot) {
-        start.remove(0);
         this.start = start;
         this.destination =  destination;
         openList = new PriorityQueue<>(20, fComparator);
@@ -55,7 +53,8 @@ public class Pathfinding {
         }
 
         private int hFunc() { // вычисление h
-            return calculator.calculateDistanceBetween(hexagonalGrid.getByAxialCoordinate(hexagon).get(),(hexagonalGrid.getByAxialCoordinate(destination.get(number))).get());
+            return calculator.calculateDistanceBetween(hexagonalGrid.getByAxialCoordinate(hexagon).get(),
+                    (hexagonalGrid.getByAxialCoordinate(destination.get(number))).get());
         }
 
         @Override

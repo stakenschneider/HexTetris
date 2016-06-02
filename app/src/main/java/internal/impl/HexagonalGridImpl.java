@@ -44,7 +44,6 @@ public class HexagonalGridImpl implements HexagonalGrid {
         this.width = builder.getGridWidth();
         this.height = builder.getGridHeight();
 
-        if (height<15) height = 15;
         for ( int i = 0; i<height; i++) {
             ArrayList coordinates = new ArrayList();
             lockedHexagons.put(i,coordinates);

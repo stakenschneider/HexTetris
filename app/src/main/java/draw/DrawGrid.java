@@ -76,12 +76,16 @@ public class DrawGrid {
 
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
         heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
+
+        hexagonalGrid.getHexagonStorage().add(fromCoordinates(1, 0));
+        hexagonalGrid.getHexagonStorage().add(fromCoordinates(2, 0));
+        hexagonalGrid.getLockedHexagons().get(6).add(4);
+
     }
 
 
     public boolean useBuilder(Canvas canvas, String movement) {
         int[] array = new int[12];
-
             switch (movement) {
 
                 case "COUNTER_CLCK":
