@@ -83,7 +83,7 @@ public class Mephistopheles {
             }
             for (int i = 0; i< this.coordinates.size(); i++)
             {
-                this.coordinates.get(i).setCoordinate(0 + first.getGridX(), 0 + first.getGridZ());
+                this.coordinates.get(i).setCoordinate( this.coordinates.get(i).getGridX() + first.getGridX(), this.coordinates.get(i).getGridZ()+ first.getGridZ());
             }
             for (int i = 0; i < coordinates.size(); i++)
             {
