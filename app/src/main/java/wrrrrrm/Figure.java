@@ -30,8 +30,7 @@ public class Figure {
     }
 
 
-    public AxialCoordinate convertToGrid (int width)
-    {
+    public AxialCoordinate convertToGrid (int width) {
         int firstCol , firstRow;
 
         OffsetCoordinate offsetCoordinate = placeFirst();
@@ -52,8 +51,7 @@ public class Figure {
     }
 
 
-    public AxialCoordinate getNewCoordinate(Hexagon hex)
-    {
+    public AxialCoordinate getNewCoordinate(Hexagon hex) {
         int row = hex.getGridZ() - dy , col;
 
         if (row%2 != 0 & dy != 0) col = convertToCol(hex.getGridX(), hex.getGridZ()) - dx - 1;
@@ -65,8 +63,7 @@ public class Figure {
     }
 
 
-    private OffsetCoordinate placeFirst ()
-    {
+    private OffsetCoordinate placeFirst (){
         AxialCoordinate coordinate;
         int minCol = -1 , minRow = -1;
 

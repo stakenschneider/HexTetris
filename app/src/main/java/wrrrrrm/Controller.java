@@ -134,7 +134,7 @@ public class Controller {
 
 
     public void rotationCounterClockwise(HexagonalGrid hexagonalGrid) {
-        int x = dataMap.get(0).getGridX() ,  z = dataMap.get(0).getGridZ() , y = - x - z;
+        int x = dataMap.get(0).getGridX(), z = dataMap.get(0).getGridZ() ,y = - x - z;
         boolean b = true;
 
         for (int i = 1; i<dataMap.size(); i++) {

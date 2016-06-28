@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -12,16 +13,10 @@ import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-
-import static api.AxialCoordinate.fromCoordinates;
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Settings.strpack;
 
-import AI.Mephistopheles;
-import api.AxialCoordinate;
 import draw.DrawGrid;
 
 
@@ -33,7 +28,6 @@ public class GamePlay extends AppCompatActivity {
     Intent intent;
     public static Handler h;  //TODO: ЭТО НЕ ДОЛЖНО БЫТЬ static ТИМУУУР
     protected boolean over = false;
-    LinkedList<String> path;
 
 
     @Override
@@ -122,23 +116,14 @@ public class GamePlay extends AppCompatActivity {
 
 
         //TODO: что-нибудь типа: добавить таймер на фигуру, что бы ИИ работало без прикасаний а интервалом в секунду
-        //TODO: забыть о таймере
-        if (intent.getStringExtra("Player").equals("AiParameters"))
+        if (intent.getStringExtra("Player").equals("AI")){
             view.setOnTouchListener((final View v, final MotionEvent event) -> {
-
-                //по-сути эту письку ->
-
-               /* ArrayList<AxialCoordinate> start = new ArrayList<>();
-                start.add(fromCoordinates(1, 0));
-                start.add(fromCoordinates(2, 0));*/ //можно заменить вызовом heapfig для получения координат
-
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    view.setMovement(path.pollFirst());
+                switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
                     view.invalidate();
                     return false;
                 } return true;
-            });
+            });}
     }
 
 
@@ -149,6 +134,8 @@ public class GamePlay extends AppCompatActivity {
             super(context);
             this.movement = movement;
         }
+
+
 
         @Override
         protected void onDraw(Canvas canvas) {

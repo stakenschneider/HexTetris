@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
+import android.util.Log;
 
 import AI.Mephistopheles;
 import JSON.InitGame;
@@ -45,12 +46,12 @@ public class DrawGrid {
     int gWidth = 0 , gHeight = 0;
     private HeapFigure heapFigure;
     Mephistopheles ai;
-    String game1;
+    String game;
     LinkedList<String> path;
 
 
     public DrawGrid (String strJSON , String game) {
-        game1 = game;
+        this.game = game;
         InitGame initGame = new InitGame(strJSON);
 
         if (game.equals("UserParameters")){
@@ -85,9 +86,11 @@ public class DrawGrid {
 
 
     public boolean useBuilder(Canvas canvas, String movement) {
+
+        if (game.equals("AiParameters") && path != null) movement = path.poll();
+
         int[] array = new int[12];
             switch (movement) {
-
                 case "COUNTER_CLCK":
                     controller.rotationCounterClockwise(hexagonalGrid);
                     break;
@@ -148,9 +151,11 @@ public class DrawGrid {
             //TODO: в этом месте второй параметр должен менятся в случае если игра закончилась И есть еще переметры сиды
             heapFigure.getFigure(gWidth, 0);
 
-            if (game1.equals("AiParameters")){
+            if (game.equals("AiParameters")){
             ai = new Mephistopheles(hexagonalGrid, hexagonalGridCalculator);
-            //path = ai.startSearch();
+            path = ai.startSearch(hexagonalGrid.getHexagonStorage());
+                for(String s : path)
+                Log.d("AiParameters",s);
             }
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())

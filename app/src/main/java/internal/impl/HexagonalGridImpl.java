@@ -27,7 +27,7 @@ public class HexagonalGridImpl implements HexagonalGrid {
     private final GridData gridData;
     public ArrayList<AxialCoordinate>  hexagonStorage;
     private final Set<AxialCoordinate> coordinates;
-    private SparseArray <ArrayList<Integer>> lockedHexagons = new SparseArray<ArrayList<Integer>> ();
+    private SparseArray <ArrayList<Integer>> lockedHexagons = new SparseArray<> ();
     private int width ;
     private int height;
 

@@ -66,6 +66,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.bttnTutorial:
                 intent = new Intent(this, ChoiceOfProblems.class);
+                intent.putExtra("Player", "AI");
                 startActivity(intent);
                 break;
 

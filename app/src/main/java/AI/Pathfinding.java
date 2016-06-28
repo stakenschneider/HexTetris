@@ -147,12 +147,12 @@ public class Pathfinding {
             path.addFirst(figure.movement);
             figure = figure.mother;
         } while (figure.mother != null);
+//        Log.d("dsa", Integer.toString(path.size()));
         return path;
     }
 
 
     private LinkedList<String> checkFigure(ComplexFigure figure){    // Рассмотрение ячейки из открытого списка с наименьшим f и добавлением ее в закрытый список
-        Log.d("dsa", Integer.toString(figure.h));
         LinkedList<ComplexFigure> neighborFigures = new LinkedList<>();
         ComplexFigure figureDownRight = moveDownRight(figure);
         ComplexFigure figureDownLeft = moveDownLeft(figure);
@@ -200,7 +200,7 @@ public class Pathfinding {
 
 
     private ComplexFigure moveDownRight(ComplexFigure figure) {
-        List<Unit> units = new ArrayList<Unit>();
+        List<Unit> units = new ArrayList<>();
         for (Unit unit : figure.units) {
             if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX(),unit.hexagon.getGridZ() + 1)))
                 return null;
