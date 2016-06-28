@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import api.AxialCoordinate;
-import api.Hexagon;
 import api.HexagonalGrid;
 import api.HexagonalGridCalculator;
 import java.util.Comparator;

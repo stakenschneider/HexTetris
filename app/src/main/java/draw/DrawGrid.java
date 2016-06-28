@@ -77,10 +77,6 @@ public class DrawGrid {
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
         heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
 
-        hexagonalGrid.getHexagonStorage().add(fromCoordinates(1, 0));
-        hexagonalGrid.getHexagonStorage().add(fromCoordinates(2, 0));
-        hexagonalGrid.getLockedHexagons().get(6).add(4);
-
     }
 
 
@@ -156,7 +152,7 @@ public class DrawGrid {
             if (hexagonalGrid.containsAxialCoordinate(axialCoordinate)) {
                 if (first == 0) {
                     drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#F0F0F0", Style.STROKE);
-                    first = 1; // гений простоты и фэйспал для кода // Ето великалепно!!!!
+                    first = 1;
                 }
                 else  drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
             }
