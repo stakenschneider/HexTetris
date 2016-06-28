@@ -1,14 +1,7 @@
 package JSON;
 
 import org.json.*;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-
 import api.CoordinateConverter;
 
 public class InitGame
@@ -22,12 +15,6 @@ public class InitGame
 
     public InitGame(String strJson)
     {
-        //TODO: разобраться с демонами в путях
-//        try {
-//            textFromFile = read(strJson);
-//            Log.d("piska ",textFromFile);
-//        }catch (FileNotFoundException ex){          Log.d("piska ","ne rabochia");}
-
         try {
             JSONObject jsonRootObject = new JSONObject(strJson);
 
@@ -67,48 +54,10 @@ public class InitGame
                 }
             }
 
-            for(int fillIter = 0; fillIter < quantityFilled; fillIter+=2)
-            {
-                JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(fillIter);
-                filled[fillIter] = jsonFilledCell.getInt("x");
-                filled[fillIter+1] = jsonFilledCell.getInt("y");
-            }
 
             this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
         } catch (JSONException e) {}
 
     }
-
-
-//    public static String read(String fileName) throws FileNotFoundException {
-//
-//        StringBuilder sb = new StringBuilder();
-//        File file = new File(fileName+"/problem_0.txt");
-//        exists(fileName);
-//
-//        try {
-//            BufferedReader in = new BufferedReader(new FileReader( file.getAbsoluteFile()));
-//            try {
-//                String s;
-//                while ((s = in.readLine()) != null) {
-//                    sb.append(s);
-//                    sb.append("\n");
-//                }
-//            } finally {
-//                in.close();
-//            }
-//        } catch(IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return sb.toString();
-//    }
-//
-//    private static void exists(String fileName) throws FileNotFoundException {
-//        File file = new File(fileName+"/problem_0.txt");
-//        if (!file.exists()){
-//            throw new FileNotFoundException(file.getName());
-//        }
-//    }
 
 }

@@ -19,7 +19,7 @@ public class HeapFigure {
     private final HexagonalGrid hexagonalGrid;
     private final InitGame initGame;
     int step = 0;
-    private int ii;
+    private int ii = 0;
 
 
     public HeapFigure(HexagonalGrid hexagonalGrid , int amountUnits , String str) {
@@ -58,6 +58,7 @@ public class HeapFigure {
     public void getFigure(int gridW , int sourceQ) {
         ii++;
         makePRS(initGame.sourceLength , initGame.sourceSeeds[sourceQ] , BigInteger.valueOf(initGame.quantityHexOfUnit.length));
+        //TODO:  исправлять java.lang.IndexOutOfBoundsException: Invalid index 3, size is 1
         ArrayList <Hexagon> newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
         Iterator<Hexagon> iterator = newFigure.iterator();
         Figure figureCoordinate = new Figure(newFigure);

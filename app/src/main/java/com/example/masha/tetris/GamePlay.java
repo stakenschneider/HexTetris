@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,16 +15,14 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static api.AxialCoordinate.fromCoordinates;
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Settings.strpack;
 
 import AI.Mephistopheles;
-import AI.Pathfinding;
 import api.AxialCoordinate;
-import api.Hexagon;
 import draw.DrawGrid;
-import static api.AxialCoordinate.fromCoordinates;
 
 
 public class GamePlay extends AppCompatActivity {
@@ -34,8 +31,8 @@ public class GamePlay extends AppCompatActivity {
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
-    public static Handler h;  //ЭТО НЕ ДОЛЖНО БЫТЬ static ТИМУУУР
-    private boolean over = false;
+    public static Handler h;  //TODO: ЭТО НЕ ДОЛЖНО БЫТЬ static ТИМУУУР
+    protected boolean over = false;
     LinkedList<String> path;
 
 
@@ -49,16 +46,12 @@ public class GamePlay extends AppCompatActivity {
         setContentView(relLayout, relLayoutParam);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         intent = getIntent();
+
         if (intent.getStringExtra("Player").equals("User"))
             d = new DrawGrid(strpack , "UserParameters");
-        String strJson = intent.getStringExtra("JSON");
-        d = new DrawGrid(strJson, "AiParameters");
-        ArrayList <AxialCoordinate> start = new ArrayList<AxialCoordinate>();
-        start.add(fromCoordinates(1, 0));
-        start.add(fromCoordinates(2, 0));
-        Mephistopheles ai = new Mephistopheles(d.hexagonalGrid, d.hexagonalGridCalculator);
-        path = ai.startSearch(start);
-        for (String s : path) Log.d("a",s);
+        else
+            d = new DrawGrid(intent.getStringExtra("JSON"), "AiParameters");
+
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
         view_3 = new CanvasView(this, "LOCKED");
@@ -79,16 +72,15 @@ public class GamePlay extends AppCompatActivity {
         };
 
 
-        // Потом листнер стоит оставить только для игры с пользователем
-        // if (intent.getStringExtra("Player").equals("User"))
-        view.setOnTouchListener( (final View v, final MotionEvent event) -> {
+        if (intent.getStringExtra("Player").equals("User")){
+            view.setOnTouchListener( (final View v, final MotionEvent event) -> {
                 x = event.getX();
                 y = event.getY();
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (y > (scrh / 1.5) && x < scrw / 2) {
-                            view.setMovement(path.pollFirst());
+                            view.setMovement("DOWN_LEFT");
                             view.invalidate();
                             return false;
                         }
@@ -118,7 +110,6 @@ public class GamePlay extends AppCompatActivity {
                         }
 
                         if (y < (scrh / 5) && x < scrw / 2) {
-
                             view.setMovement("COUNTER_CLCK");
                             view.invalidate();
                             return false;
@@ -126,12 +117,36 @@ public class GamePlay extends AppCompatActivity {
                         break;
                 }
                 return true;
+            });}
+
+
+
+        //TODO: что-нибудь типа: добавить таймер на фигуру, что бы ИИ работало без прикасаний а интервалом в секунду
+        //TODO: забыть о таймере
+        if (intent.getStringExtra("Player").equals("AiParameters"))
+            view.setOnTouchListener((final View v, final MotionEvent event) -> {
+
+                //по-сути эту письку ->
+
+               /* ArrayList<AxialCoordinate> start = new ArrayList<>();
+                start.add(fromCoordinates(1, 0));
+                start.add(fromCoordinates(2, 0));*/ //можно заменить вызовом heapfig для получения координат
+
+                Mephistopheles ai = new Mephistopheles(d.hexagonalGrid, d.hexagonalGridCalculator);
+                //path = ai.startSearch(start);
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.setMovement(path.pollFirst());
+                    view.invalidate();
+                    return false;
+                } return true;
             });
     }
 
 
     class CanvasView extends View {
         String movement;
+
         public CanvasView(Context context, String movement) {
             super(context);
             this.movement = movement;
@@ -139,11 +154,10 @@ public class GamePlay extends AppCompatActivity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-             over = d.useBuilder(canvas, movement);
-            if (over)
-                gameOver();
-
+            over = d.useBuilder(canvas, movement);
+            if (over) gameOver();
         }
+
         public void setMovement (String movement)
         {
             this.movement = movement;
