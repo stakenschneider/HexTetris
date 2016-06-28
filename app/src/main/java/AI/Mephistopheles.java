@@ -1,6 +1,5 @@
 package AI;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class Mephistopheles {
             neighbours = 0;
             rows = 0;
             depth = 0;
-            this.coordinates = new ArrayList<AxialCoordinate>();
+            this.coordinates = new ArrayList<>();
             for (AxialCoordinate coordinate:coordinates)
                try {
                    this.coordinates.add(coordinate.clone());
@@ -133,7 +132,7 @@ public class Mephistopheles {
 
      public LinkedList<String> startSearch(ArrayList<AxialCoordinate> hexs)
      {
-         ArrayList<AxialCoordinate> start = new ArrayList<AxialCoordinate>();
+         ArrayList<AxialCoordinate> start = new ArrayList<>();
          for (AxialCoordinate coordinate:hexs)
          try {
              start.add(coordinate.clone());

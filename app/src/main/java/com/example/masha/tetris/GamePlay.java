@@ -132,8 +132,6 @@ public class GamePlay extends AppCompatActivity {
                 start.add(fromCoordinates(1, 0));
                 start.add(fromCoordinates(2, 0));*/ //можно заменить вызовом heapfig для получения координат
 
-                Mephistopheles ai = new Mephistopheles(d.hexagonalGrid, d.hexagonalGridCalculator);
-                //path = ai.startSearch(start);
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     view.setMovement(path.pollFirst());

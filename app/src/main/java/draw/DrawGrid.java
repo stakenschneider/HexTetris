@@ -6,11 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
 
+import AI.Mephistopheles;
 import JSON.InitGame;
 import wrrrrrm.Controller;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
@@ -32,7 +34,6 @@ import static api.AxialCoordinate.fromCoordinates;
 import static com.example.masha.tetris.Settings.height;
 import static com.example.masha.tetris.Settings.width;
 
-
 public class DrawGrid {
 
     public HexagonalGridCalculator hexagonalGridCalculator;
@@ -43,9 +44,13 @@ public class DrawGrid {
     public static int point;
     int gWidth = 0 , gHeight = 0;
     private HeapFigure heapFigure;
+    Mephistopheles ai;
+    String game1;
+    LinkedList<String> path;
+
 
     public DrawGrid (String strJSON , String game) {
-
+        game1 = game;
         InitGame initGame = new InitGame(strJSON);
 
         if (game.equals("UserParameters")){
@@ -76,7 +81,6 @@ public class DrawGrid {
 
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
         heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
-
     }
 
 
@@ -140,8 +144,15 @@ public class DrawGrid {
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
+
             //TODO: в этом месте второй параметр должен менятся в случае если игра закончилась И есть еще переметры сиды
-            heapFigure.getFigure(gWidth , 0);
+            heapFigure.getFigure(gWidth, 0);
+
+            if (game1.equals("AiParameters")){
+            ai = new Mephistopheles(hexagonalGrid, hexagonalGridCalculator);
+            //path = ai.startSearch();
+            }
+
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
             if (hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).contains(axialCoordinate.getGridX())) //условие выхода из игр
             return true;
