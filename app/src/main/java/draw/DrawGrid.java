@@ -87,8 +87,7 @@ public class DrawGrid {
 
     public boolean useBuilder(Canvas canvas, String movement) {
 
-        if (game.equals("AiParameters") && path != null) movement = path.poll();
-
+        if (game.equals("AiParameters") && path != null&&movement!="GAME"&&movement!="LOCKED"&&movement!="START") movement = path.poll();
         int[] array = new int[12];
             switch (movement) {
                 case "COUNTER_CLCK":
@@ -152,10 +151,8 @@ public class DrawGrid {
             heapFigure.getFigure(gWidth, 0);
 
             if (game.equals("AiParameters")){
-            ai = new Mephistopheles(hexagonalGrid, hexagonalGridCalculator);
-            path = ai.startSearch(hexagonalGrid.getHexagonStorage());
-                for(String s : path)
-                Log.d("AiParameters",s);
+                ai = new Mephistopheles(hexagonalGrid, hexagonalGridCalculator);
+                path = ai.startSearch(hexagonalGrid.getHexagonStorage());
             }
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
@@ -173,6 +170,9 @@ public class DrawGrid {
                 else  drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
             }
         else first = 1;
+
+        hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
+                drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
 
         return false;
     }
