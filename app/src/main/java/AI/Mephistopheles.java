@@ -1,6 +1,5 @@
 package AI;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -33,7 +32,9 @@ public class Mephistopheles {
         {
             ArrayList<AxialCoordinate> firstState = new ArrayList<AxialCoordinate>();
             for (AxialCoordinate coordinate:hexs)
-                firstState.add(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ())); //Скопировали массив
+            try {
+                firstState.add(coordinate.clone());
+            } catch (CloneNotSupportedException e) {}
 
             //Взяли координаты точки поворота
             int x = firstState.get(0).getGridX(), z = firstState.get(0).getGridZ()  , y = - x - z;
@@ -70,7 +71,9 @@ public class Mephistopheles {
             depth = 0;
             this.coordinates = new ArrayList<AxialCoordinate>();
             for (AxialCoordinate coordinate:coordinates)
-                this.coordinates.add(fromCoordinates(coordinate.getGridX(),coordinate.getGridZ()));
+               try {
+                   this.coordinates.add(coordinate.clone());
+               } catch (CloneNotSupportedException e) {}
 
             int dx = first.getGridX() - this.coordinates.get(0).getGridX();
             int dz = first.getGridZ() - this.coordinates.get(0).getGridZ();
@@ -137,8 +140,9 @@ public class Mephistopheles {
      {
          ArrayList<AxialCoordinate> start = new ArrayList<AxialCoordinate>();
          for (AxialCoordinate coordinate:hexs)
-             // TODO Проверить, действительно ли здесь происходит копирование элементов, а не ссылок. Если это не так, то все очень плохо
-         start.add(fromCoordinates(coordinate.getGridX(),coordinate.getGridZ()));  // Нужен копия массива поступивших хексов, но не ссылка на поступивший. (значения в массиве hexs меняться не должны)
+         try {
+             start.add(coordinate.clone());
+         } catch (CloneNotSupportedException e) {}
 
          ComplexFigure figure = new ComplexFigure(start);
 
@@ -151,7 +155,6 @@ public class Mephistopheles {
              Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, start, positions.poll().coordinates, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
              path = pathfinding.findPath();
          }
-
          return path;
      }
 
