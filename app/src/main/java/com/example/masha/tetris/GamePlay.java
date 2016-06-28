@@ -110,7 +110,6 @@ public class GamePlay extends AppCompatActivity {
                         }
 
                         if (y < (scrh / 5) && x < scrw / 2) {
-
                             view.setMovement("COUNTER_CLCK");
                             view.invalidate();
                             return false;
@@ -121,19 +120,20 @@ public class GamePlay extends AppCompatActivity {
             });}
 
 
-        //в случае ИИ пока что фигура будет совершать действие на касание до экрана
+
         //TODO: что-нибудь типа: добавить таймер на фигуру, что бы ИИ работало без прикасаний а интервалом в секунду
-        //на самом деле идея мерзкая и противная
+        //TODO: забыть о таймере
         if (intent.getStringExtra("Player").equals("AiParameters"))
             view.setOnTouchListener((final View v, final MotionEvent event) -> {
 
-                //ну это писька-остыд
-                ArrayList<AxialCoordinate> start = new ArrayList<>();
+                //по-сути эту письку ->
+
+               /* ArrayList<AxialCoordinate> start = new ArrayList<>();
                 start.add(fromCoordinates(1, 0));
-                start.add(fromCoordinates(2, 0));
+                start.add(fromCoordinates(2, 0));*/ //можно заменить вызовом heapfig для получения координат
 
                 Mephistopheles ai = new Mephistopheles(d.hexagonalGrid, d.hexagonalGridCalculator);
-                path = ai.startSearch(start);
+                //path = ai.startSearch(start);
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     view.setMovement(path.pollFirst());

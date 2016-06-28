@@ -17,7 +17,45 @@ import static api.AxialCoordinate.fromCoordinates;
 
 public class Mephistopheles {
 
-    private class ComplexFigure{   // класс для работы с фигурой для которой ищем наилучшую позицию
+    public SparseArray<ArrayList<Integer>> lockedHexagons;
+    public  HexagonalGrid hexagonalGrid;
+    protected Comparator<Position> comparator = (Position pos1, Position pos2) -> (pos2.priority - pos1.priority); // Компаратор для сортировки позиций по их приоритету (по убыванию)
+    private Queue<Position> positions; // позиции размещенные по убыванию
+    HexagonalGridCalculator calculator;
+    LinkedList<String> path;           // Возвращаемый путь для Controller
+
+
+    public Mephistopheles(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator) {
+        this.hexagonalGrid = hexagonalGrid;
+        this.lockedHexagons = hexagonalGrid.getLockedHexagons();
+        positions =  new PriorityQueue<>(20, comparator);
+        this.calculator = calculator;
+    }
+
+    public LinkedList<String> startSearch(ArrayList<AxialCoordinate> hexs) {
+        ArrayList<AxialCoordinate> start = new ArrayList<>();
+        for (AxialCoordinate coordinate:hexs)
+            // TODO Проверить, действительно ли здесь происходит копирование элементов, а не ссылок. Если это не так, то все очень плохо
+            start.add(fromCoordinates(coordinate.getGridX(),coordinate.getGridZ()));  // Нужен копия массива поступивших хексов, но не ссылка на поступивший. (значения в массиве hexs меняться не должны)
+
+//        ComplexFigure figure = new ComplexFigure(start);
+
+        //Здесь должен быть сам цикл поиска лучшей фигуры
+
+        // Так как позиции расположены с самой лучшей, то берем первую и пытаемся проложить путь, если не получилось, то берем следующую и повторяем
+        AxialCoordinate pivot = fromCoordinates(start.get(0).getGridX(),start.get(0).getGridZ());
+        start.remove(0);
+        while (path == null) {
+            //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
+            Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, start, positions.poll().coordinates, pivot);
+            path = pathfinding.findPath();
+        }
+        return path;
+    }
+
+
+
+    private class ComplexFigure{
         ArrayList<ArrayList<AxialCoordinate>> states; //6 положений
 
         public ComplexFigure(ArrayList<AxialCoordinate> hexs) {
@@ -25,8 +63,7 @@ public class Mephistopheles {
             makeStates(hexs);
         }
 
-        private void makeStates(ArrayList<AxialCoordinate> hexs)  // создаем 6 положений фигуры
-        {
+        private void makeStates(ArrayList<AxialCoordinate> hexs){  // создаем 6 положений фигуры
             ArrayList<AxialCoordinate> firstState = new ArrayList<>();
             for (AxialCoordinate coordinate:hexs)
                 firstState.add(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ())); //Скопировали массив
@@ -36,36 +73,36 @@ public class Mephistopheles {
 
             firstState.remove(0);  // убрал точку поворота, так как она больше уже не нужна
             states.add(firstState);
-            for (int i = 0; i<4; i++)  // Делаю поворот
-            {
+            for (int i = 0; i<4; i++){  // Делаю поворот
                 ArrayList<AxialCoordinate> newState = new ArrayList<>(clockwise(states.get(i), x, z, y));
                 states.add(newState);
             }
         }
 
         //Поворот
-        private ArrayList<AxialCoordinate> clockwise(ArrayList<AxialCoordinate> state, int x, int z , int y){
+        private ArrayList<AxialCoordinate> clockwise(ArrayList<AxialCoordinate> state, int x, int z, int y){
             ArrayList<AxialCoordinate> newState = state;
-            for (int i = 0; i<state.size(); i++){
+            for (int i = 0; i < state.size(); i++)
                 newState.get(i).setCoordinate(-(state.get(i).getGridZ() - z) + x, -(-state.get(i).getGridX() - state.get(i).getGridZ() - y) + z);
-            }
+
             return newState;
         }
     }
+
+
     private class Position {  // класс для выбранных позиций
         int neighbours; // очки за соседей
         int depth;      // очки за глубину
         int rows;       // очки за уничтожение рядов
         int priority;
         ArrayList<AxialCoordinate> coordinates;
-        private Position(ArrayList<AxialCoordinate> coordinates, AxialCoordinate first)
-        {
+        private Position(ArrayList<AxialCoordinate> coordinates, AxialCoordinate first) {
             // первая координата ставится на координату first, а остальные переносятся за ней.
             neighbours = 0;
             rows = 0;
             depth = 0;
             this.coordinates = new ArrayList<>();
-            for (AxialCoordinate coordinate:coordinates)
+            for (AxialCoordinate coordinate : coordinates)
                 this.coordinates.add(fromCoordinates(coordinate.getGridX(),coordinate.getGridZ()));
 
             int dx = first.getGridX() - this.coordinates.get(0).getGridX();
@@ -78,80 +115,37 @@ public class Mephistopheles {
         }
 
 
-        private void makePriority() {
-            for (int i = 0; i < this.coordinates.size(); i++)
-            {
-                if (depth<=this.coordinates.get(i).getGridZ()) depth = this.coordinates.get(i).getGridZ(); // Ищем, где фигура касается наиболее "глубокого" ряда
-                if (lockedHexagons.get(this.coordinates.get(i).getGridZ())!=null&&lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX()+1)) // Если есть сосед справа у одного из хексов то добавляем очко
+        private int makePriority() {
+            for (int i = 0; i < this.coordinates.size(); i++) {
+                // Ищем, где фигура касается наиболее "глубокого" ряда
+                if (depth <= this.coordinates.get(i).getGridZ()) depth = this.coordinates.get(i).getGridZ();
+
+                // Если есть сосед справа у одного из хексов то добавляем очко
+                if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null&&lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() + 1))
                     neighbours++;
-                if (lockedHexagons.get(this.coordinates.get(i).getGridZ())!=null&&lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX()-1)) // -//- для левого соседа
+
+                // -//- для левого соседа
+                if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null&&lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() - 1))
                     neighbours++;
-                if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX()-1,this.coordinates.get(i).getGridZ()))
-                        ||!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX()+1,this.coordinates.get(i).getGridZ()))) // если касается одной из стенок, то тоже считаем как соседа
+
+                // если касается одной из стенок, то тоже считаем как соседа
+                if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX()-1,this.coordinates.get(i).getGridZ())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX()+1,this.coordinates.get(i).getGridZ())))
                     neighbours++;
                 // TODO Надо как то добавить счет уничтоженных рядов, но и не изменять lockedHexagons (может тоже стоит созлать копию и работать с ней)
-                priority = depth + neighbours;
+                priority = depth + neighbours +rows;
             }
+            return priority;
         }
 
-        /* Проверка вмещается ли фигура в позицию.
-           Новая позиция рассматривается если у залоченного хекса из lockedHexagons есть свободный правый или левый сосед.
-           Тогда первая координата одного из состояний фигуры (state) занимает это свободное место.
-           В этом методе же проверяется занимают ли остальные хексы свободное место.
-           Если вся фигура влезла, то позиция считается валидной.
-         */
-        private boolean isValid()
-        {
-            for (AxialCoordinate coordinate : coordinates)
-            {
+
+         private boolean isValid(){
+            for (AxialCoordinate coordinate : coordinates){
                 // TODO Сделать проверку того, что фигура залочится при этой позиции
                 //проверка, что ни один хекс фигуры в этой позиции не находится уже на залоченном или вне поля.
-                if (lockedHexagons.get(coordinate.getGridZ()) != null&&(lockedHexagons.get(coordinate.getGridZ()).contains(coordinate.getGridX())||!hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(),coordinate.getGridZ()))))
+                if (lockedHexagons.get(coordinate.getGridZ()) != null&&(lockedHexagons.get(coordinate.getGridZ()).contains(coordinate.getGridX()) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ()))))
                     return false;
             }
             return true;
         }
     }
-
-
-    public SparseArray<ArrayList<Integer>> lockedHexagons;
-    public  HexagonalGrid hexagonalGrid;
-    protected Comparator<Position> comparator = (Position pos1, Position pos2) -> (pos2.priority - pos1.priority); // Компаратор для сортировки позиций по их приоритету (по убыванию)
-    private Queue<Position> positions; // позиции размещенные по убыванию
-    HexagonalGridCalculator calculator;
-    LinkedList<String> path; // Возвращаемый путь для Controller
-
-
-    public Mephistopheles(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator) {
-        this.hexagonalGrid = hexagonalGrid;
-        this.lockedHexagons = hexagonalGrid.getLockedHexagons();
-        positions =  new PriorityQueue<>(20, comparator);
-        this.calculator = calculator;
-    }
-
-    public LinkedList<String> startSearch(ArrayList<AxialCoordinate> hexs)
-    {
-        ArrayList<AxialCoordinate> start = new ArrayList<>();
-        for (AxialCoordinate coordinate:hexs)
-            // TODO Проверить, действительно ли здесь происходит копирование элементов, а не ссылок. Если это не так, то все очень плохо
-            start.add(fromCoordinates(coordinate.getGridX(),coordinate.getGridZ()));  // Нужен копия массива поступивших хексов, но не ссылка на поступивший. (значения в массиве hexs меняться не должны)
-
-        ComplexFigure figure = new ComplexFigure(start);
-
-        //Здесь должен быть сам цикл поиска лучшей фигуры
-
-        // Так как позиции расположены с самой лучшей, то берем первую и пытаемся проложить путь, если не получилось, то берем следующую и повторяем
-        AxialCoordinate pivot = fromCoordinates(start.get(0).getGridX(),start.get(0).getGridZ());
-        start.remove(0);
-        while (path == null) {
-            Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, start, positions.poll().coordinates, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
-            path = pathfinding.findPath();
-        }
-
-        return path;
-    }
-
-
-
-
 }
