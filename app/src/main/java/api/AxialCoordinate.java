@@ -1,6 +1,6 @@
 package api;
 
-public final class AxialCoordinate  {
+public final class AxialCoordinate implements Cloneable {
 
     private int gridX , gridZ;
 
@@ -21,6 +21,10 @@ public final class AxialCoordinate  {
         if (gridZ != other.gridZ)
             return false;
         return true;
+    }
+
+    public AxialCoordinate clone() throws CloneNotSupportedException {
+        return (AxialCoordinate)super.clone();
     }
 
     @Override
