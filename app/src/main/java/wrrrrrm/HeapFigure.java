@@ -1,5 +1,8 @@
 package wrrrrrm;
 
+import android.text.LoginFilter;
+import android.util.Log;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,9 +60,16 @@ public class HeapFigure {
 
     public void getFigure(int gridW , int sourceQ) {
         ii++;
+
         makePRS(initGame.sourceLength , initGame.sourceSeeds[sourceQ] , BigInteger.valueOf(initGame.quantityHexOfUnit.length));
-        //TODO:  исправлять java.lang.IndexOutOfBoundsException: Invalid index 3, size is 1
-        ArrayList <Hexagon> newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
+//        if (ii > pack.size()) {
+//            ii=0;
+//            newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
+//        } else
+
+        Log.d("PISKKKKK" , "ii="+Integer.toString(ii)+"   pack size="+Integer.toString(pseudoRandSeq.size()));
+
+        ArrayList<Hexagon>  newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
         Iterator<Hexagon> iterator = newFigure.iterator();
         Figure figureCoordinate = new Figure(newFigure);
         hexagonalGrid.getByAxialCoordinate(figureCoordinate.convertToGrid(gridW)).get().setState();

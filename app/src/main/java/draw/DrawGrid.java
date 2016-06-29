@@ -146,7 +146,6 @@ public class DrawGrid {
         }
         if (path.size()==0&&game.equals("AiParameters")) {
             if(hexagonalGrid.getHexagonStorage().size()!=0) hexagonalGrid.getHexagonStorage().remove(0);
-<<<<<<< Updated upstream
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
                 hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).add(axialCoordinate.getGridX());
@@ -168,10 +167,10 @@ public class DrawGrid {
                             hexagonalGrid.getLockedHexagons().put(i, coordinate);
                         }
                 }
-=======
+
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
                 hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).add(axialCoordinate.getGridX());
->>>>>>> Stashed changes
+
             hexagonalGrid.getHexagonStorage().clear();
             Thread t = new Thread(() -> h.sendEmptyMessage(1));
             t.start();

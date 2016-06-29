@@ -152,8 +152,7 @@ public class Mephistopheles {
                     p = true;
                 if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX() - 1))
                         || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX() - 1, coordinate.getGridZ() + 1)))
-                     p = true;
-
+                    p = true;
             }
             return p;
         }
