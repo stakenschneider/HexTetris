@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -42,7 +43,8 @@ public class GamePlay extends AppCompatActivity {
 
         if (intent.getStringExtra("Player").equals("User"))
             d = new DrawGrid(strpack , "UserParameters");
-        else d = new DrawGrid(intent.getStringExtra("JSON"), "AiParameters");
+        else
+            d = new DrawGrid(intent.getStringExtra("JSON"), "AiParameters");
 
         view_2 = new CanvasView(this, "START");
         view = new CanvasView(this, "GAME");
@@ -117,10 +119,10 @@ public class GamePlay extends AppCompatActivity {
         if (intent.getStringExtra("Player").equals("AI")){
             view.setOnTouchListener((final View v, final MotionEvent event) -> {
                 switch (event.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    view.setMovement("DOWN_LEFT");
-                    view.invalidate();
-                    return false;
+                    case MotionEvent.ACTION_DOWN:
+                        view.setMovement("DOWN_LEFT");
+                        view.invalidate();
+                        return false;
                 } return true;
             });}
     }
@@ -133,6 +135,7 @@ public class GamePlay extends AppCompatActivity {
             super(context);
             this.movement = movement;
         }
+
 
 
         @Override
