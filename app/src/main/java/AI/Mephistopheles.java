@@ -92,19 +92,26 @@ public class Mephistopheles {
 
                 // Если есть сосед справа у одного из хексов то добавляем очко
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() + 1))
-                    neighbours++;
+                    neighbours += this.coordinates.get(i).getGridZ();
 
                 // -//- для левого соседа
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() - 1))
-                    neighbours++;
+                    neighbours += this.coordinates.get(i).getGridZ();
+
+                if (lockedHexagons.get(this.coordinates.get(i).getGridZ()+1) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()+1).contains(this.coordinates.get(i).getGridX()))
+                    neighbours += this.coordinates.get(i).getGridZ()+1;
+
+                if (lockedHexagons.get(this.coordinates.get(i).getGridZ()+1) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()+1).contains(this.coordinates.get(i).getGridX()-1))
+                    neighbours += this.coordinates.get(i).getGridZ()+1;
 
                 // -//- для нижнего соседа
-                if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX(), this.coordinates.get(i).getGridZ()+1)))
-                    neighbours++;
+                if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX(), this.coordinates.get(i).getGridZ()+1))||!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX()-1, this.coordinates.get(i).getGridZ()+1)))
+                    neighbours += this.coordinates.get(i).getGridZ()+1;
 
                 // если касается одной из стенок, то тоже считаем как соседа
                 if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() - 1, this.coordinates.get(i).getGridZ())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() + 1, this.coordinates.get(i).getGridZ())))
-                    neighbours++;
+                    neighbours += this.coordinates.get(i).getGridZ();
+
 
                 for (int j = 0; j < coordinates.size(); j++) {
                     int k = 0;
@@ -115,9 +122,9 @@ public class Mephistopheles {
 
                     if (lockedHexagons.get(coordinates.get(j).getGridZ()) != null && lockedHexagons.get(coordinates.get(j).getGridZ()).size() + k
                             == hexagonalGrid.getWidth())
-                        rows += hexagonalGrid.getWidth();
+                        rows += hexagonalGrid.getWidth()*coordinates.get(j).getGridZ();
                 }
-
+                depth = depth *   this.coordinates.size();
                 priority = depth + neighbours + rows;
             }
         }
@@ -128,16 +135,16 @@ public class Mephistopheles {
 
             for (AxialCoordinate coordinate : coordinates) {
                 //проверка, что ни один хекс фигуры в этой позиции не находится уже на залоченном или вне поля.
-                if (lockedHexagons.get(coordinate.getGridZ()) != null && (lockedHexagons.get(coordinate.getGridZ()).contains(coordinate.getGridX())
-                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ())))){
+                if ((lockedHexagons.get(coordinate.getGridZ()) != null && lockedHexagons.get(coordinate.getGridZ()).contains(coordinate.getGridX()))
+                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ()))){
                     return false;
                 }
 
-                if (lockedHexagons.get(coordinate.getGridZ()+1) != null && (lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX())
-                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ() + 1))))
+                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX()))
+                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ() + 1)))
                     p = true;
-                if (lockedHexagons.get(coordinate.getGridZ()+1) != null && (lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX() - 1)
-                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX() - 1, coordinate.getGridZ() + 1))))
+                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX() - 1))
+                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX() - 1, coordinate.getGridZ() + 1)))
                      p = true;
 
             }

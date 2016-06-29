@@ -23,7 +23,7 @@ public class Pathfinding {
     protected Comparator<ComplexFigure> fComparator = (ComplexFigure figure1, ComplexFigure figure2) -> (figure1.f - figure2.f);
     private List<ComplexFigure> closedList;                  // Список обработанных хексов
     private AxialCoordinate pivot;
-    private int max = 50;
+    private int max = 100;
 
     public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<AxialCoordinate> start, ArrayList<AxialCoordinate> destination, AxialCoordinate pivot) {
         this.start = start;
@@ -130,6 +130,9 @@ public class Pathfinding {
 
 
     public LinkedList<String> findPath(){     // Сам цикл поиска
+        for (AxialCoordinate coordinate : destination)
+        if (!hexagonalGrid.containsAxialCoordinate(coordinate))
+            return path;
         ArrayList<Unit> startUnits = new ArrayList<>();
         for (int i = 0; i < start.size(); i++) {
             Unit unit = new Unit(null, start.get(i), i);
@@ -185,7 +188,7 @@ public class Pathfinding {
                 }
             }
         closedList.add(figure);
-        if (closedList.size() == max) return null;
+        if (closedList.size() == max||openList.size()==0) return null;
         return checkFigure(openList.poll());
     }
 
