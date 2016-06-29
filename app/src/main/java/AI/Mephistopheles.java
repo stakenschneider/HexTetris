@@ -1,6 +1,5 @@
 package AI;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -99,6 +98,10 @@ public class Mephistopheles {
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() - 1))
                     neighbours++;
 
+                // -//- для нижнего соседа
+                if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX(), this.coordinates.get(i).getGridZ()+1)))
+                    neighbours++;
+
                 // если касается одной из стенок, то тоже считаем как соседа
                 if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() - 1, this.coordinates.get(i).getGridZ())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() + 1, this.coordinates.get(i).getGridZ())))
                     neighbours++;
@@ -110,10 +113,8 @@ public class Mephistopheles {
                             k++;
                     }
 
-
                     if (lockedHexagons.get(coordinates.get(j).getGridZ()) != null && lockedHexagons.get(coordinates.get(j).getGridZ()).size() + k
                             == hexagonalGrid.getWidth())
-
                         rows += hexagonalGrid.getWidth();
                 }
 
@@ -131,7 +132,6 @@ public class Mephistopheles {
                         || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ())))){
                     return false;
                 }
-
 
                 if (lockedHexagons.get(coordinate.getGridZ()+1) != null && (lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX())
                         || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ() + 1))))
