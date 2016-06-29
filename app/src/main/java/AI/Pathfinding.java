@@ -150,7 +150,7 @@ public class Pathfinding {
             path.addFirst(figure.movement);
             figure = figure.mother;
         } while (figure != null);
-//        Log.d("dsa", Integer.toString(path.size()));
+
         return path;
     }
 
@@ -170,13 +170,13 @@ public class Pathfinding {
         neighborFigures.add(figureClockwise);
         neighborFigures.add(figureCounterClockwise);
 
-        for (int i = 0; i < neighborFigures.size(); i++)
+        for (int i = 0; i < neighborFigures.size(); i++) {
             if (neighborFigures.get(i) != null && checkUnits(neighborFigures.get(i).units)) {
-                ComplexFigure childFigure = new  ComplexFigure(neighborFigures.get(i).units,figure,neighborFigures.get(i).pivot);
+                ComplexFigure childFigure = new ComplexFigure(neighborFigures.get(i).units, figure, neighborFigures.get(i).pivot);
                 childFigure = makeCommand(childFigure, i);
-                if (!openList.contains( childFigure)) {
+                if (!openList.contains(childFigure)) {
                     openList.add(childFigure);
-                    if ( childFigure.h == 0) return makePath(childFigure);
+                    if (childFigure.h == 0) { return makePath(childFigure); }
                 } else {
                     for (ComplexFigure childFigure1 : openList)
                         if (childFigure.equals(childFigure1) && (figure.g < childFigure1.mother.g)) {
@@ -187,6 +187,7 @@ public class Pathfinding {
                         }
                 }
             }
+        }
         closedList.add(figure);
         if (closedList.size() == max||openList.size()==0) return null;
         return checkFigure(openList.poll());
@@ -287,7 +288,7 @@ public class Pathfinding {
                 return null;
             units.add(new Unit(unit,fromCoordinates(unit.hexagon.getGridX()+1, unit.hexagon.getGridZ()), unit.number));
         }
-        return new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()-1,figure.pivot.getGridZ()+1));
+        return new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()+1,figure.pivot.getGridZ()));
     }
 
 

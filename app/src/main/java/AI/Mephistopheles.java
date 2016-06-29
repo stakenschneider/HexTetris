@@ -39,11 +39,9 @@ public class Mephistopheles {
 
             firstState.remove(0);  // убрал точку поворота, так как она больше уже не нужна
             firstState.trimToSize();
-            Log.d("ARD",Integer.toString(firstState.size()));
             states.add(firstState);
             for (int i = 0; i<4; i++){  // Делаю поворот
                 ArrayList<AxialCoordinate> newState = new ArrayList<>(clockwise(states.get(i), x, z, y));
-                Log.d("ARD",Integer.toString(newState.size()));
                 states.add(newState);
             }
         }
