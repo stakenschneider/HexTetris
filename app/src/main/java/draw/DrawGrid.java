@@ -29,6 +29,7 @@ import wrrrrrm.HeapFigure;
 
 import static api.HexagonOrientation.POINTY_TOP;
 import static api.HexagonalGridLayout.RECTANGULAR;
+import static com.example.masha.tetris.GamePlay.h;
 import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Main.scrh;
 import static api.AxialCoordinate.fromCoordinates;
@@ -47,7 +48,7 @@ public class DrawGrid {
     private HeapFigure heapFigure;
     Mephistopheles ai;
     String game;
-    LinkedList<String> path;
+    LinkedList<String> path = new LinkedList<>();
 
 
     public DrawGrid (String strJSON , String game) {
@@ -87,7 +88,7 @@ public class DrawGrid {
 
     public boolean useBuilder(Canvas canvas, String movement) {
 
-        if (game.equals("AiParameters") && path != null) movement = path.poll();
+        if (game.equals("AiParameters") && path != null&&movement!="GAME"&&movement!="LOCKED"&&movement!="START") movement = path.poll();
 
         int[] array = new int[12];
             switch (movement) {
@@ -120,7 +121,6 @@ public class DrawGrid {
 
                 case "START":
                     canvas.drawColor(Color.parseColor("#1B2024"));
-
                     hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
                             drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
                     return false;
@@ -144,6 +144,14 @@ public class DrawGrid {
                     return false;
 
             }
+        if (path.size()==0&&game.equals("AiParameters")) {
+            if(hexagonalGrid.getHexagonStorage().size()!=0) hexagonalGrid.getHexagonStorage().remove(0);
+            for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
+                hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).add(axialCoordinate.getGridX());
+            hexagonalGrid.getHexagonStorage().clear();
+            Thread t = new Thread(() -> h.sendEmptyMessage(1));
+            t.start();
+        }
 
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();

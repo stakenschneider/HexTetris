@@ -120,6 +120,7 @@ public class GamePlay extends AppCompatActivity {
             view.setOnTouchListener((final View v, final MotionEvent event) -> {
                 switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
+                    view.setMovement("DOWN_LEFT");
                     view.invalidate();
                     return false;
                 } return true;

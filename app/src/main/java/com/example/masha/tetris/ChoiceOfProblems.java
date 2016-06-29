@@ -46,7 +46,6 @@ public class ChoiceOfProblems extends AppCompatActivity implements View.OnClickL
                 intent = new Intent (this, GamePlay.class);
                 intent.putExtra("JSON" , getResources().getString(R.string.problem_0));
                 intent.putExtra("Player" , "AI");
-                intent.putExtra("Problem" , "1");
                 startActivity(intent);
                 finish();
                 break;
@@ -63,7 +62,6 @@ public class ChoiceOfProblems extends AppCompatActivity implements View.OnClickL
                 intent = new Intent (this, GamePlay.class);
                 intent.putExtra("JSON" , getResources().getString(R.string.problem_2));
                 intent.putExtra("Player" , "AI");
-                intent.putExtra("Problem" , "3");
                 startActivity(intent);
                 finish();
                 break;
