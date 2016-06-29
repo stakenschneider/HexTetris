@@ -1,5 +1,6 @@
 package AI;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -37,19 +38,25 @@ public class Mephistopheles {
             int x = firstState.get(0).getGridX(), z = firstState.get(0).getGridZ()  , y = - x - z;
 
             firstState.remove(0);  // убрал точку поворота, так как она больше уже не нужна
+            firstState.trimToSize();
+            Log.d("ARD",Integer.toString(firstState.size()));
             states.add(firstState);
             for (int i = 0; i<4; i++){  // Делаю поворот
                 ArrayList<AxialCoordinate> newState = new ArrayList<>(clockwise(states.get(i), x, z, y));
+                Log.d("ARD",Integer.toString(newState.size()));
                 states.add(newState);
             }
         }
 
         //Поворот
         private ArrayList<AxialCoordinate> clockwise(ArrayList<AxialCoordinate> state, int x, int z, int y){
-            ArrayList<AxialCoordinate> newState = state;
+            ArrayList<AxialCoordinate> newState = new ArrayList<>();
+            for (AxialCoordinate coordinate:state)
+                try {
+                    newState.add(coordinate.clone());
+                } catch (CloneNotSupportedException e) {}
             for (int i = 0; i < state.size(); i++)
                 newState.get(i).setCoordinate(-(state.get(i).getGridZ() - z) + x, -(-state.get(i).getGridX() - state.get(i).getGridZ() - y) + z);
-
             return newState;
         }
     }

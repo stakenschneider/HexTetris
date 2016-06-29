@@ -53,7 +53,7 @@ public class Pathfinding {
 
         private int hFunc() { // вычисление h
             return calculator.calculateDistanceBetween(hexagonalGrid.getByAxialCoordinate(hexagon).get(),
-                    (hexagonalGrid.getByAxialCoordinate(destination.get(number))).get());
+                    hexagonalGrid.getByAxialCoordinate(destination.get(number)).get());
         }
 
         @Override
@@ -149,7 +149,7 @@ public class Pathfinding {
         do {
             path.addFirst(figure.movement);
             figure = figure.mother;
-        } while (figure.mother != null);
+        } while (figure != null);
 //        Log.d("dsa", Integer.toString(path.size()));
         return path;
     }
