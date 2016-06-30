@@ -118,11 +118,19 @@ public class Mephistopheles {
                     neighbours += this.coordinates.get(i).getGridZ();
 
 
-                for (int j = 0; j < coordinates.size(); j++) {
+                ArrayList<AxialCoordinate> axialCoordinate = new ArrayList<>();
+                for (AxialCoordinate coordinate : coordinates)
+                    try {
+                        axialCoordinate.add(coordinate.clone());
+                    } catch (CloneNotSupportedException e) {
+                    }
+                for (int j = 0; j < axialCoordinate.size(); j++) {
                     int k = 0;
-                    for (AxialCoordinate coordinate : coordinates) {
-                        if (coordinate.getGridZ() == coordinates.get(j).getGridZ())
+                    for (AxialCoordinate coordinate : axialCoordinate) {
+                        if (coordinate.getGridZ() == axialCoordinate.get(j).getGridZ()) {
+                            if (k!=0) ;
                             k++;
+                        }
                     }
 
                     if (lockedHexagons.get(coordinates.get(j).getGridZ()) != null && lockedHexagons.get(coordinates.get(j).getGridZ()).size() + k
