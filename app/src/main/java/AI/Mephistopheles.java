@@ -204,6 +204,8 @@ public class Mephistopheles {
             AxialCoordinate pivot = fromCoordinates(start.get(0).getGridX(), start.get(0).getGridZ());
             start.remove(0);
             while (path == null) {
+                if (positions.size() == 0)
+                    return path;
                 Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, start, positions.poll().coordinates, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
                 path = pathfinding.findPath();
             }

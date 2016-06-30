@@ -1,8 +1,5 @@
 package wrrrrrm;
 
-import android.text.LoginFilter;
-import android.util.Log;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +19,7 @@ public class HeapFigure {
     private final HexagonalGrid hexagonalGrid;
     private final InitGame initGame;
     int step = 0;
-    private int ii = 0;
+    private int ii = -1;
 
 
     public HeapFigure(HexagonalGrid hexagonalGrid , int amountUnits , String str) {
@@ -61,15 +58,13 @@ public class HeapFigure {
     public void getFigure(int gridW , int sourceQ) {
         ii++;
 
-        makePRS(initGame.sourceLength , initGame.sourceSeeds[sourceQ] , BigInteger.valueOf(initGame.quantityHexOfUnit.length));
-//        if (ii > pack.size()) {
-//            ii=0;
-//            newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
-//        } else
+        makePRS(initGame.sourceLength, initGame.sourceSeeds[sourceQ], BigInteger.valueOf(initGame.quantityHexOfUnit.length));
+        ArrayList<Hexagon>  newFigure;
 
-        Log.d("PISKKKKK" , "ii="+Integer.toString(ii)+"   pack size="+Integer.toString(pseudoRandSeq.size()));
+        if (pack.size()==1 || pack.size() <= pseudoRandSeq.get(ii).intValue()) {
+            newFigure = pack.get(pseudoRandSeq.get(0).intValue());
+        } else  newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
 
-        ArrayList<Hexagon>  newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
         Iterator<Hexagon> iterator = newFigure.iterator();
         Figure figureCoordinate = new Figure(newFigure);
         hexagonalGrid.getByAxialCoordinate(figureCoordinate.convertToGrid(gridW)).get().setState();

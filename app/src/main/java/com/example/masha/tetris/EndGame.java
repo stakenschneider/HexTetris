@@ -25,7 +25,7 @@ public class EndGame extends AppCompatActivity implements View.OnClickListener {
         textView.setText(getResources().getString(R.string.score) + point);
 
         findViewById(R.id.bttnMyMenu).setOnClickListener(this);
-        findViewById(R.id.bttnRetry).setOnClickListener(this);
+        //findViewById(R.id.bttnRetry).setOnClickListener(this);
 
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -38,11 +38,11 @@ public class EndGame extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bttnRetry:
-                finish();
-                intent = new Intent (this, GamePlay.class);
-                startActivity(intent);
-                break;
+//            case R.id.bttnRetry:
+//                finish();
+//                intent = new Intent (this, GamePlay.class);
+//                startActivity(intent);
+//                break;
 
             case R.id.bttnMyMenu:
                 finish();

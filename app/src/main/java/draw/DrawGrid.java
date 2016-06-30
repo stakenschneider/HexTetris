@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
-import android.util.Log;
 
 import AI.Mephistopheles;
 import JSON.InitGame;
@@ -15,6 +14,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
 import api.Hexagon;
@@ -49,6 +49,7 @@ public class DrawGrid {
     Mephistopheles ai;
     String game;
     LinkedList<String> path = new LinkedList<>();
+
 
 
     public DrawGrid (String strJSON , String game) {
@@ -101,11 +102,13 @@ public class DrawGrid {
                 break;
 
             case "DOWN_RIGHT":
-                point = controller.moveDownRight(hexagonalGrid);
+                if (game.equals("UserParameters"))
+                point = controller.moveDownRight(hexagonalGrid); else controller.moveDownRight(hexagonalGrid);
                 break;
 
             case "DOWN_LEFT":
-                point = controller.moveDownLeft(hexagonalGrid);
+                if (game.equals("UserParameters"))
+                point = controller.moveDownLeft(hexagonalGrid); else controller.moveDownLeft(hexagonalGrid);
                 break;
 
             case "RIGHT":
@@ -144,7 +147,7 @@ public class DrawGrid {
                 return false;
 
         }
-        if (path.size()==0&&game.equals("AiParameters")) {
+        if (path != null && path.size()==0&&game.equals("AiParameters")) {
             if(hexagonalGrid.getHexagonStorage().size()!=0) hexagonalGrid.getHexagonStorage().remove(0);
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
@@ -167,10 +170,6 @@ public class DrawGrid {
                             hexagonalGrid.getLockedHexagons().put(i, coordinate);
                         }
                 }
-
-            for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())
-                hexagonalGrid.getLockedHexagons().get(axialCoordinate.getGridZ()).add(axialCoordinate.getGridX());
-
             hexagonalGrid.getHexagonStorage().clear();
             Thread t = new Thread(() -> h.sendEmptyMessage(1));
             t.start();
@@ -185,8 +184,8 @@ public class DrawGrid {
             if (game.equals("AiParameters")){
                 ai = new Mephistopheles(hexagonalGrid, hexagonalGridCalculator);
                 path = ai.startSearch(hexagonalGrid.getHexagonStorage());
-                for(String s : path)
-                    Log.d("AiParameters",s);
+                if (path==null)
+                    return true;
             }
 
             for (AxialCoordinate axialCoordinate : hexagonalGrid.getHexagonStorage())

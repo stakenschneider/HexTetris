@@ -38,8 +38,8 @@ public class Pathfinding {
 
     private class Unit {
         final AxialCoordinate hexagon;      // рассматриваемый хекс
-        Unit mother;  // ссылка на предыдущую ячейку в кратчайшем пути из ячеек от стартовой к этой
-        final int h;         // Цена пути от этой ячейки к целевой (путь берется как прямая)
+        Unit mother;                       // ссылка на предыдущую ячейку в кратчайшем пути из ячеек от стартовой к этой
+        final int h;                       // Цена пути от этой ячейки к целевой (путь берется как прямая)
         int number;           // Номер юнита в фигуре
 
 
@@ -284,7 +284,7 @@ public class Pathfinding {
         for (Unit unit : figure.units) {
             if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX()+1,unit.hexagon.getGridZ())))
                 return null;
-            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX()))
+            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX()+1))
                 return null;
             units.add(new Unit(unit,fromCoordinates(unit.hexagon.getGridX()+1, unit.hexagon.getGridZ()), unit.number));
         }

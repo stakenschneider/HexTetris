@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/game_over"
+        android:text="win"
         android:id="@+id/textView6"
         android:textColor="@color/yell"
         android:foregroundGravity="center_horizontal"
@@ -44,16 +44,6 @@
         android:background="@color/darkGreen"
         android:textColor="@color/yell"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/retry"
-        android:id="@+id/bttnRetry"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:layout_above="@+id/bttnMyMenu"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

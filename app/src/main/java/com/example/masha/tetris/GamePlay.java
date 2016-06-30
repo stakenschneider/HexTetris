@@ -5,13 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.os.Handler;
 import android.widget.RelativeLayout;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.masha.tetris.Main.scrh;
 import static com.example.masha.tetris.Main.scrw;
@@ -26,12 +28,18 @@ public class GamePlay extends AppCompatActivity {
     CanvasView view , view_2, view_3;
     float x  , y;
     Intent intent;
-    public static Handler h;  //TODO: ЭТО НЕ ДОЛЖНО БЫТЬ static ТИМУУУР
+    public static Handler h;  //TODO: ЭТО НЕ ДОЛЖНО БЫТЬ static
     protected boolean over = false;
+    private Timer mTimer;
+    private MyTimerTask mMyTimerTask;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mTimer = new Timer();
+        mMyTimerTask = new MyTimerTask();
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -114,17 +122,26 @@ public class GamePlay extends AppCompatActivity {
             });}
 
 
-
-        //TODO: что-нибудь типа: добавить таймер на фигуру, что бы ИИ работало без прикасаний а интервалом в секунду
         if (intent.getStringExtra("Player").equals("AI")){
-            view.setOnTouchListener((final View v, final MotionEvent event) -> {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        view.setMovement("DOWN_LEFT");
-                        view.invalidate();
-                        return false;
-                } return true;
-            });}
+            mTimer.schedule(mMyTimerTask, 1000, 100);
+
+            }
+    }
+
+
+    class MyTimerTask extends TimerTask {
+        @Override
+        public void run() {
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    view.setMovement("DOWN_LEFT");
+                    view.invalidate();
+                }
+            });
+        }
+
     }
 
 
@@ -135,7 +152,6 @@ public class GamePlay extends AppCompatActivity {
             super(context);
             this.movement = movement;
         }
-
 
 
         @Override
