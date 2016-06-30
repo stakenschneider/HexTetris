@@ -22,7 +22,7 @@ public class Figure {
     }
 
     protected int quantity , maxCol = -1, dx , dy;
-    ArrayList <Hexagon> Hexagons;
+    private ArrayList <Hexagon> Hexagons;
 
     public Figure(ArrayList<Hexagon> hex) {
         Hexagons = hex;

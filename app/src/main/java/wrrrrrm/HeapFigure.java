@@ -61,6 +61,7 @@ public class HeapFigure {
         makePRS(initGame.sourceLength, initGame.sourceSeeds[sourceQ], BigInteger.valueOf(initGame.quantityHexOfUnit.length));
         ArrayList<Hexagon>  newFigure;
 
+        //TODO: жесть
         if (pack.size()==1 || pack.size() <= pseudoRandSeq.get(ii).intValue()) {
             newFigure = pack.get(pseudoRandSeq.get(0).intValue());
         } else  newFigure = pack.get(pseudoRandSeq.get(ii).intValue());

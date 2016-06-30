@@ -1,6 +1,5 @@
 package wrrrrrm;
 
-import android.util.Log;
 import android.util.SparseArray;
 import java.util.ArrayList;
 
@@ -156,7 +155,6 @@ public class Controller {
     private void checkRow(HexagonalGrid hexagonalGrid) {
         for (int j = 1; j<dataMap.size(); j++)
             if (lockedHexagons.get(dataMap.get(j).getGridZ()).size() == hexagonalGrid.getWidth()) {
-                Log.d("NEEEET","nooo");
                 point= hexagonalGrid.getWidth()+point;
                 lockedHexagons.get(dataMap.get(j).getGridZ()).clear();
                 lockedHexagons.get(dataMap.get(j).getGridZ()).trimToSize();

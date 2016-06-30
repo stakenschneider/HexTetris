@@ -36,6 +36,7 @@ import static api.AxialCoordinate.fromCoordinates;
 import static com.example.masha.tetris.Settings.height;
 import static com.example.masha.tetris.Settings.width;
 
+//TODO: добавить условие выигрыша + след игра по сидам + filled на открытии
 public class DrawGrid {
 
     public HexagonalGridCalculator hexagonalGridCalculator;
@@ -49,7 +50,6 @@ public class DrawGrid {
     Mephistopheles ai;
     String game;
     LinkedList<String> path = new LinkedList<>();
-
 
 
     public DrawGrid (String strJSON , String game) {

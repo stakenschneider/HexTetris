@@ -1,7 +1,6 @@
 package com.example.masha.tetris;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import static com.example.masha.tetris.Main.dbHelper;
 
 public class EndGame extends AppCompatActivity implements View.OnClickListener {
 
-    Intent intent;
     TextView textView;
 
     @Override
@@ -34,6 +32,7 @@ public class EndGame extends AppCompatActivity implements View.OnClickListener {
         db.insert("mytable", null, cv);
     }
 
+    //TODO: выход с выигрышем и проигрышем
 
     @Override
     public void onClick(View v) {

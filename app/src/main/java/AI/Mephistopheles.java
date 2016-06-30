@@ -1,6 +1,5 @@
 package AI;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -18,6 +17,60 @@ import static api.AxialCoordinate.fromCoordinates;
 
 
 public class Mephistopheles {
+    public SparseArray<ArrayList<Integer>> lockedHexagons;
+    public HexagonalGrid hexagonalGrid;
+    protected Comparator<Position> comparator = (Position pos1, Position pos2) -> (pos2.priority - pos1.priority); // Компаратор для сортировки позиций по их приоритету (по убыванию)
+    private Queue<Position> positions; // позиции размещенные по убыванию
+    HexagonalGridCalculator calculator;
+    LinkedList<String> path; // Возвращаемый путь для Controller
+
+
+    public Mephistopheles(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator) {
+        this.hexagonalGrid = hexagonalGrid;
+        this.lockedHexagons = hexagonalGrid.getLockedHexagons();
+        positions = new PriorityQueue<>(20, comparator);
+        this.calculator = calculator;
+    }
+
+    public LinkedList<String> startSearch(ArrayList<AxialCoordinate> hexs) {
+
+        ArrayList<AxialCoordinate> start = new ArrayList<>();
+        for (AxialCoordinate coordinate : hexs)
+            try {
+                start.add(coordinate.clone());
+            } catch (CloneNotSupportedException e) {}
+
+        ComplexFigure figure = new ComplexFigure(start);
+
+        ArrayList<AxialCoordinate> axialCoordinates = new ArrayList<>();
+        hexagonalGrid.getHexagons().forEach((Hexagon hexagon) -> axialCoordinates.add(hexagon.getAxialCoordinate()));
+
+        for (AxialCoordinate coordinate : axialCoordinates) {
+            for (ArrayList<AxialCoordinate> state : figure.states) {
+                Position position = new Position(state, coordinate);
+
+                if (position.isValid()) {
+                    position.makePriority();
+
+                    if (position.priority > 0)
+                        positions.add(position);
+
+                }
+            }
+        }
+
+        // Так как позиции расположены с самой лучшей, то берем первую и пытаемся проложить путь, если не получилось, то берем следующую и повторяем
+        AxialCoordinate pivot = fromCoordinates(start.get(0).getGridX(), start.get(0).getGridZ());
+        start.remove(0);
+        while (path == null) {
+            if (positions.size() == 0)
+                return path;
+            Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, start, positions.poll().coordinates, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
+            path = pathfinding.findPath();
+        }
+        return path;
+    }
+
 
     private class ComplexFigure{   // класс для работы с фигурой для которой ищем наилучшую позицию
         ArrayList<ArrayList<AxialCoordinate>> states; //6 положений
@@ -46,7 +99,7 @@ public class Mephistopheles {
             }
         }
 
-        //Поворот
+
         private ArrayList<AxialCoordinate> clockwise(ArrayList<AxialCoordinate> state, int x, int z, int y){
             ArrayList<AxialCoordinate> newState = new ArrayList<>();
             for (AxialCoordinate coordinate:state)
@@ -61,10 +114,8 @@ public class Mephistopheles {
 
 
     private class Position {  // класс для выбранных позиций
-        int neighbours; // очки за соседей
-        int depth;      // очки за глубину
-        int rows;       // очки за уничтожение рядов
-        int priority;
+        //TODO: добавить парамметров и расставить более полезные приоритеты
+        int neighbours , depth , rows , priority;
         ArrayList<AxialCoordinate> coordinates;
 
         private Position(ArrayList<AxialCoordinate> coordinates, AxialCoordinate first) {
@@ -122,22 +173,18 @@ public class Mephistopheles {
                 for (AxialCoordinate coordinate : coordinates)
                     try {
                         axialCoordinate.add(coordinate.clone());
-                    } catch (CloneNotSupportedException e) {
-                    }
+                    } catch (CloneNotSupportedException e) {}
+
                 for (int j = 0; j < axialCoordinate.size(); j++) {
                     int k = 0;
-                    for (AxialCoordinate coordinate : axialCoordinate) {
-                        if (coordinate.getGridZ() == axialCoordinate.get(j).getGridZ()) {
-                            if (k!=0) ;
+                    for (AxialCoordinate coordinate : axialCoordinate)
+                        if (coordinate.getGridZ() == axialCoordinate.get(j).getGridZ())
                             k++;
-                        }
-                    }
 
-                    if (lockedHexagons.get(coordinates.get(j).getGridZ()) != null && lockedHexagons.get(coordinates.get(j).getGridZ()).size() + k
-                            == hexagonalGrid.getWidth())
+                    if (lockedHexagons.get(coordinates.get(j).getGridZ()) != null && lockedHexagons.get(coordinates.get(j).getGridZ()).size() + k == hexagonalGrid.getWidth())
                         rows += hexagonalGrid.getWidth()*coordinates.get(j).getGridZ();
                 }
-                depth = depth *   this.coordinates.size();
+                depth = depth * this.coordinates.size();
                 priority = depth + neighbours + rows;
             }
         }
@@ -145,80 +192,18 @@ public class Mephistopheles {
 
         private boolean isValid() {
             boolean p = false;
-
+            //проверка, что ни один хекс фигуры в этой позиции не находится уже на залоченном или вне поля.
             for (AxialCoordinate coordinate : coordinates) {
-                //проверка, что ни один хекс фигуры в этой позиции не находится уже на залоченном или вне поля.
-                if ((lockedHexagons.get(coordinate.getGridZ()) != null && lockedHexagons.get(coordinate.getGridZ()).contains(coordinate.getGridX()))
-                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ()))){
+                if ((lockedHexagons.get(coordinate.getGridZ()) != null && lockedHexagons.get(coordinate.getGridZ()).contains(coordinate.getGridX())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ()))){
                     return false;
                 }
 
-                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX()))
-                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ() + 1)))
+                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ() + 1)))
                     p = true;
-                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX() - 1))
-                        || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX() - 1, coordinate.getGridZ() + 1)))
+                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX() - 1)) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX() - 1, coordinate.getGridZ() + 1)))
                     p = true;
             }
             return p;
         }
     }
-
-
-        public SparseArray<ArrayList<Integer>> lockedHexagons;
-        public HexagonalGrid hexagonalGrid;
-        protected Comparator<Position> comparator = (Position pos1, Position pos2) -> (pos2.priority - pos1.priority); // Компаратор для сортировки позиций по их приоритету (по убыванию)
-        private Queue<Position> positions; // позиции размещенные по убыванию
-        HexagonalGridCalculator calculator;
-        LinkedList<String> path; // Возвращаемый путь для Controller
-
-
-        public Mephistopheles(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator) {
-            this.hexagonalGrid = hexagonalGrid;
-            this.lockedHexagons = hexagonalGrid.getLockedHexagons();
-            positions = new PriorityQueue<>(20, comparator);
-            this.calculator = calculator;
-        }
-
-        public LinkedList<String> startSearch(ArrayList<AxialCoordinate> hexs) {
-
-            ArrayList<AxialCoordinate> start = new ArrayList<>();
-            for (AxialCoordinate coordinate : hexs)
-                try {
-                    start.add(coordinate.clone());
-                } catch (CloneNotSupportedException e) {
-                }
-
-            ComplexFigure figure = new ComplexFigure(start);
-
-            ArrayList<AxialCoordinate> axialCoordinates = new ArrayList<>();
-            hexagonalGrid.getHexagons().forEach((Hexagon hexagon) -> axialCoordinates.add(hexagon.getAxialCoordinate()));
-
-            for (AxialCoordinate coordinate : axialCoordinates) {
-                for (ArrayList<AxialCoordinate> state : figure.states) {
-                    Position position = new Position(state, coordinate);
-
-                    if (position.isValid()) {
-                        position.makePriority();
-
-                        if (position.priority > 0)
-                            positions.add(position);
-
-                    }
-                }
-            }
-
-            // Так как позиции расположены с самой лучшей, то берем первую и пытаемся проложить путь, если не получилось, то берем следующую и повторяем
-            AxialCoordinate pivot = fromCoordinates(start.get(0).getGridX(), start.get(0).getGridZ());
-            start.remove(0);
-            while (path == null) {
-                if (positions.size() == 0)
-                    return path;
-                Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, start, positions.poll().coordinates, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
-                path = pathfinding.findPath();
-            }
-            return path;
-        }
-
-
     }

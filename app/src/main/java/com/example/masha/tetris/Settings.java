@@ -1,5 +1,6 @@
 package com.example.masha.tetris;
 
+//TODO: настройка скорости игры
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -23,7 +24,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     SharedPreferences sharedPreferences;
     AlertDialog.Builder ad;
     public static String strpack = "{\"height\":15,\"width\":8,\"sourceSeeds\":[0],\"units\":[{\"members\":[{\"x\":0,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":2,\"y\":0},{\"x\":0,\"y\":1},{\"x\":2,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":2,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":2}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":2}}],\"id\":0,\"filled\":[],\"sourceLength\":100}";
-
 
     public EditText eTw , eTh;
     public static int height = 0 , width = 0 ;
@@ -69,9 +69,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
-        ad.setNegativeButton("OK", (DialogInterface dialog, int which) -> {
-        }
-        );
+        ad.setNegativeButton("OK", (DialogInterface dialog, int which) -> {});
     }
 
 
@@ -108,8 +106,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     }
 
 
-    public void saveText()
-    {
+    public void saveText() {
         if (!eTh.getText().toString().equals("") && !eTw.getText().toString().equals("")) {
 
             sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);

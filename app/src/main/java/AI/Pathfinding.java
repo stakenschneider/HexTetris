@@ -1,5 +1,4 @@
 package AI;
-import android.util.Log;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
