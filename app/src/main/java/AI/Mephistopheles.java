@@ -144,7 +144,7 @@ public class Mephistopheles {
             for (int i = 0; i < this.coordinates.size(); i++) {
                 // Ищем, где фигура касается наиболее "глубокого" ряда
                 if (depth <= this.coordinates.get(i).getGridZ())
-                    depth = this.coordinates.get(i).getGridZ();
+                    depth = this.coordinates.get(i).getGridZ()+coordinates.get(i).getGridZ();
 
                 // Если есть сосед справа у одного из хексов то добавляем очко
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() + 1))
@@ -154,15 +154,17 @@ public class Mephistopheles {
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() - 1))
                     neighbours += this.coordinates.get(i).getGridZ();
 
+                //залоченный снизу справа
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()+1) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()+1).contains(this.coordinates.get(i).getGridX()))
                     neighbours += this.coordinates.get(i).getGridZ()+1;
 
+                //снизу слева залоченный
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()+1) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()+1).contains(this.coordinates.get(i).getGridX()-1))
                     neighbours += this.coordinates.get(i).getGridZ()+1;
 
-                // -//- для нижнего соседа
+                // края сетки снизу
                 if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX(), this.coordinates.get(i).getGridZ()+1))||!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX()-1, this.coordinates.get(i).getGridZ()+1)))
-                    neighbours += this.coordinates.get(i).getGridZ()+1;
+                    neighbours += this.coordinates.get(i).getGridZ()+10;
 
                 // если касается одной из стенок, то тоже считаем как соседа
                 if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() - 1, this.coordinates.get(i).getGridZ())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() + 1, this.coordinates.get(i).getGridZ())))
