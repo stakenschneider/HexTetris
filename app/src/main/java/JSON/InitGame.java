@@ -20,6 +20,7 @@ public class InitGame
 
             height = Integer.parseInt(jsonRootObject.optString("height"));
             width = Integer.parseInt(jsonRootObject.optString("width"));
+            sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
 
             JSONArray jsonArray = jsonRootObject.optJSONArray("sourceSeeds");
             this.sourceSeeds = new int[jsonArray.length()];
@@ -57,7 +58,6 @@ public class InitGame
                 filled.add(jsonFilledCell.getInt("y"));
             }
 
-            sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
         } catch (JSONException e) {}
 
     }
