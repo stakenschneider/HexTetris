@@ -51,8 +51,7 @@ public class DrawGrid {
     Mephistopheles ai;
     private String game;
     private LinkedList<String> path = new LinkedList<>();
-    private int sourceL;
-    int colf = 0;
+    private int sourceL , colf = 0;
 
 
 
