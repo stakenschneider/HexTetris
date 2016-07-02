@@ -51,6 +51,8 @@ public class DrawGrid {
     Mephistopheles ai;
     private String game;
     private LinkedList<String> path = new LinkedList<>();
+    private int sourceL;
+    int colf = 0;
 
 
 
@@ -99,8 +101,12 @@ public class DrawGrid {
             controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons(), point);
         } catch (HexagonalGridCreationException e) {}
 
+
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
         heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
+
+        sourceL = initGame.sourceLength;
+        Log.d("initGame.sourceLength" , Integer.toString(initGame.sourceLength));
     }
 
 
@@ -201,8 +207,12 @@ public class DrawGrid {
         if (hexagonalGrid.getHexagonStorage().isEmpty()) {
             hexagonalGrid.getHexagonStorage().trimToSize();
 
+            colf++;
             //TODO: в этом месте второй параметр должен менятся в случае если игра закончилась И есть еще переметры сиды
-            heapFigure.getFigure(gWidth, 0);
+            Log.d("oeojgoijg" , Integer.toString(colf) + "sooooource"+Integer.toString(sourceL) );
+            if (sourceL == colf) {
+                return true;
+            }else heapFigure.getFigure(gWidth, 0);
 
             if (game.equals("AiParameters")){
                 ai = new Mephistopheles(hexagonalGrid, hexagonalGridCalculator);

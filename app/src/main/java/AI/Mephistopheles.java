@@ -143,8 +143,7 @@ public class Mephistopheles {
         private void makePriority() {
             for (int i = 0; i < this.coordinates.size(); i++) {
                 // Ищем, где фигура касается наиболее "глубокого" ряда
-                if (depth <= this.coordinates.get(i).getGridZ())
-                    depth = this.coordinates.get(i).getGridZ()+coordinates.get(i).getGridZ();
+                depth += this.coordinates.get(i).getGridZ();
 
                 // Если есть сосед справа у одного из хексов то добавляем очко
                 if (lockedHexagons.get(this.coordinates.get(i).getGridZ()) != null && lockedHexagons.get(this.coordinates.get(i).getGridZ()).contains(this.coordinates.get(i).getGridX() + 1))

@@ -7,11 +7,10 @@ import api.CoordinateConverter;
 public class InitGame
 {
     protected int quantityFilled, quantityUnit;
-    public int ID , width , height;
+    public int ID , width , height, sourceLength;
     public int[]  pivotCoordinates , sourceSeeds , quantityHexOfUnit;
     public ArrayList<Integer> coordinatesOfUnit = new ArrayList<>();
     public ArrayList<Integer> filled = new ArrayList<>();
-    public int sourceLength;
     CoordinateConverter converter;
 
     public InitGame(String strJson)
@@ -54,11 +53,11 @@ public class InitGame
 
             for(int i = 0 ; i < quantityFilled; i++){
                 JSONObject jsonFilledCell = jsonFilledArray.getJSONObject(i);
-                filled.add(converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x") ,jsonFilledCell.getInt("y")));
+                filled.add(converter.convertOffsetCoordinatesToAxialX(jsonFilledCell.getInt("x"), jsonFilledCell.getInt("y")));
                 filled.add(jsonFilledCell.getInt("y"));
             }
 
-            this.sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
+            sourceLength = Integer.parseInt(jsonRootObject.optString("sourceLength"));
         } catch (JSONException e) {}
 
     }
