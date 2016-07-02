@@ -1,15 +1,15 @@
 package AI;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
-import api.AxialCoordinate;
-import api.HexagonalGrid;
-import api.HexagonalGridCalculator;
-import java.util.Comparator;
-import java.util.Queue;
+        import java.util.ArrayList;
+        import java.util.LinkedList;
+        import java.util.List;
+        import java.util.PriorityQueue;
+        import api.AxialCoordinate;
+        import api.HexagonalGrid;
+        import api.HexagonalGridCalculator;
+        import java.util.Comparator;
+        import java.util.Queue;
 
-import static api.AxialCoordinate.fromCoordinates;
+        import static api.AxialCoordinate.fromCoordinates;
 
 public class Pathfinding {
 
@@ -130,8 +130,8 @@ public class Pathfinding {
 
     public LinkedList<String> findPath(){     // Сам цикл поиска
         for (AxialCoordinate coordinate : destination)
-        if (!hexagonalGrid.containsAxialCoordinate(coordinate))
-            return path;
+            if (!hexagonalGrid.containsAxialCoordinate(coordinate))
+                return path;
         ArrayList<Unit> startUnits = new ArrayList<>();
         for (int i = 0; i < start.size(); i++) {
             Unit unit = new Unit(null, start.get(i), i);

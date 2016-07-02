@@ -65,7 +65,7 @@ public class Mephistopheles {
         while (path == null) {
             if (positions.size() == 0)
                 return path;
-            Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, start, positions.poll().coordinates, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
+            Pathfinding pathfinding = new Pathfinding(hexagonalGrid,calculator, start, positions.poll().coordinates, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
             path = pathfinding.findPath();
         }
         return path;
@@ -198,9 +198,9 @@ public class Mephistopheles {
                     return false;
                 }
 
-                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ() + 1)))
+                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX(), coordinate.getGridZ() + 1)))
                     p = true;
-                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && !lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX() - 1)) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX() - 1, coordinate.getGridZ() + 1)))
+                if ((lockedHexagons.get(coordinate.getGridZ()+1) != null && lockedHexagons.get(coordinate.getGridZ() + 1).contains(coordinate.getGridX() - 1)) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(coordinate.getGridX() - 1, coordinate.getGridZ() + 1)))
                     p = true;
             }
             return p;
