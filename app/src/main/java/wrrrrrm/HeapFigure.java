@@ -1,5 +1,7 @@
 package wrrrrrm;
 
+import android.util.Log;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -61,10 +63,12 @@ public class HeapFigure {
         makePRS(initGame.sourceLength, initGame.sourceSeeds[sourceQ], BigInteger.valueOf(initGame.quantityHexOfUnit.length));
         ArrayList<Hexagon>  newFigure;
 
-        //TODO: жесть
-        if (pack.size()==1 || pack.size() <= pseudoRandSeq.get(ii).intValue()) {
+        if( ii >= pseudoRandSeq.size()) {
+                newFigure = pack.get(pseudoRandSeq.get(0).intValue());
+        } else  if (pack.size() == 1 || pack.size() <= pseudoRandSeq.get(ii).intValue()) {
             newFigure = pack.get(pseudoRandSeq.get(0).intValue());
-        } else  newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
+        }else newFigure = pack.get(pseudoRandSeq.get(ii).intValue());
+
 
         Iterator<Hexagon> iterator = newFigure.iterator();
         Figure figureCoordinate = new Figure(newFigure);
