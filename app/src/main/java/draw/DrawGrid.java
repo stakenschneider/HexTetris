@@ -80,30 +80,27 @@ public class DrawGrid {
                     .setOrientation(orientation)
                     .setGridLayout(hexagonGridLayout);
             hexagonalGrid = builder.build();
+
+            for (int i = 0 ; i<initGame.filled.size(); i+=2){
+                ArrayList<Integer> a = new ArrayList<>();
+                a.add(initGame.filled.get(i));
+                for (int j = 2+i; j < initGame.filled.size(); j+=2) {
+                    if (initGame.filled.get(i+1) == initGame.filled.get(j+1)){
+                        a.add(initGame.filled.get(j));
+                        initGame.filled.remove(j+1);
+                        initGame.filled.remove(j);
+                        j=j-2;
+                    }
+                }
+                hexagonalGrid.getLockedHexagons().put(initGame.filled.get(i + 1), a);
+            }
+
             hexagonalGridCalculator = builder.buildCalculatorFor(hexagonalGrid);
             controller = new Controller(builder.getCustomStorage(),hexagonalGrid.getLockedHexagons(), point);
         } catch (HexagonalGridCreationException e) {}
 
         heapFigure = new HeapFigure(hexagonalGrid , initGame.quantityHexOfUnit.length , strJSON);
         heapFigure.makePRS(10, 0, BigInteger.valueOf(17));
-
-
-
-        for (int i = 0 ; i<initGame.filled.size(); i+=2){
-            ArrayList<Integer> a = new ArrayList<>();
-            a.add(initGame.filled.get(i));
-            for (int j = 2+i; j < initGame.filled.size(); j+=2) {
-                if (j+1==i+1){
-                    a.add(initGame.filled.get(j));
-                }
-            }
-            hexagonalGrid.getLockedHexagons().put(initGame.filled.get(i+1) , a);
-        }
-
-        for (int i = 0 ; i<initGame.filled.size(); i++){
-            Log.d("filled ", Integer.toString(initGame.filled.get(i)));
-        }
-
     }
 
 
@@ -148,19 +145,6 @@ public class DrawGrid {
                 canvas.drawColor(Color.parseColor("#1B2024"));
                 hexagonalGrid.getHexagons().forEach((Hexagon hexagon) ->
                         drawPoly(canvas, convertToPointsArr(hexagon.getPoints(), array), "#FF5346", Style.STROKE));
-
-
-                if (game.equals("AiParameters")){
-
-                    for (int z = 0; z < hexagonalGrid.getLockedHexagons().size(); z++) {//залоченные фигуры
-                        ArrayList<Integer> coordinate = hexagonalGrid.getLockedHexagons().get(z);
-                        if (coordinate.size() != 0)
-                            for (int x : coordinate) {
-                                Optional<Hexagon> hexagonOptional = hexagonalGrid.getByAxialCoordinate(fromCoordinates(x, z));
-                                drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
-                            }
-                    }
-                }
                 return false;
 
             case "LOCKED":

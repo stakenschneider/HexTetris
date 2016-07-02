@@ -155,12 +155,12 @@ public class Controller {
     private void checkRow(HexagonalGrid hexagonalGrid) {
         for (int j = 1; j<dataMap.size(); j++)
             if (lockedHexagons.get(dataMap.get(j).getGridZ()).size() == hexagonalGrid.getWidth()) {
-                point= hexagonalGrid.getWidth()+point;
+                point = hexagonalGrid.getWidth() + point;
                 lockedHexagons.get(dataMap.get(j).getGridZ()).clear();
                 lockedHexagons.get(dataMap.get(j).getGridZ()).trimToSize();
 
                 for (int i = dataMap.get(j).getGridZ(); i > 0; i--)
-                    if ((i-1)%2==0) {
+                    if ((i-1)%2 == 0) {
                         ArrayList<Integer> coordinate = new ArrayList<>(lockedHexagons.get(i - 1).size());
                         for (Integer x : lockedHexagons.get(i-1)) coordinate.add(x);
                         lockedHexagons.put(i, coordinate);
