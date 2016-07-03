@@ -172,6 +172,9 @@ public class GamePlay extends AppCompatActivity {
         mTimer.purge();
         mMyTimerTask.cancel();
         finish();
+        mTimer.cancel();
+        mTimer.purge();
+        mMyTimerTask.cancel();
         intent = new Intent(this , EndGame.class);
         startActivity(intent);
     }
