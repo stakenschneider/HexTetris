@@ -168,6 +168,9 @@ public class GamePlay extends AppCompatActivity {
 
 
     private void gameOver() {
+        mTimer.cancel();
+        mTimer.purge();
+        mMyTimerTask.cancel();
         finish();
         intent = new Intent(this , EndGame.class);
         startActivity(intent);
