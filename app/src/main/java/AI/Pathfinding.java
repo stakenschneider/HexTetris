@@ -22,7 +22,7 @@ public class Pathfinding {
     protected Comparator<ComplexFigure> fComparator = (ComplexFigure figure1, ComplexFigure figure2) -> (figure1.f - figure2.f);
     private List<ComplexFigure> closedList;                  // Список обработанных хексов
     private AxialCoordinate pivot;
-    private int max = 100;
+    private double max;
 
     public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<AxialCoordinate> start, ArrayList<AxialCoordinate> destination, AxialCoordinate pivot) {
         this.start = start;
@@ -31,6 +31,7 @@ public class Pathfinding {
         closedList = new ArrayList<>();
         path = new LinkedList<>();
         this.hexagonalGrid = hexagonalGrid;
+        max = (hexagonalGrid.getHeight()*hexagonalGrid.getWidth())*0.6;
         this.calculator = calculator;
         this.pivot = pivot;
     }
@@ -177,13 +178,6 @@ public class Pathfinding {
                     openList.add(childFigure);
                     if (childFigure.h == 0) { return makePath(childFigure); }
                 } else {
-                    for (ComplexFigure childFigure1 : openList)
-                        if (childFigure.equals(childFigure1) && (figure.g < childFigure1.mother.g)) {
-                            childFigure1.mother = figure;
-                            childFigure1.g = figure.g + 1;
-                            childFigure1.movement = childFigure.movement;
-                            break;
-                        }
                 }
             }
         }
