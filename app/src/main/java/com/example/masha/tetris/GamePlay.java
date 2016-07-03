@@ -33,8 +33,6 @@ public class GamePlay extends AppCompatActivity {
     private Timer mTimer;
     private MyTimerTask mMyTimerTask;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mTimer = new Timer();
