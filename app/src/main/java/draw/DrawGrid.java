@@ -15,6 +15,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import api.AxialCoordinate;
 import api.exception.HexagonalGridCreationException;
@@ -51,7 +52,8 @@ public class DrawGrid {
     Mephistopheles ai;
     private String game;
     private LinkedList<String> path = new LinkedList<>();
-    private int sourceL , colf = 0;
+    public int sourceL , colf = 0;
+
 
 
 
