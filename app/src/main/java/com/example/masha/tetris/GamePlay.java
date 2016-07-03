@@ -132,7 +132,6 @@ public class GamePlay extends AppCompatActivity {
     class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -173,6 +172,11 @@ public class GamePlay extends AppCompatActivity {
         mTimer.purge();
         mMyTimerTask.cancel();
         intent = new Intent(this , EndGame.class);
+
+        if(d.sourceL == d.colf)
+            intent.putExtra("END","win");
+        else intent.putExtra("END","lose");
+
         startActivity(intent);
     }
 }

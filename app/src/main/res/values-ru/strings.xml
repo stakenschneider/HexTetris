@@ -39,4 +39,6 @@
     <string name="bttnIDK">я не могу придумать название для этой кнопки</string>
     <string name="bttnInStartActivity">ага ага</string>
     <string name="records">Таблица рекордов</string>
+    <string name="win">выиграли</string>
+    <string name="lose">Проиграли</string>
 </resources>

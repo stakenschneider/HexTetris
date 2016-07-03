@@ -1,26 +1,39 @@
 package com.example.masha.tetris;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import draw.DrawGrid;
+
 import static draw.DrawGrid.point;
 import static com.example.masha.tetris.Main.dbHelper;
 
 
 public class EndGame extends AppCompatActivity implements View.OnClickListener {
 
-    TextView textView;
+    TextView textView , textEnd;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
 
+        textEnd = (TextView) findViewById(R.id.textView6);
         textView = (TextView) findViewById(R.id.textScore);
         textView.setText(getResources().getString(R.string.score) + point);
+
+        //timus poshel nahui
+
+        intent = getIntent();
+        if (intent.getStringExtra("END").equals("win"))
+        textEnd.setText(getResources().getString(R.string.win)); else
+        textEnd.setText(getResources().getString(R.string.lose));
 
         findViewById(R.id.bttnMyMenu).setOnClickListener(this);
         //findViewById(R.id.bttnRetry).setOnClickListener(this);

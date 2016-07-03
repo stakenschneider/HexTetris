@@ -38,5 +38,7 @@
     <string name="bttnIDK">kalibrieren</string>
     <string name="bttnInStartActivity">ok</string>
     <string name="records">Aufzeichnungen</string>
+    <string name="win">win</string>
+    <string name="lose">lose</string>
 
 </resources>
