@@ -167,6 +167,9 @@ public class GamePlay extends AppCompatActivity {
 
 
     private void gameOver() {
+        mTimer.cancel();
+        mTimer.purge();
+        mMyTimerTask.cancel();
         finish();
         mTimer.cancel();
         mTimer.purge();

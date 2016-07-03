@@ -163,7 +163,7 @@ public class Mephistopheles {
 
                 // края сетки снизу
                 if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX(), this.coordinates.get(i).getGridZ()+1))||!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX()-1, this.coordinates.get(i).getGridZ()+1)))
-                    neighbours += this.coordinates.get(i).getGridZ()+10;
+                    neighbours += this.coordinates.get(i).getGridZ()+1;
 
                 // если касается одной из стенок, то тоже считаем как соседа
                 if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() - 1, this.coordinates.get(i).getGridZ())) || !hexagonalGrid.containsAxialCoordinate(fromCoordinates(this.coordinates.get(i).getGridX() + 1, this.coordinates.get(i).getGridZ())))
@@ -185,7 +185,6 @@ public class Mephistopheles {
                     if (lockedHexagons.get(coordinates.get(j).getGridZ()) != null && lockedHexagons.get(coordinates.get(j).getGridZ()).size() + k == hexagonalGrid.getWidth())
                         rows += hexagonalGrid.getWidth()*coordinates.get(j).getGridZ();
                 }
-                depth = depth * this.coordinates.size();
                 priority = depth + neighbours + rows;
             }
         }
