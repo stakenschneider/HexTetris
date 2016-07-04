@@ -31,7 +31,8 @@ public class Pathfinding {
         closedList = new ArrayList<>();
         path = new LinkedList<>();
         this.hexagonalGrid = hexagonalGrid;
-        max = (hexagonalGrid.getHeight()*hexagonalGrid.getWidth())*0.6;
+        // Ограничение в 70 процентов поля
+        max = hexagonalGrid.getHeight()*hexagonalGrid.getWidth()*0.7;
         this.calculator = calculator;
         this.pivot = pivot;
     }
