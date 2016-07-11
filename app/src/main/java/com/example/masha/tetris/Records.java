@@ -1,6 +1,5 @@
 package com.example.masha.tetris;
 
-
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import java.util.Arrays;
 
 import rx.android.schedulers.AndroidSchedulers;
 import static com.example.masha.tetris.Main.dbHelper;
-
 
 public class Records extends AppCompatActivity {
 

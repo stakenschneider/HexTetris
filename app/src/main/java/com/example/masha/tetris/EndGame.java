@@ -8,12 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import draw.DrawGrid;
-
 import static draw.DrawGrid.point;
 import static com.example.masha.tetris.Main.dbHelper;
 
-
+//TODO: @string/bttnRetry проверить
 public class EndGame extends AppCompatActivity implements View.OnClickListener {
 
     TextView textView , textEnd;
@@ -28,15 +26,13 @@ public class EndGame extends AppCompatActivity implements View.OnClickListener {
         textView = (TextView) findViewById(R.id.textScore);
         textView.setText(getResources().getString(R.string.score) + point);
 
-        //timus poshel nahui
-
         intent = getIntent();
         if (intent.getStringExtra("END").equals("win"))
         textEnd.setText(getResources().getString(R.string.win)); else
         textEnd.setText(getResources().getString(R.string.lose));
 
         findViewById(R.id.bttnMyMenu).setOnClickListener(this);
-        //findViewById(R.id.bttnRetry).setOnClickListener(this);
+        findViewById(R.id.bttnRetry).setOnClickListener(this);
 
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -45,16 +41,14 @@ public class EndGame extends AppCompatActivity implements View.OnClickListener {
         db.insert("mytable", null, cv);
     }
 
-    //TODO: выход с выигрышем и проигрышем
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.bttnRetry:
-//                finish();
-//                intent = new Intent (this, GamePlay.class);
-//                startActivity(intent);
-//                break;
+            case R.id.bttnRetry:
+                finish();
+                intent = new Intent (this, GamePlay.class);
+                startActivity(intent);
+                break;
 
             case R.id.bttnMyMenu:
                 finish();

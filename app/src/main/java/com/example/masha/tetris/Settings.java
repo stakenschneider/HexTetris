@@ -1,6 +1,7 @@
 package com.example.masha.tetris;
 
 //TODO: настройка скорости игры
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -25,11 +26,11 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     AlertDialog.Builder ad;
     public static String strpack = "{\"height\":15,\"width\":8,\"sourceSeeds\":[0],\"units\":[{\"members\":[{\"x\":0,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":2,\"y\":0},{\"x\":0,\"y\":1},{\"x\":2,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":2,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":2}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":2}}],\"id\":0,\"filled\":[],\"sourceLength\":100}";
 
-    public EditText eTw , eTh;
-    public static int height = 0 , width = 0 ;
+    public EditText eTw, eTh;
+    public static int height = 0, width = 0;
 
     public static String MY_PREF = "MY_PREF";
-    public static final String sWIDTH = "width" , sHEIGHT = "height";
+    public static final String sWIDTH = "width", sHEIGHT = "height";
 
     final CharSequence myList[] = {"pack 1", "pack 2", "pack 3"};
 
@@ -54,7 +55,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         ad.setSingleChoiceItems(myList, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                switch (myList[arg1].toString()){
+                switch (myList[arg1].toString()) {
                     case "pack 1":
                         strpack = getResources().getString(R.string.problem_0);
                         break;
@@ -69,7 +70,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
-        ad.setNegativeButton("OK", (DialogInterface dialog, int which) -> {});
+        ad.setNegativeButton("OK", (DialogInterface dialog, int which) -> {
+        });
     }
 
 
@@ -79,9 +81,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             case R.id.bttnSentence:
                 //TODO: сократить формулки
                 if (!eTw.getText().toString().equals(""))
-                eTh.setText("" +(int)((2*(scrh-30)-2*scrw/
-                        (Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))/
-                        (3*2*scrw/(Math.sqrt(3)*(2*Integer.parseInt(eTw.getText().toString())+1)))));
+                    eTh.setText("" + (int) ((2 * (scrh - 30) - 2 * scrw /
+                            (Math.sqrt(3) * (2 * Integer.parseInt(eTw.getText().toString()) + 1))) /
+                            (3 * 2 * scrw / (Math.sqrt(3) * (2 * Integer.parseInt(eTw.getText().toString()) + 1)))));
                 break;
 
             case R.id.bttnDialog:
@@ -120,16 +122,16 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     }
 
 
-   public void loadText() {
+    public void loadText() {
         sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
 
-        width = sharedPreferences.getInt(sWIDTH , 8 );
+        width = sharedPreferences.getInt(sWIDTH, 8);
         height = sharedPreferences.getInt(sHEIGHT, 16);
     }
 
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         saveText();
         loadText();
         super.onPause();

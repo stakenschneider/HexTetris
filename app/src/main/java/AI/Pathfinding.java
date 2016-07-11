@@ -1,15 +1,20 @@
 package AI;
-        import java.util.ArrayList;
-        import java.util.LinkedList;
-        import java.util.List;
-        import java.util.PriorityQueue;
-        import api.AxialCoordinate;
-        import api.HexagonalGrid;
-        import api.HexagonalGridCalculator;
-        import java.util.Comparator;
-        import java.util.Queue;
 
-        import static api.AxialCoordinate.fromCoordinates;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
+
+import api.AxialCoordinate;
+import api.HexagonalGrid;
+import api.HexagonalGridCalculator;
+
+import java.util.Comparator;
+import java.util.Queue;
+
+import static api.AxialCoordinate.fromCoordinates;
 
 public class Pathfinding {
 
@@ -26,13 +31,12 @@ public class Pathfinding {
 
     public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<AxialCoordinate> start, ArrayList<AxialCoordinate> destination, AxialCoordinate pivot) {
         this.start = start;
-        this.destination =  destination;
+        this.destination = destination;
         openList = new PriorityQueue<>(20, fComparator);
         closedList = new ArrayList<>();
         path = new LinkedList<>();
         this.hexagonalGrid = hexagonalGrid;
-        // Ограничение в 70 процентов поля
-        max = hexagonalGrid.getHeight()*hexagonalGrid.getWidth()*0.7;
+        max = 800.0;
         this.calculator = calculator;
         this.pivot = pivot;
     }
@@ -94,8 +98,8 @@ public class Pathfinding {
             this.mother = mother;
             for (Unit unit : units) {
                 h = h + unit.h;
-                if (mother!=null) g = 1 + mother.g;
-                else  g=1;
+                if (mother != null) g = 1 + mother.g;
+                else g = 1;
             }
             f = h + g;
             this.pivot = pivot;
@@ -129,8 +133,7 @@ public class Pathfinding {
     }
 
 
-
-    public LinkedList<String> findPath(){     // Сам цикл поиска
+    public LinkedList<String> findPath() {     // Сам цикл поиска
         for (AxialCoordinate coordinate : destination)
             if (!hexagonalGrid.containsAxialCoordinate(coordinate))
                 return path;
@@ -140,15 +143,20 @@ public class Pathfinding {
             startUnits.add(unit);
         }
         ComplexFigure startFigure = new ComplexFigure(startUnits, null, pivot);
+        Log.d("ya ", "v pathe");
+
         openList.add(startFigure);
         path = checkFigure(openList.poll());
         return path;
     }
 
 
-    private LinkedList<String> makePath(ComplexFigure figure){    // От ячейки назначения идем до стартовой по ссылкам и собираем команды для контроллера
+    private LinkedList<String> makePath(ComplexFigure figure) {    // От ячейки назначения идем до стартовой по ссылкам и собираем команды для контроллера
+        Log.d("ya ", "v makePathe");
+
         do {
             path.addFirst(figure.movement);
+            Log.d("movement ", " "+figure.movement);
             figure = figure.mother;
         } while (figure != null);
 
@@ -156,14 +164,16 @@ public class Pathfinding {
     }
 
 
-    private LinkedList<String> checkFigure(ComplexFigure figure){    // Рассмотрение ячейки из открытого списка с наименьшим f и добавлением ее в закрытый список
+    private LinkedList<String> checkFigure(ComplexFigure figure) {    // Рассмотрение ячейки из открытого списка с наименьшим f и добавлением ее в закрытый список
         LinkedList<ComplexFigure> neighborFigures = new LinkedList<>();
         ComplexFigure figureDownRight = moveDownRight(figure);
         ComplexFigure figureDownLeft = moveDownLeft(figure);
         ComplexFigure figureRight = moveRight(figure);
         ComplexFigure figureLeft = moveLeft(figure);
-        ComplexFigure figureClockwise = clockwise(figure);
-        ComplexFigure figureCounterClockwise = counterClockwise(figure);
+        ComplexFigure figureClockwise = null;
+
+        ComplexFigure figureCounterClockwise = null;
+
         neighborFigures.add(figureDownRight);
         neighborFigures.add(figureDownLeft);
         neighborFigures.add(figureLeft);
@@ -177,7 +187,11 @@ public class Pathfinding {
                 childFigure = makeCommand(childFigure, i);
                 if (!openList.contains(childFigure)) {
                     openList.add(childFigure);
-                    if (childFigure.h == 0) { return makePath(childFigure); }
+                    if (childFigure.h == 0) {
+                        Log.d("coordinates x=",Integer.toString(childFigure.units.get(0).hexagon.getGridX())+" z="+Integer.toString(childFigure.units.get(0).hexagon.getGridZ()));
+                        Log.d("coordinate start","x="+Integer.toString(destination.get(0).getGridX())+" z="+Integer.toString(destination.get(0).getGridZ()));
+                        return makePath(childFigure);
+                    }
                 } else {
                 }
             }
@@ -188,9 +202,9 @@ public class Pathfinding {
     }
 
 
-    private boolean checkUnits (List<Unit> units) {
+    private boolean checkUnits(List<Unit> units) {
         for (Unit unit : units) {
-            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX()) || closedList.contains(unit.hexagon))
+            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX()))
                 return false;
         }
         return true;
@@ -200,93 +214,93 @@ public class Pathfinding {
     private ComplexFigure moveDownRight(ComplexFigure figure) {
         List<Unit> units = new ArrayList<>();
         for (Unit unit : figure.units) {
-            if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX(),unit.hexagon.getGridZ() + 1)))
+            if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX(), unit.hexagon.getGridZ() - 1)))
                 return null;
-            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ() + 1).contains(unit.hexagon.getGridX()))
+            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ() - 1).contains(unit.hexagon.getGridX()))
                 return null;
-            units.add(new Unit(unit,fromCoordinates(unit.hexagon.getGridX(), unit.hexagon.getGridZ() + 1), unit.number));
+            units.add(new Unit(unit, fromCoordinates(unit.hexagon.getGridX(), unit.hexagon.getGridZ() - 1), unit.number));
         }
 
-        return new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX(),figure.pivot.getGridZ()+1));
+        return new ComplexFigure(units, figure, fromCoordinates(figure.pivot.getGridX(), figure.pivot.getGridZ() - 1));
     }
 
 
     private ComplexFigure clockwise(ComplexFigure figure) {
-        final int x,y,z;
+        final int x, y, z;
         x = figure.pivot.getGridX();
         z = figure.pivot.getGridZ();
-        y = - x - z;
+        y = -x - z;
         List<Unit> units = new ArrayList<>();
-        for (Unit unit:figure.units) {
+        for (Unit unit : figure.units) {
             AxialCoordinate clockwisePosition = fromCoordinates(-(unit.hexagon.getGridZ() - z) + x, -(-unit.hexagon.getGridX() - unit.hexagon.getGridZ() - y) + z);
-            if(!hexagonalGrid.containsAxialCoordinate(clockwisePosition))
+            if (!hexagonalGrid.containsAxialCoordinate(clockwisePosition))
                 return null;
-            if (hexagonalGrid.getLockedHexagons().valueAt(clockwisePosition.getGridZ())!=null && hexagonalGrid.getLockedHexagons().valueAt(clockwisePosition.getGridZ()).contains(clockwisePosition.getGridX()))
+            if (hexagonalGrid.getLockedHexagons().valueAt(clockwisePosition.getGridZ()) != null && hexagonalGrid.getLockedHexagons().valueAt(clockwisePosition.getGridZ()).contains(clockwisePosition.getGridX()))
                 return null;
             units.add(new Unit(unit, clockwisePosition, unit.number));
         }
-        return new ComplexFigure(units,figure,fromCoordinates(figure.pivot.getGridX(),figure.pivot.getGridZ()));
+        return new ComplexFigure(units, figure, fromCoordinates(figure.pivot.getGridX(), figure.pivot.getGridZ()));
     }
 
 
     private ComplexFigure counterClockwise(ComplexFigure figure) {
-        final int x,y,z;
+        final int x, y, z;
         x = figure.pivot.getGridX();
         z = figure.pivot.getGridZ();
-        y = - x - z;
+        y = -x - z;
         List<Unit> units = new ArrayList<>();
-        for (Unit unit:figure.units) {
-            AxialCoordinate counterClockwisePosition =  fromCoordinates(-(-unit.hexagon.getGridX() - unit.hexagon.getGridZ() - y) + x, -(unit.hexagon.getGridX() - x) + z);
-            if(!hexagonalGrid.containsAxialCoordinate(counterClockwisePosition))
+        for (Unit unit : figure.units) {
+            AxialCoordinate counterClockwisePosition = fromCoordinates(-(-unit.hexagon.getGridX() - unit.hexagon.getGridZ() - y) + x, -(unit.hexagon.getGridX() - x) + z);
+            if (!hexagonalGrid.containsAxialCoordinate(counterClockwisePosition))
                 return null;
             if (hexagonalGrid.getLockedHexagons().valueAt(counterClockwisePosition.getGridZ()).contains(counterClockwisePosition.getGridX()))
                 return null;
             units.add(new Unit(unit, counterClockwisePosition, unit.number));
         }
-        return new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX(),figure.pivot.getGridZ()));
+        return new ComplexFigure(units, figure, fromCoordinates(figure.pivot.getGridX(), figure.pivot.getGridZ()));
     }
 
 
     private ComplexFigure moveDownLeft(ComplexFigure figure) {
         List<Unit> units = new ArrayList<>();
         for (Unit unit : figure.units) {
-            if  (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX()-1,unit.hexagon.getGridZ() + 1)))
+            if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX() + 1, unit.hexagon.getGridZ() - 1)))
                 return null;
-            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ() + 1).contains(unit.hexagon.getGridX()-1))
+            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ() - 1).contains(unit.hexagon.getGridX() + 1))
                 return null;
-            units.add(new Unit(unit, fromCoordinates(unit.hexagon.getGridX()-1, unit.hexagon.getGridZ() + 1), unit.number));
+            units.add(new Unit(unit, fromCoordinates(unit.hexagon.getGridX() + 1, unit.hexagon.getGridZ() - 1), unit.number));
         }
-        return new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()-1,figure.pivot.getGridZ()+1));
+        return new ComplexFigure(units, figure, fromCoordinates(figure.pivot.getGridX() + 1, figure.pivot.getGridZ() - 1));
     }
 
 
     private ComplexFigure moveLeft(ComplexFigure figure) {
         List<Unit> units = new ArrayList<>();
         for (Unit unit : figure.units) {
-            if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX()-1,unit.hexagon.getGridZ())))
+            if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX() - 1, unit.hexagon.getGridZ())))
                 return null;
-            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX()-1))
+            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX() - 1))
                 return null;
-            units.add(new Unit(unit, fromCoordinates(unit.hexagon.getGridX()-1, unit.hexagon.getGridZ()), unit.number));
+            units.add(new Unit(unit, fromCoordinates(unit.hexagon.getGridX() - 1, unit.hexagon.getGridZ()), unit.number));
         }
-        return new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()-1,figure.pivot.getGridZ()));
+        return new ComplexFigure(units, figure, fromCoordinates(figure.pivot.getGridX() - 1, figure.pivot.getGridZ()));
     }
 
 
     private ComplexFigure moveRight(ComplexFigure figure) {
         List<Unit> units = new ArrayList<>();
         for (Unit unit : figure.units) {
-            if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX()+1,unit.hexagon.getGridZ())))
+            if (!hexagonalGrid.containsAxialCoordinate(fromCoordinates(unit.hexagon.getGridX() + 1, unit.hexagon.getGridZ())))
                 return null;
-            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX()+1))
+            if (hexagonalGrid.getLockedHexagons().valueAt(unit.hexagon.getGridZ()).contains(unit.hexagon.getGridX() + 1))
                 return null;
-            units.add(new Unit(unit,fromCoordinates(unit.hexagon.getGridX()+1, unit.hexagon.getGridZ()), unit.number));
+            units.add(new Unit(unit, fromCoordinates(unit.hexagon.getGridX() + 1, unit.hexagon.getGridZ()), unit.number));
         }
-        return new ComplexFigure(units,figure, fromCoordinates(figure.pivot.getGridX()+1,figure.pivot.getGridZ()));
+        return new ComplexFigure(units, figure, fromCoordinates(figure.pivot.getGridX() + 1, figure.pivot.getGridZ()));
     }
 
 
-    private ComplexFigure makeCommand (ComplexFigure childFigure, int i) {
+    private ComplexFigure makeCommand(ComplexFigure childFigure, int i) {
         switch (i) {
             case 0:
                 childFigure.movement = "DOWN_RIGHT";
