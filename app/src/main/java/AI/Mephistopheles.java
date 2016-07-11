@@ -64,18 +64,20 @@ public class Mephistopheles {
         }
 
         // Так как позиции расположены с самой лучшей, то берем первую и пытаемся проложить путь, если не получилось, то берем следующую и повторяем
-        AxialCoordinate pivot = fromCoordinates(start.get(1).getGridX() - start.get(0).getGridX(),start.get(1).getGridZ() - start.get(0).getGridZ());
+        int dx = start.get(1).getGridX() - start.get(0).getGridX();
+        int dz = start.get(1).getGridZ() - start.get(0).getGridZ();
+        AxialCoordinate pivot = new AxialCoordinate(0,0);
 //        pivot.setCoordinate(positions.peek().coordinates.get(0).getGridX() - ( pivot.getGridX()), positions.peek().coordinates.get(0).getGridZ() - (pivot.getGridZ()));
         start.remove(0);
         while (path == null) {
             if (positions.size() == 0)
                 return path;
-            Log.d("grid", "Height="+Integer.toString(hexagonalGrid.getHeight()) +" Width=" +Integer.toString(hexagonalGrid.getWidth()));
-            for (AxialCoordinate ax : positions.peek().coordinates){
-                Log.d("positions.peek()", "x="+Integer.toString(ax.getGridX())+ " z="+Integer.toString(ax.getGridZ()));
-            }
-            Log.d("pivot"," x="+Integer.toString(pivot.getGridX()) + " z=" + Integer.toString(pivot.getGridZ()));
-            pivot.setCoordinate(positions.peek().coordinates.get(0).getGridX() - ( pivot.getGridX()), positions.peek().coordinates.get(0).getGridZ() - (pivot.getGridZ()));
+//            Log.d("grid", "Height="+Integer.toString(hexagonalGrid.getHeight()) +" Width=" +Integer.toString(hexagonalGrid.getWidth()));
+//            for (AxialCoordinate ax : positions.peek().coordinates){
+//                Log.d("positions.peek()", "x="+Integer.toString(ax.getGridX())+ " z="+Integer.toString(ax.getGridZ()));
+//            }
+//            Log.d("pivot"," x="+Integer.toString(pivot.getGridX()) + " z=" + Integer.toString(pivot.getGridZ()));
+            pivot.setCoordinate(positions.peek().coordinates.get(0).getGridX() - dx, positions.peek().coordinates.get(0).getGridZ() - dz);
             Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, positions.poll().coordinates, start, pivot); //positions.poll() возвращает первую по приоритету позицию и сразу удаляет ее из очереди
             path = pathfinding.findPath();
         }
@@ -96,8 +98,7 @@ public class Mephistopheles {
             for (AxialCoordinate coordinate : hexs)
                 try {
                     firstState.add(coordinate.clone());
-                } catch (CloneNotSupportedException e) {
-                }
+                } catch (CloneNotSupportedException e) {}
 
             //Взяли координаты точки поворота
             int x = firstState.get(0).getGridX(), z = firstState.get(0).getGridZ(), y = -x - z;
