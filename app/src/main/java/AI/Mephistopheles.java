@@ -1,4 +1,5 @@
 package AI;
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -64,13 +65,15 @@ public class Mephistopheles {
         // Так как позиции расположены с самой лучшей, то берем первую и пытаемся проложить путь, если не получилось, то берем следующую и повторяем
 
         AxialCoordinate pivot = new AxialCoordinate(0,0);
+        final AxialCoordinate finalPivot = fromCoordinates(start.get(0).getGridX(),start.get(0).getGridZ());
         start.remove(0);
         while (path == null) {
             if (positions.size() == 0)
                 return path;
             Position pos = positions.poll();
             pivot.setCoordinate(pos.coordinates.get(0).getGridX() - figure.pivots.get(pos.state).getGridX(), pos.coordinates.get(0).getGridZ() - figure.pivots.get(pos.state).getGridZ());
-            Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, pos.coordinates, start, pivot);
+            Log.d("Checkit", Integer.toString(pivot.getGridX()) + "   "+ Integer.toString(pivot.getGridZ()) + " Unit  " +Integer.toString(pos.coordinates.get(0).getGridX()) + "   "+ Integer.toString(pos.coordinates.get(0).getGridZ()) );
+            Pathfinding pathfinding = new Pathfinding(hexagonalGrid, calculator, pos.coordinates, start, pivot, finalPivot);
             path = pathfinding.findPath();
         }
         return path;
@@ -96,7 +99,7 @@ public class Mephistopheles {
 
             //Взяли координаты точки поворота
             int x = firstState.get(0).getGridX(), z = firstState.get(0).getGridZ(), y = -x - z;
-            pivots.add(fromCoordinates(firstState.get(1).getGridX() - firstState.get(0).getGridX(),firstState.get(1).getGridZ() - firstState.get(0).getGridZ()));
+            pivots.add(fromCoordinates(firstState.get(1).getGridX() -x,firstState.get(1).getGridZ() - z));
             firstState.remove(0);  // убрал точку поворота, так как она больше уже не нужна
             firstState.trimToSize();
             states.add(firstState);

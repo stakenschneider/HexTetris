@@ -40,6 +40,8 @@ public final class AxialCoordinate implements Cloneable {
 
     public int getGridZ() {return gridZ;}
 
+    public int getGridY() {return -getGridX()-getGridZ();}
+
     public static AxialCoordinate fromCoordinates( int gridX, int gridZ) {return new AxialCoordinate(gridX, gridZ);}
 
     public String toKey() {return gridX + "," + gridZ;}

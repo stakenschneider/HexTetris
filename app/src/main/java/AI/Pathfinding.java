@@ -16,6 +16,8 @@ import java.util.Comparator;
 import java.util.Queue;
 
 import static api.AxialCoordinate.fromCoordinates;
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 public class Pathfinding {
 
@@ -28,19 +30,19 @@ public class Pathfinding {
     protected Comparator<ComplexFigure> fComparator = (ComplexFigure figure1, ComplexFigure figure2) -> (figure1.f - figure2.f);
     private List<ComplexFigure> closedList;                  // Список обработанных хексов
     private AxialCoordinate pivot;
-    private double max;
-    private HashSet<ComplexFigure> openSet;
+    private AxialCoordinate finalPivot;
+    int noWay = 0;
 
-    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<AxialCoordinate> start, ArrayList<AxialCoordinate> destination, AxialCoordinate pivot) {
+    public Pathfinding(HexagonalGrid hexagonalGrid, HexagonalGridCalculator calculator, ArrayList<AxialCoordinate> start, ArrayList<AxialCoordinate> destination, AxialCoordinate pivot, final AxialCoordinate finalPivot) {
         this.start = start;
         this.destination = destination;
         openList = new PriorityQueue<>(20, fComparator);
         closedList = new ArrayList<>();
-        path = new LinkedList<>();
+        path = null;
         this.hexagonalGrid = hexagonalGrid;
-        max = hexagonalGrid.getHeight()*hexagonalGrid.getWidth();
         this.calculator = calculator;
         this.pivot = pivot;
+        this.finalPivot = finalPivot;
     }
 
     private class Unit {
@@ -103,8 +105,17 @@ public class Pathfinding {
                 if (mother != null) g = 1 + mother.g;
                 else g = 1;
             }
-            f = h + g;
             this.pivot = pivot;
+            h+=calcPivotH();
+            f = h + g;
+        }
+
+        private int calcPivotH()
+        {
+            final double absX = abs(pivot.getGridX() - finalPivot.getGridX());
+            final double absY = abs((pivot.getGridY() - finalPivot.getGridY()));
+            final double absZ = abs((pivot.getGridZ() - finalPivot.getGridZ()));
+            return (int) max(max(absX, absY), absZ);
         }
 
         @Override
@@ -146,15 +157,18 @@ public class Pathfinding {
         }
         ComplexFigure startFigure = new ComplexFigure(startUnits, null, pivot);
         openList.add(startFigure);
-        path = checkFigure(openList.poll());
+
+        while (path==null && noWay == 0)
+            path = checkFigure(openList.poll());
         return path;
     }
 
 
     private LinkedList<String> makePath(ComplexFigure figure) {    // От ячейки назначения идем до стартовой по ссылкам и собираем команды для контроллера
+        path = new LinkedList<>();
         do {
             path.addFirst(figure.movement);
-            Log.d("movement ", " "+figure.movement);
+            Log.d("Bojekakzaebaloto",figure.movement +  "      "+ Integer.toString(figure.pivot.getGridX()) + "   " + Integer.toString((figure.pivot.getGridZ()))+ "   unit" + Integer.toString(figure.units.get(0).hexagon.getGridX()) + "   " + Integer.toString((figure.units.get(0).hexagon.getGridZ())));
             figure = figure.mother;
         } while (figure != null);
 
@@ -169,7 +183,6 @@ public class Pathfinding {
         ComplexFigure figureRight = moveRight(figure);
         ComplexFigure figureLeft = moveLeft(figure);
         ComplexFigure figureClockwise = clockwise(figure);
-
         ComplexFigure figureCounterClockwise = counterClockwise(figure);
         neighborFigures.add(figureDownRight);
         neighborFigures.add(figureDownLeft);
@@ -185,23 +198,16 @@ public class Pathfinding {
                 if (!openList.contains(childFigure)) {
                     openList.add(childFigure);
                     if (childFigure.h == 0) {
+                        Log.d("JIJA", Integer.toString(pivot.getGridX())+ "   " + Integer.toString(pivot.getGridZ()));
                         return makePath(childFigure);
                     }
-                } else {
-                    for (ComplexFigure childFigure1 : openList)
-                        if (childFigure.equals(childFigure1) && (figure.g < childFigure1.mother.g)) {
-                            childFigure1.mother = figure;
-                            childFigure1.g = figure.g + 1;
-                            childFigure1.movement = childFigure.movement;
-                            break;
-                        }
                 }
             }
         }
         Log.d("Oppenlost", Integer.toString(openList.size()));
         closedList.add(figure);
-        if (openList.size()==0) return null;
-        return checkFigure(openList.poll());
+        if (openList.size()==0) noWay = 1;
+        return null;
     }
 
     private ComplexFigure moveDownRight(ComplexFigure figure) {
@@ -245,7 +251,7 @@ public class Pathfinding {
             AxialCoordinate counterClockwisePosition = fromCoordinates(-(-unit.hexagon.getGridX() - unit.hexagon.getGridZ() - y) + x, -(unit.hexagon.getGridX() - x) + z);
             if (!hexagonalGrid.containsAxialCoordinate(counterClockwisePosition))
                 return null;
-            if (hexagonalGrid.getLockedHexagons().valueAt(counterClockwisePosition.getGridZ()).contains(counterClockwisePosition.getGridX()))
+            if (hexagonalGrid.getLockedHexagons().valueAt(counterClockwisePosition.getGridZ()) != null && hexagonalGrid.getLockedHexagons().valueAt(counterClockwisePosition.getGridZ()).contains(counterClockwisePosition.getGridX()))
                 return null;
             units.add(new Unit(unit, counterClockwisePosition, unit.number));
         }

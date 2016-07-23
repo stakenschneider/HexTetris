@@ -63,7 +63,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                         strpack = getResources().getString(R.string.problem_1);
                         break;
                     case "pack 3":
-                        strpack = getResources().getString(R.string.problem_2);
+                        strpack = getResources().getString(R.string.problem_11);
                         break;
                 }
 

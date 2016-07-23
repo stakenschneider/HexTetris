@@ -216,8 +216,6 @@ public class DrawGrid {
 
             if (game.equals("AiParameters")) {
                 ai = new Mephistopheles(hexagonalGrid, hexagonalGridCalculator);
-                Log.d("ya ", "v draw grid");
-
                 path = ai.startSearch(hexagonalGrid.getHexagonStorage());
 
                 if (path == null)
