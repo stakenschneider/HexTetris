@@ -94,8 +94,19 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onDestroy(){
-        super.onDestroy();
         stopService(new Intent(this, MyService.class));
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause(){
+        stopService(new Intent(this, MyService.class));
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
     }
 
 
@@ -115,6 +126,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         return metricsB.heightPixels;
     }
+
+
 
     class DBHelper extends SQLiteOpenHelper {
         public DBHelper(Context context) {

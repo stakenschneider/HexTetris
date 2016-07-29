@@ -191,8 +191,9 @@ public class Pathfinding {
         neighborFigures.add(figureClockwise);
         neighborFigures.add(figureCounterClockwise);
 
+        Log.d("hfunc", Integer.toString(figure.h));
         for (int i = 0; i < neighborFigures.size(); i++) {
-            if (neighborFigures.get(i) != null) {
+            if ((neighborFigures.get(i) != null) && (!closedList.contains(neighborFigures.get(i)))) {
                 ComplexFigure childFigure = new ComplexFigure(neighborFigures.get(i).units, figure, neighborFigures.get(i).pivot);
                 childFigure = makeCommand(childFigure, i);
                 if (!openList.contains(childFigure)) {
@@ -204,9 +205,9 @@ public class Pathfinding {
                 }
             }
         }
-        Log.d("Oppenlost", Integer.toString(openList.size()));
         closedList.add(figure);
-        if (openList.size()==0) noWay = 1;
+        Log.d("Oppenlost", Integer.toString(openList.size()));
+        if (openList.size()==0) {noWay = 1;}
         return null;
     }
 

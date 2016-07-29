@@ -164,38 +164,32 @@
                 android:id="@+id/button18"
                 android:textColor="@color/yell"
                 android:background="@color/darkGreen" />
+
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="19"
-                android:id="@+id/button19"
-                android:textColor="@color/yell"
-                android:background="@color/darkGreen" />
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="20"
                 android:id="@+id/button20"
                 android:textColor="@color/yell"
                 android:background="@color/darkGreen" />
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="21"
+                android:text="20"
                 android:id="@+id/button21"
                 android:textColor="@color/yell"
                 android:background="@color/darkGreen" />
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="22"
+                android:text="21"
                 android:id="@+id/button22"
                 android:textColor="@color/yell"
                 android:background="@color/darkGreen" />
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="23"
+                android:text="22"
                 android:id="@+id/button23"
                 android:textColor="@color/yell"
                 android:background="@color/darkGreen" />

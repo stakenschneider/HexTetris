@@ -1,6 +1,9 @@
 package com.example.masha.tetris;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Canvas;
@@ -20,6 +23,7 @@ import static com.example.masha.tetris.Main.scrw;
 import static com.example.masha.tetris.Settings.strpack;
 
 import draw.DrawGrid;
+import service.MyService;
 
 
 public class GamePlay extends AppCompatActivity {
@@ -32,12 +36,12 @@ public class GamePlay extends AppCompatActivity {
     protected boolean over = false;
     private Timer mTimer;
     private MyTimerTask mMyTimerTask;
+    ServiceConnection sConn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mTimer = new Timer();
         mMyTimerTask = new MyTimerTask();
-
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -179,5 +183,10 @@ public class GamePlay extends AppCompatActivity {
         else intent.putExtra("END","lose");
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

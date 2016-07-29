@@ -16,35 +16,12 @@
         android:inputType="numberSigned"
         android:ems="10"
         android:id="@+id/width"
-        android:layout_marginTop="101dp"
+        android:layout_marginTop="150dp"
         android:textColor="@color/yell"
         android:layout_alignParentEnd="true"
         android:numeric="integer"
         android:hint="@string/widthR"
         android:textColorHint="@color/lightRed"/>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/height"
-        android:textColor="@color/yell"
-        android:layout_below="@+id/width"
-        android:layout_alignParentEnd="true"
-        android:hint="@string/HeighR"
-        android:textColorHint="@color/lightRed"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bttnIDK"
-        android:id="@+id/bttnSentence"
-        android:background="@color/darkGreen"
-        android:textColor="@color/yell"
-        android:contextClickable="false"
-        android:layout_below="@+id/height"
-        android:layout_alignParentStart="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -61,12 +38,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bttnDialog"
-        android:layout_below="@+id/bttnSentence"
-        android:layout_toEndOf="@+id/radioButton"
-        android:layout_alignParentStart="true"
         android:textColor="@color/yell"
         android:background="@color/darkGreen"
-        android:text="@string/pack" />
+        android:text="@string/pack"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="fill_parent"

@@ -32,7 +32,6 @@ public class ChoiceOfProblems extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.button16).setOnClickListener(this);
         findViewById(R.id.button17).setOnClickListener(this);
         findViewById(R.id.button18).setOnClickListener(this);
-        findViewById(R.id.button19).setOnClickListener(this);
         findViewById(R.id.button20).setOnClickListener(this);
         findViewById(R.id.button21).setOnClickListener(this);
         findViewById(R.id.button22).setOnClickListener(this);
@@ -170,13 +169,6 @@ public class ChoiceOfProblems extends AppCompatActivity implements View.OnClickL
             case R.id.button18:
                 intent = new Intent (this, GamePlay.class);
                 intent.putExtra("JSON" , getResources().getString(R.string.problem_17));
-                intent.putExtra("Player" , "AI");
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.button19:
-                intent = new Intent (this, GamePlay.class);
-                intent.putExtra("JSON" , getResources().getString(R.string.problem_18));
                 intent.putExtra("Player" , "AI");
                 startActivity(intent);
                 finish();

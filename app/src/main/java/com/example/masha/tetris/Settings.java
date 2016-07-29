@@ -26,7 +26,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     AlertDialog.Builder ad;
     public static String strpack = "{\"height\":15,\"width\":8,\"sourceSeeds\":[0],\"units\":[{\"members\":[{\"x\":0,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":2,\"y\":0},{\"x\":0,\"y\":1},{\"x\":2,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":1,\"y\":0},{\"x\":2,\"y\":0}],\"pivot\":{\"x\":2,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":0}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":1}},{\"members\":[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}],\"pivot\":{\"x\":0,\"y\":2}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":0}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":1}},{\"members\":[{\"x\":1,\"y\":0},{\"x\":0,\"y\":1},{\"x\":1,\"y\":2}],\"pivot\":{\"x\":1,\"y\":2}}],\"id\":0,\"filled\":[],\"sourceLength\":100}";
 
-    public EditText eTw, eTh;
+    public EditText eTw;
+    int eTh = 0;
     public static int height = 0, width = 0;
 
     public static String MY_PREF = "MY_PREF";
@@ -40,11 +41,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         setContentView(R.layout.activity_settings);
 
         findViewById(R.id.bttnDialog).setOnClickListener(this);
-        findViewById(R.id.bttnSentence).setOnClickListener(this);
         findViewById(R.id.bttnMenu).setOnClickListener(this);
 
         eTw = (EditText) findViewById(R.id.width);
-        eTh = (EditText) findViewById(R.id.height);
 
         checkBox = (CheckBox) findViewById(R.id.radioButton);
         checkBox.setOnClickListener(this);
@@ -78,14 +77,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bttnSentence:
-                //TODO: сократить формулки
-                if (!eTw.getText().toString().equals(""))
-                    eTh.setText("" + (int) ((2 * (scrh - 30) - 2 * scrw /
-                            (Math.sqrt(3) * (2 * Integer.parseInt(eTw.getText().toString()) + 1))) /
-                            (3 * 2 * scrw / (Math.sqrt(3) * (2 * Integer.parseInt(eTw.getText().toString()) + 1)))));
-                break;
-
             case R.id.bttnDialog:
                 ad.show();
                 break;
@@ -105,16 +96,21 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             startService(new Intent(this, MyService.class));
             checkBox.setText(getResources().getString(R.string.musoff));
         }
+
+        if (!eTw.getText().toString().equals(""))
+            eTh = (int) ((2 * (scrh - 30) - 2 * scrw /
+                    (Math.sqrt(3) * (2 * Integer.parseInt(eTw.getText().toString()) + 1))) /
+                    (3 * 2 * scrw / (Math.sqrt(3) * (2 * Integer.parseInt(eTw.getText().toString()) + 1))));
     }
 
 
     public void saveText() {
-        if (!eTh.getText().toString().equals("") && !eTw.getText().toString().equals("")) {
+        if (eTh != 0 && !eTw.getText().toString().equals("")) {
 
             sharedPreferences = getSharedPreferences(MY_PREF, MODE_PRIVATE);
             Editor ed = sharedPreferences.edit();
 
-            ed.putInt(sHEIGHT, Integer.parseInt(eTh.getText().toString()));
+            ed.putInt(sHEIGHT, eTh);
             ed.putInt(sWIDTH, Integer.parseInt(eTw.getText().toString()));
 
             ed.commit();

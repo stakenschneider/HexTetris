@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.Color;
-import android.util.Log;
 
 import AI.Mephistopheles;
 import JSON.InitGame;
@@ -60,13 +59,13 @@ public class DrawGrid {
         InitGame initGame = new InitGame(strJSON);
 
         if (game.equals("UserParameters")) {
-            gHeight = initGame.height;
-            gWidth = initGame.width;
-        } else if (game.equals("AiParameters")) {
             gHeight = height;
             gWidth = width;
             if (height < 15) gHeight = initGame.height;
             if (width < 8) gWidth = initGame.width;
+        } else if (game.equals("AiParameters")) {
+            gHeight = initGame.height;
+            gWidth = initGame.width;
         }
 
         Double radius = rad(gWidth, gHeight);
@@ -158,7 +157,7 @@ public class DrawGrid {
                     if (coordinate.size() != 0)
                         for (int x : coordinate) {
                             Optional<Hexagon> hexagonOptional = hexagonalGrid.getByAxialCoordinate(fromCoordinates(x, z));
-                            drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FF5346", Style.FILL);
+                            drawPoly(canvas, convertToPointsArr(hexagonOptional.get().getPoints(), array), "#FFD700", Style.FILL, Style.STROKE);
                         }
                 }
 
@@ -236,7 +235,7 @@ public class DrawGrid {
                     drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#F0F0F0", Style.STROKE);
                     first = 1;
                 } else
-                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL);
+                    drawPoly(canvas, convertToPointsArr(hexagonalGrid.getByAxialCoordinate(axialCoordinate).get().getPoints(), array), "#81AA21", Style.FILL, Style.STROKE);
             } else first = 1;
 
         return false;
@@ -259,6 +258,30 @@ public class DrawGrid {
 
         polyPath.lineTo(array[0], array[1]);
         canvas.drawPath(polyPath, p);
+    }
+
+    private void drawPoly(Canvas canvas, int[] array, String color, Style style, Style style1) {
+        if (array.length < 12) return;
+
+        Paint p = new Paint();
+        p.setColor(Color.parseColor(color));
+        p.setStyle(style);
+        p.setStrokeWidth(2);
+
+        Paint p1 = new Paint();
+        p1.setColor(Color.parseColor("#FF5346"));
+        p1.setStyle(style1);
+        p1.setStrokeWidth(2);
+
+        Path polyPath = new Path();
+        polyPath.moveTo(array[0], array[1]);
+
+        for (int i = 0; i < 12; i = i + 2)
+            polyPath.lineTo(array[i], array[i + 1]);
+
+        polyPath.lineTo(array[0], array[1]);
+        canvas.drawPath(polyPath, p);
+        canvas.drawPath(polyPath, p1);
     }
 
 
